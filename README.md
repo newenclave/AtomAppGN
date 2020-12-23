@@ -10,7 +10,7 @@ For more information about AtomFast dosimeters plsease visit the page https://kb
 
 ### Compatible devices:
 
-The list os the devices supported by Connection IQ can be found here: https://developer.garmin.com/connect-iq/compatible-devices/
+The list of the devices supported by Connection IQ can be found here: https://developer.garmin.com/connect-iq/compatible-devices/
 
 The device should support at least version 3.0. 
 
