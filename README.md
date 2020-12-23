@@ -16,4 +16,4 @@ The device should support at least version 3.0.
 
 ## Important! 
 
-The device MUST have "Generic Bluetooth Low Energy Channel" feature supported. To check if your device supports it, find the device in the list above, press the blue (!) symbol. If there is "Generic Bluetooth Low Energy Channel" feature in the list shown, the device, higly probably, can run the appplication. 
+The device MUST have "Generic Bluetooth Low Energy Channel" feature supported. To check if your device supports it, find the device in the list above, press the blue (i) symbol. If there is "Generic Bluetooth Low Energy Channel" feature in the list shown, the device, higly probably, can run the appplication. 
