@@ -7,4 +7,8 @@
     <string id="menu_about">About</string>
 
     <string id="text_scanning">Scanning...</string>
+    <string id="text_connecting">Connecting...</string>
+    <string id="text_CPM">CPM:</string>
+    <string id="text_milli_sieverts">µSv</string>
+    <string id="text_micro_roentgen">µR</string>
 </strings>

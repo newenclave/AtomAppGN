@@ -39,7 +39,7 @@ class DeviceDataView extends Ui.View {
             self.drawBattery(dc);
         }
         self.drawDoseRate(dc);
-        self.drawImpulses(dc);
+        self.drawCPM(dc);
         self.drawDoseAccumulated(dc);
     }
 
@@ -47,23 +47,29 @@ class DeviceDataView extends Ui.View {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.drawText(dc.getWidth() / 2,  20,
                     Graphics.FONT_GLANCE,
-                    "Connecting...",
+                    Application.loadResource(Rez.Strings.text_connecting),
                     Graphics.TEXT_JUSTIFY_CENTER);
     }
 
     private function drawDoseRate(dc) {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         var dosePowerText = self._deviceData.dosePower.format("%.2f");
-        dc.drawText(15, (dc.getHeight() / 2) - 50,
-                    Graphics.FONT_NUMBER_THAI_HOT,
+
+        var txtDim = dc.getTextDimensions(dosePowerText, Graphics.FONT_NUMBER_MEDIUM);
+        var textY = (dc.getHeight() / 2) - (txtDim[1]/2);
+
+        dc.drawText(15, textY,
+                    Graphics.FONT_NUMBER_MEDIUM,
                     dosePowerText,
                     Graphics.TEXT_JUSTIFY_LEFT);
-        var txtDim = dc.getTextDimensions(dosePowerText, Graphics.FONT_NUMBER_THAI_HOT);
+
+        var labelTxt = Application.loadResource(Rez.Strings.text_milli_sieverts);
+        var labelDim = dc.getTextDimensions(labelTxt, Graphics.FONT_SMALL);
 
         dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
-        dc.drawText(15 + txtDim[0] + 5, (dc.getHeight() / 2),
+        dc.drawText(15 + txtDim[0] + 5, textY + txtDim[1] - labelDim[1],
                     Graphics.FONT_SMALL,
-                    "µSv",
+                    labelTxt,
                     Graphics.TEXT_JUSTIFY_LEFT);
     }
 
@@ -81,6 +87,16 @@ class DeviceDataView extends Ui.View {
         dc.drawText(self.getWidthPercents(dc, 10), self.getHeightPercents(dc, 65),
                     Graphics.FONT_SMALL,
                     self._deviceData.impulses,
+                    Graphics.TEXT_JUSTIFY_LEFT);
+    }
+
+    private function drawCPM(dc) {
+        var text = Application.loadResource(Rez.Strings.text_CPM)
+                 + " " + self._deviceData.getCPM().toString();
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        dc.drawText(self.getWidthPercents(dc, 10), self.getHeightPercents(dc, 65),
+                    Graphics.FONT_SMALL,
+                    text,
                     Graphics.TEXT_JUSTIFY_LEFT);
     }
 
