@@ -1,0 +1,10 @@
+<strings>
+    <string id="AppName">AtomAppGN</string>
+
+    <string id="menu_name">Menu</string>
+    <string id="menu_scan">Scan</string>
+    <string id="menu_use_last">Use last</string>
+    <string id="menu_about">About</string>
+
+    <string id="text_scanning">Scanning...</string>
+</strings>

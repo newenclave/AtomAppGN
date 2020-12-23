@@ -1,0 +1,110 @@
+using Toybox.WatchUi as Ui;
+using Toybox.Graphics as Gfx;
+using Toybox.BluetoothLowEnergy as Ble;
+
+class DeviceDataView extends Ui.View {
+
+    private var _deviceDataController;
+    private var _deviceData;
+
+    function initialize(deviceDataController) {
+        View.initialize();
+        self._deviceDataController = deviceDataController;
+        self._deviceData = self._deviceDataController.getModel();
+    }
+
+    function onLayout(dc) {
+    }
+
+    function onShow() {
+    }
+
+    function onHide() {
+    }
+
+    private function getWidthPercents(dc, value) {
+        return (dc.getWidth().toFloat() * (value.toFloat() / 100.0)).toNumber();
+    }
+
+    private function getHeightPercents(dc, value) {
+        return (dc.getHeight().toFloat() * (value.toFloat() / 100.0)).toNumber();
+    }
+
+    function onUpdate(dc) {
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        dc.clear();
+        if(!self._deviceDataController.ready()) {
+            self.drawConnecting(dc);
+        } else {
+            self.drawBattery(dc);
+        }
+        self.drawDoseRate(dc);
+        self.drawImpulses(dc);
+        self.drawDoseAccumulated(dc);
+    }
+
+    private function drawConnecting(dc) {
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        dc.drawText(dc.getWidth() / 2,  20,
+                    Graphics.FONT_GLANCE,
+                    "Connecting...",
+                    Graphics.TEXT_JUSTIFY_CENTER);
+    }
+
+    private function drawDoseRate(dc) {
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        var dosePowerText = self._deviceData.dosePower.format("%.2f");
+        dc.drawText(15, (dc.getHeight() / 2) - 50,
+                    Graphics.FONT_NUMBER_THAI_HOT,
+                    dosePowerText,
+                    Graphics.TEXT_JUSTIFY_LEFT);
+        var txtDim = dc.getTextDimensions(dosePowerText, Graphics.FONT_NUMBER_THAI_HOT);
+
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        dc.drawText(15 + txtDim[0] + 5, (dc.getHeight() / 2),
+                    Graphics.FONT_SMALL,
+                    "µSv",
+                    Graphics.TEXT_JUSTIFY_LEFT);
+    }
+
+    private function drawDoseAccumulated(dc) {
+        var yPos = (dc.getHeight().toFloat() * 0.80).toNumber();
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        dc.drawText(dc.getWidth() / 2, yPos,
+                    Graphics.FONT_LARGE,
+                    self._deviceData.doseAccumulated.format("%.4f"),
+                    Graphics.TEXT_JUSTIFY_CENTER);
+    }
+
+    private function drawImpulses(dc) {
+        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        dc.drawText(self.getWidthPercents(dc, 10), self.getHeightPercents(dc, 65),
+                    Graphics.FONT_SMALL,
+                    self._deviceData.impulses,
+                    Graphics.TEXT_JUSTIFY_LEFT);
+    }
+
+    private function drawBattery(dc) {
+        var width = 40;
+        var fillWidth = (width.toFloat() / 100.0 * self._deviceData.charge).toNumber();
+        var height = 10;
+        var posX = (dc.getWidth() / 2) - (width / 2);
+        var posY = 15;
+        var charging = self._deviceData.isCharging();
+
+         if(self._deviceData.charge < 15) {
+            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
+        } else if (self._deviceData.charge < 30) {
+            dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_BLACK);
+        } else {
+            dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_BLACK);
+        }
+
+        dc.drawRectangle(posX, posY, width, height);
+        dc.fillRectangle(posX, posY, fillWidth, height);
+        if(charging) {
+            dc.drawText(posX + width + 5, posY, Graphics.FONT_SMALL, "⚡", Graphics.TEXT_JUSTIFY_LEFT);
+        }
+    }
+
+}
