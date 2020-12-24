@@ -5,6 +5,7 @@ class ScanDataController {
 
     private var _app;
     private var _dataModel;
+    private var _updateListener;
 
     function initialize(app) {
         self._app = app;
@@ -16,6 +17,18 @@ class ScanDataController {
         return self._dataModel;
     }
 
+    function setUpdateListener(iface) {
+        _updateListener = iface.weak();
+    }
+
+    function callUpdate() {
+        if(null != self._updateListener
+            && self._updateListener.stillAlive()
+            && self._updateListener.get() has :onNewDataUpdate) {
+            self._updateListener.get().onNewDataUpdate();
+        }
+    }
+
     function onScanResults(scanResults) {
         var added = 0;
         for( var result = scanResults.next(); result != null; result = scanResults.next() ) {
@@ -25,7 +38,8 @@ class ScanDataController {
             }
         }
         if(added > 0) {
-            Ui.requestUpdate();
+            self.callUpdate();
+            //Ui.requestUpdate();
         }
     }
 

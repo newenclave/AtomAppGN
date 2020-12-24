@@ -7,9 +7,11 @@ class AtomAppGNApp extends Application.AppBase {
     private var _viewController;
     private var _atomFastProfile;
     private var _bleDelegate;
+    private var _propertiesProvider;
 
     function initialize() {
         AppBase.initialize();
+        self._propertiesProvider = new PropertiesProvider();
 
         self._atomFastProfile = new AtomFastProfile();
         self._viewController = new ViewController(self);
@@ -37,6 +39,10 @@ class AtomAppGNApp extends Application.AppBase {
     }
 
     function onStop(state) {
+    }
+
+    function getPropertiesProvider() {
+        return _propertiesProvider;
     }
 
     function getViewController() {

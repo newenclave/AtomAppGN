@@ -4,19 +4,28 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
 
     private var _app;
     private var _deviceDataController;
+    private var _backDoublePress;
+    private var _detailsView;
 
     function initialize(app, deviceDataController) {
         BehaviorDelegate.initialize();
         self._app = app;
         self._deviceDataController = deviceDataController;
+        self._backDoublePress = new DoublePressCheck(1000);
+        self._detailsView = null;
     }
 
     function onBack() {
-        self._deviceDataController.unpair();
-        return false;
+        if(self._backDoublePress.press()) {
+            self.onPreviousPage();
+            self._deviceDataController.unpair();
+            return false;
+        }
+        return true;
     }
 
     function onMenu() {
+        self._app.getViewController().pushDeviceMenu();
         return true;
     }
 
@@ -25,6 +34,12 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
     }
 
     function onNextPage() {
+        if(null == self._detailsView) {
+            self._detailsView = new DeviceDetailsView(
+                    self._deviceDataController.getModel(),
+                    self._app.getPropertiesProvider());
+            Ui.pushView(self._detailsView, self, Ui.SLIDE_UP);
+        }
         return true;
     }
 
@@ -33,6 +48,10 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
     }
 
     function onPreviousPage() {
+        if(null != self._detailsView) {
+            Ui.popView(Ui.SLIDE_DOWN);
+            self._detailsView = null;
+        }
         return true;
     }
 

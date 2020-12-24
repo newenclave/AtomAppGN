@@ -17,15 +17,15 @@ class DeviceDataModel {
         self._startTime = System.getTimer();
         self._impulsesTotal = 0;
         self.thresholds = [
-            new ThreshosdModel(0),
-            new ThreshosdModel(1),
-            new ThreshosdModel(2),
+            new ThresholdModel(0),
+            new ThresholdModel(1),
+            new ThresholdModel(2),
         ];
     }
 
-    public function updateThreashold(index, value) {
+    public function updateThreashold(index, value, factor) {
         if(index >= 0 && index < 3) {
-            self.thresholds[index].update(value);
+            self.thresholds[index].update(value, factor);
         } else {
             System.println("Got invalid index value "
                 + index.toString()
@@ -33,13 +33,15 @@ class DeviceDataModel {
         }
     }
 
-    public function update(value) {
+    public function update(value, factor) {
         if(value.size() >= 13) {
             self.flags = value[0];
             self.doseAccumulated = value.decodeNumber(Lang.NUMBER_FORMAT_FLOAT,
-                                { :offset => 1, :endianness => Lang.ENDIAN_LITTLE });
+                                { :offset => 1, :endianness => Lang.ENDIAN_LITTLE })
+                                * factor;
             self.dosePower = value.decodeNumber(Lang.NUMBER_FORMAT_FLOAT,
-                                { :offset => 5, :endianness => Lang.ENDIAN_LITTLE });
+                                { :offset => 5, :endianness => Lang.ENDIAN_LITTLE })
+                                * factor;
             self.impulses = value.decodeNumber(Lang.NUMBER_FORMAT_UINT16,
                                 { :offset => 9, :endianness => Lang.ENDIAN_LITTLE });
             self.charge = value[11];

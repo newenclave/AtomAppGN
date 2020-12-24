@@ -23,6 +23,14 @@ class DeviceDataController {
         return self._dataModel;
     }
 
+    function getDoseFactor() {
+        return self._app.getPropertiesProvider().getDoseFactor();
+    }
+
+    function getDoseUnitString() {
+        return self._app.getPropertiesProvider().getDoseUnitString();
+    }
+
     function onConnectedStateChanged(device, state) {
         if(self._device != device) {
             return;
@@ -79,7 +87,6 @@ class DeviceDataController {
                 self._ready = true;
                 self._dataModel.resetTimer();
                 self.storeLastDevice();
-                //self.readThreashold(0);
             }
         }
     }
@@ -102,13 +109,9 @@ class DeviceDataController {
     }
 
     function onCharacteristicWrite(characteristic, status) {
-        System.println("write " + characteristic.toString()
-            + status.toString() + " ");
     }
 
     function onCharacteristicRead(characteristic, status, value) {
-        System.println("Read " + characteristic.toString()
-            + status.toString() + " ");
         if(status != Ble.STATUS_SUCCESS || null == value) {
             System.println("Failed to read " + characteristic.toString());
             return;
@@ -116,15 +119,15 @@ class DeviceDataController {
         var th = self._app.getProfile().THRESHOLDS;
         switch(characteristic.getUuid()) {
         case th[0]:
-            self._dataModel.updateThreashold(0, value);
+            self._dataModel.updateThreashold(0, value, self.getDoseFactor());
             self.readThreashold(1);
             break;
         case th[1]:
-            self._dataModel.updateThreashold(1, value);
+            self._dataModel.updateThreashold(1, value, self.getDoseFactor());
             self.readThreashold(2);
             break;
         case th[2]:
-            self._dataModel.updateThreashold(2, value);
+            self._dataModel.updateThreashold(2, value, self.getDoseFactor());
             self.activateNextNotification();
             break;
         }
@@ -137,7 +140,7 @@ class DeviceDataController {
         }
         switch(char.getUuid()) {
             case self._app.getProfile().ATOM_FAST_CHAR:
-                self._dataModel.update(value);
+                self._dataModel.update(value, self.getDoseFactor());
                 Ui.requestUpdate();
                 break;
         }

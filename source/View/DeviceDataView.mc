@@ -12,7 +12,6 @@ class DeviceDataView extends Ui.View {
         Gfx.COLOR_RED,
     ];
 
-
     private var _deviceDataController;
     private var _deviceData;
 
@@ -77,7 +76,7 @@ class DeviceDataView extends Ui.View {
         label.setColor(color);
         label.setText(dosePowerText);
 
-        Ui.View.findDrawableById("DeviceViewLabelDoseUnits").setText(Application.loadResource(Rez.Strings.text_milli_sieverts));
+        Ui.View.findDrawableById("DeviceViewLabelDoseUnits").setText(self._deviceDataController.getDoseUnitString());
     }
 
     private function drawDoseAccumulated(dc) {

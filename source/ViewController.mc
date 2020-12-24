@@ -6,7 +6,7 @@ class ViewController {
         self._app = app;
     }
 
-    private function createMenu() {
+    private function createMainMenu() {
         var menuName = Application.loadResource(Rez.Strings.menu_name);
         var menu = new Ui.Menu2({:title=>menuName});
         var lastDevice = self._app.getValue("LastConnectedDevice");
@@ -23,54 +23,96 @@ class ViewController {
             );
         }
         menu.addItem(
-            new Ui.MenuItem(
-                Application.loadResource(Rez.Strings.menu_scan),
-                "", "ItemScan",
-                {}
+            new Ui.MenuItem(Application.loadResource(Rez.Strings.menu_use_first),
+                "", "ItemUseFirst", {}
+            )
+        );
+        menu.addItem(
+            new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_scan),
+                "", "ItemScan", {}
             )
         );
 
         menu.addItem(
-            new Ui.MenuItem(
-                Application.loadResource(Rez.Strings.menu_reset),
-                "", "ItemReset",
-                {}
+            new Ui.MenuItem(Application.loadResource(Rez.Strings.menu_reset),
+                "", "ItemReset", {}
             )
         );
 
         menu.addItem(
-            new Ui.MenuItem(
-                Application.loadResource(Rez.Strings.menu_about),
-                "", "ItemAbout",
-                {}
+            new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_about),
+                "", "ItemAbout", {}
             )
         );
         return menu;
     }
 
     function pushMainManu() {
-        WatchUi.pushView(
-                self.createMenu(),
+        Ui.pushView(
+                self.createMainMenu(),
                 new MainMenuDelegate(self._app),
-                WatchUi.SLIDE_UP);
+                Ui.SLIDE_UP);
     }
 
     function switchMainManu() {
-        WatchUi.switchToView(
-                self.createMenu(),
+        Ui.switchToView(
+                self.createMainMenu(),
                 new MainMenuDelegate(self._app),
-                WatchUi.SLIDE_IMMEDIATE);
+                Ui.SLIDE_IMMEDIATE);
+    }
+
+    function createDeviceMenu() {
+
+        var menu = new Ui.Menu2({
+                :title=>Application.loadResource(Rez.Strings.menu_dev_config)
+            });
+        var useRoungen = self._app.getPropertiesProvider().getUseRoentgen();
+
+        menu.addItem(new Ui.ToggleMenuItem(
+            Application.loadResource(Rez.Strings.menu_dose_units),
+            {
+                :enabled=>Application.loadResource(Rez.Strings.menu_dose_use_roentgen),
+                :disabled=>Application.loadResource(Rez.Strings.menu_dose_use_sieverts)
+            }, "ItemUseRoentgen", useRoungen,
+            {
+                :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+            }));
+
+        menu.addItem(
+            new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_dev_config_done),
+                "", "ItemDone", {}
+            )
+        );
+
+        return menu;
+    }
+
+    function pushDeviceMenu() {
+        Ui.pushView(
+            self.createDeviceMenu(),
+            new DeviceMenuDelegate(self._app),
+            Ui.SLIDE_UP);
     }
 
     function getMainView() {
          return [ new MainView(), new MainViewDelegate(self._app) ];
     }
 
-    function switchScanView() {
+    function switchScanView(useFirst) {
         var scanDataController = new ScanDataController(self._app);
+        var opts = { :useFirst => useFirst };
         Ui.switchToView(
             new ScanDataView(scanDataController),
-            new ScanDataDelegate(self._app, scanDataController),
+            new ScanDataDelegate(self._app, scanDataController, opts),
+            Ui.SLIDE_DOWN);
+    }
+
+    function pushScanView(useFirst) {
+        var scanDataController = new ScanDataController(self._app);
+        var opts = { :useFirst => useFirst };
+        Ui.pushView(
+            new ScanDataView(scanDataController),
+            new ScanDataDelegate(self._app, scanDataController, opts),
             Ui.SLIDE_DOWN);
     }
 
