@@ -2,6 +2,9 @@
 Atom Fast dosimeter application for Garmin devices
 
 ![Forerunner 945 view](docs/ScreenShot.png)
+![Forerunner 945 view](docs/L1Threshold.png)
+![Forerunner 945 view](docs/L3Threshold.png)
+
 
 This application is not making a Garmin device a dosimter. 
 It uses an Atom Fast device to read and show the data.
