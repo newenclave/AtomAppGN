@@ -38,8 +38,8 @@ class PropertiesProvider {
 
     function getProperty(name, defaultValue) {
         try {
-            var val = Properties.getValue(name);
-            System.println(name + " = " + val.toString());
+//            var val = Properties.getValue(name);
+//            System.println(name + " = " + val.toString());
             return Properties.getValue(name);
         } catch(ex) {
             System.println("Bad property " + name + " Err: " + ex.getErrorMessage());

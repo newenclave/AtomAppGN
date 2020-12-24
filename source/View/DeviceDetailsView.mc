@@ -31,13 +31,14 @@ class DeviceDetailsView extends Ui.View {
         ];
 
         var ths = self._deviceData.thresholds;
+        var doseFactor = self._properties.getDoseFactor();
         var doseUnits = self._properties.getDoseUnitString();
         Ui.View.findDrawableById("DeviceDetailDoseUnit").setText(doseUnits);
 
         for(var i = 0; i < ths.size(); i++) {
             if(ths[i].updated) {
-                doseValues[i].setText(ths[i].threshold.format("%.2f"));
-                accDoseValues[i].setText(ths[i].thresholdAccumulated.format("%.2f"));
+                doseValues[i].setText((ths[i].threshold * doseFactor).format("%.2f"));
+                accDoseValues[i].setText((ths[i].thresholdAccumulated * doseFactor).format("%.2f"));
             }
         }
         View.onUpdate(dc);

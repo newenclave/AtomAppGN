@@ -60,6 +60,7 @@ class DeviceDataView extends Ui.View {
     }
 
     private function drawDoseRate(dc) {
+        var doseFactor = self._deviceDataController.getDoseFactor();
         var ths = self._deviceData.thresholds;
         var dosePw = self._deviceData.dosePower;
         var color = THRESHOLDS_COLORS[0];
@@ -71,7 +72,7 @@ class DeviceDataView extends Ui.View {
             color = THRESHOLDS_COLORS[1];
         }
 
-        var dosePowerText = (self._deviceData.dosePower * 1).format("%.2f");
+        var dosePowerText = (self._deviceData.dosePower * doseFactor).format("%.2f");
         var label = Ui.View.findDrawableById("DeviceViewLabelDoseRate");
         label.setColor(color);
         label.setText(dosePowerText);
@@ -80,9 +81,10 @@ class DeviceDataView extends Ui.View {
     }
 
     private function drawDoseAccumulated(dc) {
+        var doseFactor = self._deviceDataController.getDoseFactor();
         var label = Ui.View.findDrawableById("DeviceViewLabelDoseAcc");
         var accDose = self._deviceData.doseAccumulated;
-        label.setText(accDose.format("%.4f"));
+        label.setText((accDose * doseFactor).format("%.4f"));
     }
 
     private function drawCPM(dc) {

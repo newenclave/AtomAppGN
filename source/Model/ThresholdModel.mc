@@ -13,14 +13,12 @@
         self.priorty = priorityValue;
     }
 
-    public function update(value, factor) {
+    public function update(value) {
         if(value.size() >= 10) {
             self.thresholdAccumulated = value.decodeNumber(Lang.NUMBER_FORMAT_FLOAT,
-                { :offset => 0, :endianness => Lang.ENDIAN_LITTLE })
-                * factor;
+                { :offset => 0, :endianness => Lang.ENDIAN_LITTLE });
             self.threshold = value.decodeNumber(Lang.NUMBER_FORMAT_FLOAT,
-                { :offset => 4, :endianness => Lang.ENDIAN_LITTLE })
-                * factor;
+                { :offset => 4, :endianness => Lang.ENDIAN_LITTLE });
             self.detectTime = value[8];
             self.flags = value[9];
             self.updated = true;

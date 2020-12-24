@@ -23,9 +23,9 @@ class DeviceDataModel {
         ];
     }
 
-    public function updateThreashold(index, value, factor) {
+    public function updateThreashold(index, value) {
         if(index >= 0 && index < 3) {
-            self.thresholds[index].update(value, factor);
+            self.thresholds[index].update(value);
         } else {
             System.println("Got invalid index value "
                 + index.toString()
@@ -33,15 +33,13 @@ class DeviceDataModel {
         }
     }
 
-    public function update(value, factor) {
+    public function update(value) {
         if(value.size() >= 13) {
             self.flags = value[0];
             self.doseAccumulated = value.decodeNumber(Lang.NUMBER_FORMAT_FLOAT,
-                                { :offset => 1, :endianness => Lang.ENDIAN_LITTLE })
-                                * factor;
+                                { :offset => 1, :endianness => Lang.ENDIAN_LITTLE });
             self.dosePower = value.decodeNumber(Lang.NUMBER_FORMAT_FLOAT,
-                                { :offset => 5, :endianness => Lang.ENDIAN_LITTLE })
-                                * factor;
+                                { :offset => 5, :endianness => Lang.ENDIAN_LITTLE });
             self.impulses = value.decodeNumber(Lang.NUMBER_FORMAT_UINT16,
                                 { :offset => 9, :endianness => Lang.ENDIAN_LITTLE });
             self.charge = value[11];

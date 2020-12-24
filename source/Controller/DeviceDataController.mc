@@ -119,15 +119,15 @@ class DeviceDataController {
         var th = self._app.getProfile().THRESHOLDS;
         switch(characteristic.getUuid()) {
         case th[0]:
-            self._dataModel.updateThreashold(0, value, self.getDoseFactor());
+            self._dataModel.updateThreashold(0, value);
             self.readThreashold(1);
             break;
         case th[1]:
-            self._dataModel.updateThreashold(1, value, self.getDoseFactor());
+            self._dataModel.updateThreashold(1, value);
             self.readThreashold(2);
             break;
         case th[2]:
-            self._dataModel.updateThreashold(2, value, self.getDoseFactor());
+            self._dataModel.updateThreashold(2, value);
             self.activateNextNotification();
             break;
         }
@@ -140,7 +140,7 @@ class DeviceDataController {
         }
         switch(char.getUuid()) {
             case self._app.getProfile().ATOM_FAST_CHAR:
-                self._dataModel.update(value, self.getDoseFactor());
+                self._dataModel.update(value);
                 Ui.requestUpdate();
                 break;
         }
