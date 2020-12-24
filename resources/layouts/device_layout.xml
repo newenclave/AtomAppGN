@@ -23,6 +23,13 @@
  			justification="Graphics.TEXT_JUSTIFY_LEFT" 
  			color="Graphics.COLOR_LT_GRAY"/>
 
+ 	<label id="DeviceViewLabelTemperature" 
+ 			x="76%" y="36%"
+ 			font="Graphics.FONT_SMALL" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT" 
+ 			color="Graphics.COLOR_LT_GRAY" 
+ 			text="" />
+
  	<label id="DeviceViewLabelCPM" 
  			x="8%" y="64%"
  			font="Graphics.FONT_SMALL" 

@@ -66,7 +66,9 @@ class ViewController {
         var menu = new Ui.Menu2({
                 :title=>Application.loadResource(Rez.Strings.menu_dev_config)
             });
+
         var useRoungen = self._app.getPropertiesProvider().getUseRoentgen();
+        var useFahrenheit = self._app.getPropertiesProvider().getUseFahrenheit();
 
         menu.addItem(new Ui.ToggleMenuItem(
             Application.loadResource(Rez.Strings.menu_dose_units),
@@ -74,6 +76,16 @@ class ViewController {
                 :enabled=>Application.loadResource(Rez.Strings.menu_dose_use_roentgen),
                 :disabled=>Application.loadResource(Rez.Strings.menu_dose_use_sieverts)
             }, "ItemUseRoentgen", useRoungen,
+            {
+                :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+            }));
+
+        menu.addItem(new Ui.ToggleMenuItem(
+            Application.loadResource(Rez.Strings.menu_temperature),
+            {
+                :enabled=>Application.loadResource(Rez.Strings.menu_temp_use_fahrenheit),
+                :disabled=>Application.loadResource(Rez.Strings.menu_temp_use_celsius)
+            }, "ItemUseFahrenheit", useFahrenheit,
             {
                 :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
             }));

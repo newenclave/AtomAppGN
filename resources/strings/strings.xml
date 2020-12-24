@@ -10,8 +10,13 @@
     <string id="menu_dev_config">Configuration</string>
     <string id="menu_dev_config_done">Done</string>
     <string id="menu_dose_units">Dose units</string>
+    <string id="menu_temperature">Temperature Units</string>
+    
     <string id="menu_dose_use_sieverts">Use: µSv</string>
     <string id="menu_dose_use_roentgen">Use: µR</string>
+
+    <string id="menu_temp_use_celsius">Use: °C</string>
+    <string id="menu_temp_use_fahrenheit">Use: °F</string>
     
     <string id="menu_about">About</string>
 
@@ -22,6 +27,9 @@
     <string id="text_session_time">Time:</string>
     <string id="text_micro_sieverts">µSv</string>
     <string id="text_micro_roentgen">µR</string>
+
+    <string id="text_temp_celsius">°C</string>
+    <string id="text_micro_fahrenheit">°F</string>
     
     <string id="detail_L1">L1:</string>
     <string id="detail_D1">D1:</string>

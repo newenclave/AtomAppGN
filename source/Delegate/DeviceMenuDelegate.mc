@@ -17,6 +17,11 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
                 self._app.getPropertiesProvider().setUseRoentgen(item.isEnabled());
             }
             break;
+        case "ItemUseFahrenheit":
+            if(item has :isEnabled) {
+                self._app.getPropertiesProvider().setUseFahrenheit(item.isEnabled());
+            }
+            break;
         case "ItemDone":
             Ui.popView(Ui.SLIDE_DOWN);
             break;

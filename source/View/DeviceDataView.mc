@@ -47,11 +47,18 @@ class DeviceDataView extends Ui.View {
         self.drawDoseRate(dc);
         self.drawCPM(dc);
         self.drawDoseAccumulated(dc);
+        self.drawTemperature();
         View.onUpdate(dc);
 
         if(ready) {
             self.drawBattery(dc);
         }
+    }
+
+    function drawTemperature() {
+        var value = self._deviceDataController.getPropertiesProvider().convertTemp(self._deviceData.temperature);
+        var txt = self._deviceDataController.getPropertiesProvider().getTempUnitsString();
+        Ui.View.findDrawableById("DeviceViewLabelTemperature").setText(value + txt);
     }
 
     private function drawConnecting() {

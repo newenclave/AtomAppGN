@@ -23,12 +23,16 @@ class DeviceDataController {
         return self._dataModel;
     }
 
+    function getPropertiesProvider() {
+        return self._app.getPropertiesProvider();
+    }
+
     function getDoseFactor() {
-        return self._app.getPropertiesProvider().getDoseFactor();
+        return self.getPropertiesProvider().getDoseFactor();
     }
 
     function getDoseUnitString() {
-        return self._app.getPropertiesProvider().getDoseUnitString();
+        return self.getPropertiesProvider().getDoseUnitString();
     }
 
     function onConnectedStateChanged(device, state) {
