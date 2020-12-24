@@ -10,6 +10,7 @@ class DeviceDataController {
     private var _service;
     private var _pendingNotifies;
     private var _ready;
+    private var _updateThresholds = true;
 
     function initialize(app, scanResult) {
         self._app = app;
@@ -48,6 +49,16 @@ class DeviceDataController {
         self._ready = false;
     }
 
+    function readThreashold(id) {
+        var uuid = self._app.getProfile().THRESHOLDS[id];
+        var char = self._service.getCharacteristic(uuid);
+        if(char) {
+            char.requestRead();
+        } else {
+            System.println("Bad chararteristic. " + uuid.toString());
+        }
+    }
+
     function ready() {
         return self._ready;
     }
@@ -68,6 +79,7 @@ class DeviceDataController {
                 self._ready = true;
                 self._dataModel.resetTimer();
                 self.storeLastDevice();
+                //self.readThreashold(0);
             }
         }
     }
@@ -89,7 +101,40 @@ class DeviceDataController {
         cccd.requestWrite([0x01, 0x00]b);
     }
 
+    function onCharacteristicWrite(characteristic, status) {
+        System.println("write " + characteristic.toString()
+            + status.toString() + " ");
+    }
+
+    function onCharacteristicRead(characteristic, status, value) {
+        System.println("Read " + characteristic.toString()
+            + status.toString() + " ");
+        if(status != Ble.STATUS_SUCCESS || null == value) {
+            System.println("Failed to read " + characteristic.toString());
+            return;
+        }
+        var th = self._app.getProfile().THRESHOLDS;
+        switch(characteristic.getUuid()) {
+        case th[0]:
+            self._dataModel.updateThreashold(0, value);
+            self.readThreashold(1);
+            break;
+        case th[1]:
+            self._dataModel.updateThreashold(1, value);
+            self.readThreashold(2);
+            break;
+        case th[2]:
+            self._dataModel.updateThreashold(2, value);
+            self.activateNextNotification();
+            break;
+        }
+    }
+
     function onCharacteristicChanged(char, value) {
+        if(self._updateThresholds) {
+            self.readThreashold(0);
+            self._updateThresholds = false;
+        }
         switch(char.getUuid()) {
             case self._app.getProfile().ATOM_FAST_CHAR:
                 self._dataModel.update(value);

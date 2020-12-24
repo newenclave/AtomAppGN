@@ -5,6 +5,14 @@ using Toybox.Timer;
 
 class DeviceDataView extends Ui.View {
 
+    const THRESHOLDS_COLORS = [
+        Gfx.COLOR_GREEN,
+        Gfx.COLOR_YELLOW,
+        Gfx.COLOR_ORANGE,
+        Gfx.COLOR_RED,
+    ];
+
+
     private var _deviceDataController;
     private var _deviceData;
 
@@ -53,15 +61,29 @@ class DeviceDataView extends Ui.View {
     }
 
     private function drawDoseRate(dc) {
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
+        var ths = self._deviceData.thresholds;
+        var dosePw = self._deviceData.dosePower;
+        var color = THRESHOLDS_COLORS[0];
+        if(ths[2].updated && dosePw > ths[2].threshold) {
+            color = THRESHOLDS_COLORS[3];
+        } else if(ths[1].updated && dosePw > ths[1].threshold) {
+            color = THRESHOLDS_COLORS[2];
+        } else if(ths[0].updated && dosePw > ths[0].threshold) {
+            color = THRESHOLDS_COLORS[1];
+        }
+
         var dosePowerText = (self._deviceData.dosePower * 1).format("%.2f");
-        Ui.View.findDrawableById("DeviceViewLabelDoseRate").setText(dosePowerText);
+        var label = Ui.View.findDrawableById("DeviceViewLabelDoseRate");
+        label.setColor(color);
+        label.setText(dosePowerText);
+
         Ui.View.findDrawableById("DeviceViewLabelDoseUnits").setText(Application.loadResource(Rez.Strings.text_milli_sieverts));
     }
 
     private function drawDoseAccumulated(dc) {
         var label = Ui.View.findDrawableById("DeviceViewLabelDoseAcc");
-        label.setText(self._deviceData.doseAccumulated.format("%.4f"));
+        var accDose = self._deviceData.doseAccumulated;
+        label.setText(accDose.format("%.4f"));
     }
 
     private function drawCPM(dc) {
@@ -71,7 +93,6 @@ class DeviceDataView extends Ui.View {
     }
 
     private function drawWorkingTime(dc, connected) {
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
         var time = self._deviceData.getMeasuringTime() / 1000;
         var seconds = time % 60;
         var minutes = (time / 60) % 60;
