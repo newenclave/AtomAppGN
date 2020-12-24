@@ -17,6 +17,8 @@ class AtomAppGNApp extends Application.AppBase {
 
         Ble.registerProfile(self._atomFastProfile.getProfile());
         Ble.setDelegate(self._bleDelegate);
+
+        //self.Application.Storage.clearValues();
     }
 
     function getInitialView() {

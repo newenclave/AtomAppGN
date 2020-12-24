@@ -35,6 +35,7 @@ class DeviceDataController {
             self.getService(self._device);
             self.activateNextNotification();
         }
+        Ui.requestUpdate();
     }
 
     function pair() {
@@ -65,6 +66,7 @@ class DeviceDataController {
             if(char) {
                 self._pendingNotifies = self._pendingNotifies.add(char);
                 self._ready = true;
+                self._dataModel.resetTimer();
                 self.storeLastDevice();
             }
         }

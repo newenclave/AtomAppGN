@@ -6,7 +6,7 @@ class ViewController {
         self._app = app;
     }
 
-    function pushMainManu() {
+    private function createMenu() {
         var menuName = Application.loadResource(Rez.Strings.menu_name);
         var menu = new Ui.Menu2({:title=>menuName});
         var lastDevice = self._app.getValue("LastConnectedDevice");
@@ -29,6 +29,15 @@ class ViewController {
                 {}
             )
         );
+
+        menu.addItem(
+            new Ui.MenuItem(
+                Application.loadResource(Rez.Strings.menu_reset),
+                "", "ItemReset",
+                {}
+            )
+        );
+
         menu.addItem(
             new Ui.MenuItem(
                 Application.loadResource(Rez.Strings.menu_about),
@@ -36,11 +45,21 @@ class ViewController {
                 {}
             )
         );
+        return menu;
+    }
 
+    function pushMainManu() {
         WatchUi.pushView(
-                menu,
+                self.createMenu(),
                 new MainMenuDelegate(self._app),
                 WatchUi.SLIDE_UP);
+    }
+
+    function switchMainManu() {
+        WatchUi.switchToView(
+                self.createMenu(),
+                new MainMenuDelegate(self._app),
+                WatchUi.SLIDE_IMMEDIATE);
     }
 
     function getMainView() {

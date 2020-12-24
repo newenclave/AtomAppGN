@@ -1,0 +1,34 @@
+ <layout id="ScanLayout">
+ 
+ 	<label id="ScanViewLabelCounter" 
+ 			x="center" y="12%" 
+ 			font="Graphics.FONT_SMALL" 
+ 			justification="Graphics.TEXT_JUSTIFY_CENTER" 
+ 			color="Graphics.COLOR_WHITE" />
+
+ 	<label id="ScanViewLabelDeviceName" 
+ 			x="center" y="32%" 
+ 			font="Graphics.FONT_LARGE" 
+ 			justification="Graphics.TEXT_JUSTIFY_CENTER" 
+ 			color="Graphics.COLOR_WHITE" />
+
+ 	<label id="ScanViewLabelDeviceDetail1" 
+ 			x="16%" y="48%" 
+ 			font="Graphics.FONT_SMALL" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT" 
+ 			color="Graphics.COLOR_LT_GRAY" />
+
+ 	<label id="ScanViewLabelDeviceDetail2" 
+ 			x="16%" y="64%" 
+ 			font="Graphics.FONT_SMALL" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT" 
+ 			color="Graphics.COLOR_LT_GRAY" />
+
+ 	<label id="ScanViewLabelDeviceDetail3" 
+ 			x="16%" y="80%" 
+ 			font="Graphics.FONT_SMALL" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT" 
+ 			color="Graphics.COLOR_LT_GRAY" />
+ 			
+</layout>
+

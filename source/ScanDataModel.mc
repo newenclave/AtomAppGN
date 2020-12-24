@@ -2,16 +2,20 @@ using Toybox.WatchUi as Ui;
 
 class ScanDataModel {
 
-    private var _data = [];
+    private var _data;
     private var _index;
 
     function initialize() {
+        self._data = [];
         self._index = 0;
     }
 
     function next() {
-        if(self._index < (self._data.size() - 1)) {
+        if(self._data.size() > 0) {
             self._index++;
+            if(self._data.size() == self._index) {
+                self._index--;
+            }
         }
     }
 
@@ -36,14 +40,14 @@ class ScanDataModel {
     function add(value) {
         var newDev = true;
         for(var i = 0; i<_data.size(); i++) {
-            if(_data[i].equals(value)) {
+            if(_data[i].isSameDevice(value)) {
                 newDev = false;
-                _data[i] = value;
+                self._data[i] = value;
                 break;
             }
         }
         if(newDev) {
-            _data.add(value);
+            self._data = self._data.add(value);
         }
     }
 

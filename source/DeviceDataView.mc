@@ -1,6 +1,7 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.BluetoothLowEnergy as Ble;
+using Toybox.Timer;
 
 class DeviceDataView extends Ui.View {
 
@@ -14,6 +15,8 @@ class DeviceDataView extends Ui.View {
     }
 
     function onLayout(dc) {
+        setLayout(Rez.Layouts.DeviceLayout(dc));
+        self.drawConnecting();
     }
 
     function onShow() {
@@ -31,73 +34,61 @@ class DeviceDataView extends Ui.View {
     }
 
     function onUpdate(dc) {
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
         dc.clear();
-        if(!self._deviceDataController.ready()) {
-            self.drawConnecting(dc);
-        } else {
-            self.drawBattery(dc);
-        }
+        var ready = self._deviceDataController.ready();
+        self.drawWorkingTime(dc, ready);
         self.drawDoseRate(dc);
         self.drawCPM(dc);
         self.drawDoseAccumulated(dc);
+        View.onUpdate(dc);
+
+        if(ready) {
+            self.drawBattery(dc);
+        }
     }
 
-    private function drawConnecting(dc) {
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.drawText(dc.getWidth() / 2,  20,
-                    Graphics.FONT_GLANCE,
-                    Application.loadResource(Rez.Strings.text_connecting),
-                    Graphics.TEXT_JUSTIFY_CENTER);
+    private function drawConnecting() {
+        var text = Application.loadResource(Rez.Strings.text_connecting);
+        Ui.View.findDrawableById("DeviceViewLabelSessionTime").setText(text);
     }
 
     private function drawDoseRate(dc) {
         dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        var dosePowerText = self._deviceData.dosePower.format("%.2f");
-
-        var txtDim = dc.getTextDimensions(dosePowerText, Graphics.FONT_NUMBER_MEDIUM);
-        var textY = (dc.getHeight() / 2) - (txtDim[1]/2);
-
-        dc.drawText(15, textY,
-                    Graphics.FONT_NUMBER_MEDIUM,
-                    dosePowerText,
-                    Graphics.TEXT_JUSTIFY_LEFT);
-
-        var labelTxt = Application.loadResource(Rez.Strings.text_milli_sieverts);
-        var labelDim = dc.getTextDimensions(labelTxt, Graphics.FONT_SMALL);
-
-        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
-        dc.drawText(15 + txtDim[0] + 5, textY + txtDim[1] - labelDim[1],
-                    Graphics.FONT_SMALL,
-                    labelTxt,
-                    Graphics.TEXT_JUSTIFY_LEFT);
+        var dosePowerText = (self._deviceData.dosePower * 1).format("%.2f");
+        Ui.View.findDrawableById("DeviceViewLabelDoseRate").setText(dosePowerText);
+        Ui.View.findDrawableById("DeviceViewLabelDoseUnits").setText(Application.loadResource(Rez.Strings.text_milli_sieverts));
     }
 
     private function drawDoseAccumulated(dc) {
-        var yPos = (dc.getHeight().toFloat() * 0.80).toNumber();
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.drawText(dc.getWidth() / 2, yPos,
-                    Graphics.FONT_LARGE,
-                    self._deviceData.doseAccumulated.format("%.4f"),
-                    Graphics.TEXT_JUSTIFY_CENTER);
-    }
-
-    private function drawImpulses(dc) {
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.drawText(self.getWidthPercents(dc, 10), self.getHeightPercents(dc, 65),
-                    Graphics.FONT_SMALL,
-                    self._deviceData.impulses,
-                    Graphics.TEXT_JUSTIFY_LEFT);
+        var label = Ui.View.findDrawableById("DeviceViewLabelDoseAcc");
+        label.setText(self._deviceData.doseAccumulated.format("%.4f"));
     }
 
     private function drawCPM(dc) {
         var text = Application.loadResource(Rez.Strings.text_CPM)
                  + " " + self._deviceData.getCPM().toString();
-        dc.setColor(Graphics.COLOR_WHITE, Graphics.COLOR_BLACK);
-        dc.drawText(self.getWidthPercents(dc, 10), self.getHeightPercents(dc, 65),
-                    Graphics.FONT_SMALL,
-                    text,
-                    Graphics.TEXT_JUSTIFY_LEFT);
+        Ui.View.findDrawableById("DeviceViewLabelCPM").setText(text);
+    }
+
+    private function drawWorkingTime(dc, connected) {
+        dc.setColor(Graphics.COLOR_LT_GRAY, Graphics.COLOR_BLACK);
+        var time = self._deviceData.getMeasuringTime() / 1000;
+        var seconds = time % 60;
+        var minutes = (time / 60) % 60;
+        var hours = (time / 60) / 60;
+        var text = Application.loadResource(Rez.Strings.text_session_time)
+                + " " + hours.format("%02d")
+                + ":" + minutes.format("%02d")
+                + ":" + seconds.format("%02d");
+
+        var today = Time.Gregorian.info(Time.now(), Time.FORMAT_MEDIUM);
+        var dateString = today.hour.format("%02d")
+                    + ":" + today.min.format("%02d");
+
+        Ui.View.findDrawableById("DeviceViewLabelTime").setText(dateString);
+        if(connected) {
+            Ui.View.findDrawableById("DeviceViewLabelSessionTime").setText(text);
+        }
     }
 
     private function drawBattery(dc) {
@@ -105,7 +96,7 @@ class DeviceDataView extends Ui.View {
         var fillWidth = (width.toFloat() / 100.0 * self._deviceData.charge).toNumber();
         var height = 10;
         var posX = (dc.getWidth() / 2) - (width / 2);
-        var posY = 15;
+        var posY = self.getHeightPercents(dc, 4);
         var charging = self._deviceData.isCharging();
 
          if(self._deviceData.charge < 15) {

@@ -1,0 +1,8 @@
+ <layout id="MainLayout">
+ 	<label id="MainCenterText" 
+ 			x="center" y="center" 
+ 			font="Graphics.FONT_LARGE"
+ 			justification="Graphics.TEXT_JUSTIFY_CENTER" 
+ 			color="Graphics.COLOR_WHITE"
+ 			text="@Strings.AppName"/>
+</layout>

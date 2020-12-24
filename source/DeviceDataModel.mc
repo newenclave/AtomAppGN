@@ -11,8 +11,6 @@ class DeviceDataModel {
 
     private var _startTime;
     private var _impulsesTotal;
-    private var _cpm;
-    private var _cps;
 
     function initialize() {
         self._startTime = System.getTimer();
@@ -32,6 +30,14 @@ class DeviceDataModel {
             self.temperature = value[12];
             self._impulsesTotal += self.impulses;
         }
+    }
+
+    public function getMeasuringTime() {
+        return System.getTimer() - self._startTime;
+    }
+
+    public function resetTimer() {
+        self._startTime = System.getTimer();
     }
 
     public function isCharging() {
