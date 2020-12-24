@@ -42,7 +42,7 @@
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
  			color="Graphics.COLOR_ORANGE"
- 			text="@Strings.detail_L1" />
+ 			text="@Strings.detail_L2" />
  			
  	<label id="DeviceDetailL2Value" 
  			x="40%" y="40%" 
@@ -57,7 +57,7 @@
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
  			color="Graphics.COLOR_ORANGE"
- 			text="@Strings.detail_D1" />
+ 			text="@Strings.detail_D2" />
  			
  	<label id="DeviceDetailD2Value" 
  			x="40%" y="52%" 
@@ -72,7 +72,7 @@
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
  			color="Graphics.COLOR_RED"
- 			text="@Strings.detail_L1" />
+ 			text="@Strings.detail_L3" />
  			
  	<label id="DeviceDetailL3Value" 
  			x="40%" y="64%" 
@@ -86,7 +86,7 @@
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
  			color="Graphics.COLOR_RED"
- 			text="@Strings.detail_D1" />
+ 			text="@Strings.detail_D3" />
  			
  	<label id="DeviceDetailD3Value" 
  			x="40%" y="76%" 
