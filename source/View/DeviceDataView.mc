@@ -12,12 +12,10 @@ class DeviceDataView extends Ui.View {
     ];
 
     private var _deviceDataController;
-    private var _deviceData;
 
     function initialize(deviceDataController) {
         View.initialize();
         self._deviceDataController = deviceDataController;
-        self._deviceData = self._deviceDataController.getModel();
     }
 
     function onLayout(dc) {
@@ -55,8 +53,8 @@ class DeviceDataView extends Ui.View {
     }
 
     function drawTemperature() {
-        var value = self._deviceDataController.getPropertiesProvider().convertTemp(self._deviceData.temperature);
-        var txt = self._deviceDataController.getPropertiesProvider().getTempUnitsString();
+        var value = self._deviceDataController.getTemperature();
+        var txt = self._deviceDataController.getTemperatureUnitsString();
         Ui.View.findDrawableById("DeviceViewLabelTemperature").setText(value + txt);
     }
 
@@ -66,47 +64,39 @@ class DeviceDataView extends Ui.View {
     }
 
     private function drawDoseRate(dc) {
-        var doseFactor = self._deviceDataController.getDoseFactor();
-        var ths = self._deviceData.thresholds;
-        var dosePw = self._deviceData.dosePower;
+        var dosePw = self._deviceDataController.getDosePower();
         var labelPw = Ui.View.findDrawableById("DeviceViewLabelDoseRate");
         var color = Gfx.COLOR_GREEN;
-        for(var i=2; i >= 0; i--) {
-            if(ths[i].updated && (dosePw > ths[i].threshold)) {
-                color = THRESHOLDS_COLORS[i];
-                break;
-            }
+        var th = self._deviceDataController.getDoseThreshold();
+        if(th >= 0) {
+            color = THRESHOLDS_COLORS[th];
         }
         labelPw.setColor(color);
-        var dosePowerText = (dosePw * doseFactor).format("%.2f");
+        var dosePowerText = dosePw.format("%.2f");
         labelPw.setText(dosePowerText);
         Ui.View.findDrawableById("DeviceViewLabelDoseUnits").setText(self._deviceDataController.getDoseUnitString());
     }
 
     private function drawDoseAccumulated(dc) {
-        var doseFactor = self._deviceDataController.getDoseFactor();
-        var ths = self._deviceData.thresholds;
         var label = Ui.View.findDrawableById("DeviceViewLabelDoseAcc");
-        var accDose = self._deviceData.doseAccumulated;
+        var accDose = self._deviceDataController.getDoseAccumulated();
         var color = Gfx.COLOR_WHITE;
-        for(var i=2; i >= 0; i--) {
-            if(ths[i].updated && (accDose > ths[i].thresholdAccumulated)) {
-                color = THRESHOLDS_COLORS[i];
-                break;
-            }
+        var th = self._deviceDataController.getDoseAccumelatedThreshold();
+        if(th >= 0) {
+            color = THRESHOLDS_COLORS[th];
         }
         label.setColor(color);
-        label.setText((accDose * doseFactor).format("%.4f"));
+        label.setText(accDose.format("%.4f"));
     }
 
     private function drawCPM(dc) {
         var text = Application.loadResource(Rez.Strings.text_CPM)
-                 + " " + self._deviceData.getCPM().toString();
+                 + " " + self._deviceDataController.getCPM().toString();
         Ui.View.findDrawableById("DeviceViewLabelCPM").setText(text);
     }
 
     private function drawWorkingTime(dc, connected) {
-        var time = self._deviceData.getMeasuringTime() / 1000;
+        var time = self._deviceDataController.getMeasuringTime() / 1000;
         var seconds = time % 60;
         var minutes = (time / 60) % 60;
         var hours = (time / 60) / 60;
@@ -127,15 +117,16 @@ class DeviceDataView extends Ui.View {
 
     private function drawBattery(dc) {
         var width = 40;
-        var fillWidth = (width.toFloat() / 100.0 * self._deviceData.charge).toNumber();
+        var fillWidth = (width.toFloat() / 100.0 * self._deviceDataController.getCharge()).toNumber();
         var height = 10;
         var posX = (dc.getWidth() / 2) - (width / 2);
         var posY = self.getHeightPercents(dc, 4);
-        var charging = self._deviceData.isCharging();
+        var charging = self._deviceDataController.isCharging();
+        var charge = self._deviceDataController.getCharge();
 
-         if(self._deviceData.charge < 15) {
+         if(charge < 15) {
             dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
-        } else if (self._deviceData.charge < 30) {
+        } else if (charge < 30) {
             dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_BLACK);
         } else {
             dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_BLACK);

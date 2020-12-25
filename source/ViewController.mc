@@ -94,9 +94,66 @@ class ViewController {
         menu.addItem(new Ui.ToggleMenuItem(
             Application.loadResource(Rez.Strings.menu_save_activity),
             {
-                :enabled=>Application.loadResource(Rez.Strings.menu_activity_enabled),
-                :disabled=>Application.loadResource(Rez.Strings.menu_activity_disabled)
+                :enabled=>Application.loadResource(Rez.Strings.menu_enabled),
+                :disabled=>Application.loadResource(Rez.Strings.menu_disabled)
             }, "ItemWriteActivity", writeActivity,
+            {
+                :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+            }));
+
+        menu.addItem(
+            new Ui.MenuItem(
+                Application.loadResource(Rez.Strings.menu_dev_alerts),
+                "", "ItemAlertSettings", {}
+            )
+        );
+
+        menu.addItem(
+            new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_dev_config_done),
+                "", "ItemDone", {}
+            )
+        );
+
+        return menu;
+    }
+
+    function createAlertSettingsMenu() {
+        var menu = new Ui.Menu2({
+                :title=>Application.loadResource(Rez.Strings.menu_dev_alerts)
+            });
+
+        var sett = [
+            self._app.getPropertiesProvider().getAlertVibroL(0),
+            self._app.getPropertiesProvider().getAlertVibroL(1),
+            self._app.getPropertiesProvider().getAlertVibroL(2)
+        ];
+
+        menu.addItem(new Ui.ToggleMenuItem(
+            Application.loadResource(Rez.Strings.menu_alerts_vibroL1),
+            {
+                :enabled=>Application.loadResource(Rez.Strings.menu_enabled),
+                :disabled=>Application.loadResource(Rez.Strings.menu_disabled)
+            }, "ItemDoseL1Vibro", sett[0],
+            {
+                :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+            }));
+
+        menu.addItem(new Ui.ToggleMenuItem(
+            Application.loadResource(Rez.Strings.menu_alerts_vibroL2),
+            {
+                :enabled=>Application.loadResource(Rez.Strings.menu_enabled),
+                :disabled=>Application.loadResource(Rez.Strings.menu_disabled)
+            }, "ItemDoseL2Vibro", sett[1],
+            {
+                :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+            }));
+
+        menu.addItem(new Ui.ToggleMenuItem(
+            Application.loadResource(Rez.Strings.menu_alerts_vibroL3),
+            {
+                :enabled=>Application.loadResource(Rez.Strings.menu_enabled),
+                :disabled=>Application.loadResource(Rez.Strings.menu_disabled)
+            }, "ItemDoseL3Vibro", sett[2],
             {
                 :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
             }));
@@ -106,8 +163,14 @@ class ViewController {
                 "", "ItemDone", {}
             )
         );
-
         return menu;
+    }
+
+    function pushAlertSettingsMenu() {
+        Ui.pushView(
+            self.createAlertSettingsMenu(),
+            new AlertSettingsMenuDelegate(self._app.getPropertiesProvider()),
+            Ui.SLIDE_LEFT);
     }
 
     function pushDeviceMenu() {

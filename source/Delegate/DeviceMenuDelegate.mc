@@ -27,6 +27,9 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
                 self._app.getPropertiesProvider().setWriteActivity(item.isEnabled());
             }
             break;
+        case "ItemAlertSettings":
+            self._app.getViewController().pushAlertSettingsMenu();
+            break;
         case "ItemDone":
             Ui.popView(Ui.SLIDE_DOWN);
             break;

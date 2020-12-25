@@ -42,6 +42,7 @@ class DeviceDataModel {
                                 { :offset => 5, :endianness => Lang.ENDIAN_LITTLE });
             self.impulses = value.decodeNumber(Lang.NUMBER_FORMAT_UINT16,
                                 { :offset => 9, :endianness => Lang.ENDIAN_LITTLE });
+            self.dosePower *= 10;
             self.charge = value[11];
             self.temperature = value[12];
             self._impulsesTotal += self.impulses;

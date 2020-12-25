@@ -1,3 +1,5 @@
+
+
 class DoublePressCheck {
 
     private var _triggerTime = 0;
