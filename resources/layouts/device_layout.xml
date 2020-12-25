@@ -1,4 +1,5 @@
 <layout id="DeviceLayout">
+
  	<label id="DeviceViewLabelTime" 
  			x="center" y="12%" 
  			font="Graphics.FONT_XTINY" 
@@ -11,29 +12,31 @@
  			justification="Graphics.TEXT_JUSTIFY_CENTER" 
  			color="Graphics.COLOR_LT_GRAY"/>
 
+	<!-- Central DOSE Rate, Temterature, Dose Units -->
  	<label id="DeviceViewLabelDoseRate" 
- 			x="72%" y="44%"
+ 			x="72%" y="52%"
  			font="Graphics.FONT_NUMBER_MEDIUM" 
- 			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
+ 			justification="Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			color="Graphics.COLOR_WHITE"/>
 
- 	<label id="DeviceViewLabelDoseUnits" 
- 			x="76%" y="48%"
- 			font="Graphics.FONT_SMALL" 
- 			justification="Graphics.TEXT_JUSTIFY_LEFT" 
- 			color="Graphics.COLOR_LT_GRAY"/>
-
  	<label id="DeviceViewLabelTemperature" 
- 			x="76%" y="36%"
+ 			x="76%" y="44%"
  			font="Graphics.FONT_SMALL" 
- 			justification="Graphics.TEXT_JUSTIFY_LEFT" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			color="Graphics.COLOR_LT_GRAY" 
  			text="" />
 
- 	<label id="DeviceViewLabelCPM" 
- 			x="8%" y="64%"
+ 	<label id="DeviceViewLabelDoseUnits" 
+ 			x="76%" y="56%"
  			font="Graphics.FONT_SMALL" 
- 			justification="Graphics.TEXT_JUSTIFY_LEFT" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
+ 			color="Graphics.COLOR_LT_GRAY"/>
+
+	<!-- BOTTOM -->
+ 	<label id="DeviceViewLabelCPM" 
+ 			x="12%" y="72%"
+ 			font="Graphics.FONT_SMALL" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			color="Graphics.COLOR_WHITE"/>
 
  	<label id="DeviceViewLabelDoseAcc" 

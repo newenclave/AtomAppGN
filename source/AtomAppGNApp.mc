@@ -4,14 +4,16 @@ using Toybox.BluetoothLowEnergy as Ble;
 
 class AtomAppGNApp extends Application.AppBase {
 
-    private var _viewController;
+    private var _propertiesProvider;
+    private var _position;
     private var _atomFastProfile;
     private var _bleDelegate;
-    private var _propertiesProvider;
+    private var _viewController;
 
     function initialize() {
         AppBase.initialize();
         self._propertiesProvider = new PropertiesProvider();
+        self._position = new PositionProvider();
 
         self._atomFastProfile = new AtomFastProfile();
         self._viewController = new ViewController(self);
@@ -19,8 +21,6 @@ class AtomAppGNApp extends Application.AppBase {
 
         Ble.registerProfile(self._atomFastProfile.getProfile());
         Ble.setDelegate(self._bleDelegate);
-
-        //self.Application.Storage.clearValues();
     }
 
     function getInitialView() {
@@ -39,6 +39,7 @@ class AtomAppGNApp extends Application.AppBase {
     }
 
     function onStop(state) {
+        self._position.disable();
     }
 
     function getPropertiesProvider() {
@@ -47,6 +48,10 @@ class AtomAppGNApp extends Application.AppBase {
 
     function getViewController() {
         return self._viewController;
+    }
+
+    function getPositionProvider() {
+        return self._position;
     }
 
     public function getValue(key) {

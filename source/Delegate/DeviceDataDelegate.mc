@@ -18,7 +18,7 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
     function onBack() {
         if(self._backDoublePress.press()) {
             self.onPreviousPage();
-            self._deviceDataController.unpair();
+            self._deviceDataController.stop();
             return false;
         }
         return true;

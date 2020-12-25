@@ -22,6 +22,11 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
                 self._app.getPropertiesProvider().setUseFahrenheit(item.isEnabled());
             }
             break;
+        case "ItemWriteActivity":
+            if(item has :isEnabled) {
+                self._app.getPropertiesProvider().setWriteActivity(item.isEnabled());
+            }
+            break;
         case "ItemDone":
             Ui.popView(Ui.SLIDE_DOWN);
             break;

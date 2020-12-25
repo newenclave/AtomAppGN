@@ -4,11 +4,15 @@ class PropertiesProvider {
 
     private const PROPERTY_USE_ROENTGEN = "use_roentgen";
     private const PROPERTY_USE_FAHRENHEIT = "use_fahrenheit";
+    private const WRITE_ACTIVITY = "write_activity";
+    private const USE_ACTIVITY_LOCATION = "use_activity_location";
 
     function initialize() {
 
     }
 
+    // TODO: Remove it here
+    //    DataController must do it.
     function getDoseFactor() {
         if(self.getProperty(PROPERTY_USE_ROENTGEN, false)) {
             return 100;
@@ -17,6 +21,8 @@ class PropertiesProvider {
         }
     }
 
+    // TODO: Remove it here
+    //    DataController must do it.
     function getTempUnitsString() {
         if(self.getProperty(PROPERTY_USE_FAHRENHEIT, false)) {
             return Application.loadResource(Rez.Strings.text_micro_fahrenheit);
@@ -25,12 +31,40 @@ class PropertiesProvider {
         }
     }
 
+    // TODO: Remove it here
+    //    DataController must do it.
     function convertTemp(value) {
         if(self.getProperty(PROPERTY_USE_FAHRENHEIT, false)) {
             return (value * 1.8 + 32).toNumber();
         } else {
             return value;
         }
+    }
+
+    // TODO: Remove it here
+    //    DataController must do it.
+    function getDoseUnitString() {
+        if(self.getProperty(PROPERTY_USE_ROENTGEN, false)) {
+            return Application.loadResource(Rez.Strings.text_micro_roentgen);
+        } else {
+            return Application.loadResource(Rez.Strings.text_micro_sieverts);
+        }
+    }
+
+    function getWriteActivity() {
+        return self.getProperty(WRITE_ACTIVITY, false);
+    }
+
+    function setWriteActivity(value) {
+        self.setProperty(WRITE_ACTIVITY, value);
+    }
+
+    function getUseActivityLocation() {
+        return self.getProperty(USE_ACTIVITY_LOCATION, false);
+    }
+
+    function setUseActivityLocation(value) {
+        self.setProperty(USE_ACTIVITY_LOCATION, value);
     }
 
     function getUseFahrenheit() {
@@ -47,14 +81,6 @@ class PropertiesProvider {
 
     function setUseRoentgen(value) {
         return self.setProperty(PROPERTY_USE_ROENTGEN, value);
-    }
-
-    function getDoseUnitString() {
-        if(self.getProperty(PROPERTY_USE_ROENTGEN, false)) {
-            return Application.loadResource(Rez.Strings.text_micro_roentgen);
-        } else {
-            return Application.loadResource(Rez.Strings.text_micro_sieverts);
-        }
     }
 
     function setProperty(name, value) {
