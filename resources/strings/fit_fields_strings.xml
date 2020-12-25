@@ -1,0 +1,10 @@
+<strings>
+
+    <string id="fit_activity_name">AtomFast Dosimetry</string>
+
+    <string id="field_dose_power_graph_label">Dose power</string>
+    <string id="field_dose_power_label">µSv</string>
+
+    <string id="field_temp_graph_label">Temperature from AtomFast</string>
+    <string id="field_temp_label">°C</string>
+</strings>

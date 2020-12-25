@@ -5,18 +5,21 @@ class DeviceDataController {
 
     private var _app;
     private var _dataModel;
+    private var _activityTrack;
     private var _device;
     private var _scanResult;
     private var _service;
     private var _pendingNotifies;
     private var _ready;
     private var _updateThresholds = true;
+    private var _posProvider;
 
     function initialize(app, scanResult) {
         self._app = app;
         self._dataModel = new DeviceDataModel();
         self._scanResult = scanResult;
-        self.pair();
+        self._posProvider = new PositionProvider();
+        self.start();
     }
 
     function getModel() {
@@ -51,7 +54,48 @@ class DeviceDataController {
         Ui.requestUpdate();
     }
 
-    function pair() {
+    function getActivityWriteState() {
+        return self._activityTrack != null;
+    }
+
+    function activityUpdateState() {
+        var props = self._app.getPropertiesProvider();
+        if(props.getWriteActivity()) {
+            self.startActivityWrite();
+        } else {
+            self.stopActivityWrite();
+        }
+    }
+
+    function startActivityWrite() {
+        var props = self._app.getPropertiesProvider();
+        if(self._activityTrack == null) {
+            self._activityTrack = new FitDataProvider();
+            if(props.getUseActivityLocation()) {
+                self._posProvider.enable();
+            }
+        }
+    }
+
+    function stopActivityWrite() {
+        if(self._activityTrack != null) {
+            self._activityTrack.stopAndSave();
+            self._posProvider.disable();
+            self._activityTrack = null;
+        }
+    }
+
+    function updateFitData() {
+        self.activityUpdateState();
+        if(self._activityTrack != null) {
+            self._activityTrack.update({
+                :dosePower => _dataModel.dosePower,
+                :temperature => _dataModel.temperature,
+            });
+        }
+    }
+
+    function start() {
         try {
             self._device = Ble.pairDevice(self._scanResult);
             self._app.getBleDelegate().setEventListener(self);
@@ -59,6 +103,15 @@ class DeviceDataController {
             self._device = null;
         }
         self._ready = false;
+    }
+
+    function stop() {
+        if(null != self._device) {
+            Ble.unpairDevice(self._device);
+            self._device = null;
+            System.println("STOP!!");
+            self.stopActivityWrite();
+        }
     }
 
     function readThreashold(id) {
@@ -73,13 +126,6 @@ class DeviceDataController {
 
     function ready() {
         return self._ready;
-    }
-
-    function unpair() {
-        if(null != self._device) {
-            Ble.unpairDevice(self._device);
-            self._device = null;
-        }
     }
 
     function getService(device) {
@@ -145,6 +191,7 @@ class DeviceDataController {
         switch(char.getUuid()) {
             case self._app.getProfile().ATOM_FAST_CHAR:
                 self._dataModel.update(value);
+                self.updateFitData();
                 Ui.requestUpdate();
                 break;
         }

@@ -6,7 +6,6 @@ using Toybox.Timer;
 class DeviceDataView extends Ui.View {
 
     const THRESHOLDS_COLORS = [
-        Gfx.COLOR_GREEN,
         Gfx.COLOR_YELLOW,
         Gfx.COLOR_ORANGE,
         Gfx.COLOR_RED,
@@ -70,27 +69,33 @@ class DeviceDataView extends Ui.View {
         var doseFactor = self._deviceDataController.getDoseFactor();
         var ths = self._deviceData.thresholds;
         var dosePw = self._deviceData.dosePower;
-        var color = THRESHOLDS_COLORS[0];
-        if(ths[2].updated && dosePw > ths[2].threshold) {
-            color = THRESHOLDS_COLORS[3];
-        } else if(ths[1].updated && dosePw > ths[1].threshold) {
-            color = THRESHOLDS_COLORS[2];
-        } else if(ths[0].updated && dosePw > ths[0].threshold) {
-            color = THRESHOLDS_COLORS[1];
+        var labelPw = Ui.View.findDrawableById("DeviceViewLabelDoseRate");
+        var color = Gfx.COLOR_GREEN;
+        for(var i=2; i >= 0; i--) {
+            if(ths[i].updated && (dosePw > ths[i].threshold)) {
+                color = THRESHOLDS_COLORS[i];
+                break;
+            }
         }
-
-        var dosePowerText = (self._deviceData.dosePower * doseFactor).format("%.2f");
-        var label = Ui.View.findDrawableById("DeviceViewLabelDoseRate");
-        label.setColor(color);
-        label.setText(dosePowerText);
-
+        labelPw.setColor(color);
+        var dosePowerText = (dosePw * doseFactor).format("%.2f");
+        labelPw.setText(dosePowerText);
         Ui.View.findDrawableById("DeviceViewLabelDoseUnits").setText(self._deviceDataController.getDoseUnitString());
     }
 
     private function drawDoseAccumulated(dc) {
         var doseFactor = self._deviceDataController.getDoseFactor();
+        var ths = self._deviceData.thresholds;
         var label = Ui.View.findDrawableById("DeviceViewLabelDoseAcc");
         var accDose = self._deviceData.doseAccumulated;
+        var color = Gfx.COLOR_WHITE;
+        for(var i=2; i >= 0; i--) {
+            if(ths[i].updated && (accDose > ths[i].thresholdAccumulated)) {
+                color = THRESHOLDS_COLORS[i];
+                break;
+            }
+        }
+        label.setColor(color);
         label.setText((accDose * doseFactor).format("%.4f"));
     }
 
