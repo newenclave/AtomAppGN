@@ -6,7 +6,8 @@ Atom Fast dosimeter application for Garmin devices
 This application is not making a Garmin device a dosimter. 
 It uses an Atom Fast device to read and show the data.
 
-For more information about AtomFast dosimeters plsease visit the page https://kbradar.org/p223290497-dozimetr-radiatsii-atom.html
+For more information about AtomFast dosimeters plsease visit the page [kbradar.org (en)](https://kbradar.org/a190925-instructions-and-specifications.html) or [kbradar.org (ru)](https://kbradar.org/g4878767-dozimetry-datchiki-detektory)
+
 
 ### Compatible devices:
 
