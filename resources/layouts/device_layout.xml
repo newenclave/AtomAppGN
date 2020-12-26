@@ -1,15 +1,15 @@
 <layout id="DeviceLayout">
 
  	<label id="DeviceViewLabelTime" 
- 			x="center" y="12%" 
- 			font="Graphics.FONT_XTINY" 
- 			justification="Graphics.TEXT_JUSTIFY_CENTER" 
- 			color="Graphics.COLOR_LT_GRAY"/>
+ 			x="center" y="20%" 
+ 			font="Graphics.FONT_NUMBER_MEDIUM" 
+ 			justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
+ 			color="Graphics.COLOR_WHITE"/>
  			
  	<label id="DeviceViewLabelSessionTime" 
- 			x="center" y="24%" 
+ 			x="center" y="34%" 
  			font="Graphics.FONT_XTINY" 
- 			justification="Graphics.TEXT_JUSTIFY_CENTER" 
+ 			justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
  			color="Graphics.COLOR_LT_GRAY"/>
 
 	<!-- Central DOSE Rate, Temterature, Dose Units -->
