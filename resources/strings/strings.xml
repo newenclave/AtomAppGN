@@ -7,14 +7,20 @@
     <string id="menu_use_first">Use available</string>
     <string id="menu_reset">Reset settings</string>
     
+    <string id="menu_dev_alerts">Alert settings</string>
+
+    <string id="menu_alerts_vibroL1">Vibration L1</string>
+    <string id="menu_alerts_vibroL2">Vibration L2</string>
+    <string id="menu_alerts_vibroL3">Vibration L3</string>
+    
     <string id="menu_dev_config">Settings</string>
     <string id="menu_dev_config_done">Done</string>
     <string id="menu_dose_units">Dose Units</string>
     <string id="menu_temperature">Temperature Units</string>
     <string id="menu_save_activity">Write track</string>
 
-    <string id="menu_activity_enabled">enabled</string>
-    <string id="menu_activity_disabled">disabled</string>
+    <string id="menu_enabled">enabled</string>
+    <string id="menu_disabled">disabled</string>
     
     <string id="menu_dose_use_sieverts">Use: µSv</string>
     <string id="menu_dose_use_roentgen">Use: µR</string>

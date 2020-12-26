@@ -13,30 +13,140 @@ class DeviceDataController {
     private var _ready;
     private var _updateThresholds = true;
     private var _posProvider;
+    private var _alerts;
 
     function initialize(app, scanResult) {
         self._app = app;
         self._dataModel = new DeviceDataModel();
         self._scanResult = scanResult;
         self._posProvider = new PositionProvider();
+        self._alerts = new AlertsProvider();
         self.start();
     }
 
-    function getModel() {
-        return self._dataModel;
+    /// Get data values
+    function getDoseAccumulated() {
+        return self._dataModel.doseAccumulated * self.getDoseFactor();
     }
 
-    function getPropertiesProvider() {
-        return self._app.getPropertiesProvider();
+    function getDosePower() {
+        return self._dataModel.dosePower * self.getDoseFactor();
     }
 
-    function getDoseFactor() {
-        return self.getPropertiesProvider().getDoseFactor();
+    function getImpulses() {
+        return self._dataModel.impulses;
+    }
+
+    function getCharge() {
+        return self._dataModel.charge;
+    }
+
+    function getTemperature() {
+        return self.convertTemp(self._dataModel.temperature);
+    }
+
+    function getThreshold(id) {
+        return self._dataModel.thresholds[id].threshold * self.getDoseFactor();
+    }
+
+    function isThresholdUpdated(id) {
+        return self._dataModel.thresholds[id].updated;
+    }
+
+    function getThresholdAccumulated(id) {
+        return self._dataModel.thresholds[id].thresholdAccumulated * self.getDoseFactor();
+    }
+
+    ///////////////////
+    function getProperty(name, defaultValue) {
+        return self.getProperties().getProperty(name, defaultValue);
+    }
+
+    function setProperty(name, value) {
+        self.getProperties().setProperty(name, value);
+    }
+
+    private function getDoseFactor() {
+        if(self.getProperties().getUseRoentgen()) {
+            return 100;
+        } else {
+            return 1;
+        }
+    }
+
+    function getTemperatureUnitsString() {
+        if(self.getProperties().getUseFahrenheit()) {
+            return Application.loadResource(Rez.Strings.text_micro_fahrenheit);
+        } else {
+            return Application.loadResource(Rez.Strings.text_temp_celsius);
+        }
+    }
+
+    function convertTemp(value) {
+        if(self.getProperties().getUseFahrenheit()) {
+            return (value * 1.8 + 32).toNumber();
+        } else {
+            return value;
+        }
     }
 
     function getDoseUnitString() {
-        return self.getPropertiesProvider().getDoseUnitString();
+        if(self.getProperties().getUseRoentgen()) {
+            return Application.loadResource(Rez.Strings.text_micro_roentgen);
+        } else {
+            return Application.loadResource(Rez.Strings.text_micro_sieverts);
+        }
     }
+
+    function checkAlerts() {
+        var ths = self._dataModel.thresholds;
+        for(var i=2; i >= 0; i--) {
+            if(ths[i].updated
+                && self.getProperties().getAlertVibroL(i)
+                && (self._dataModel.dosePower > ths[i].threshold)) {
+                self._alerts.alertVibroL(i);
+                break;
+            }
+        }
+    }
+
+    function getDoseAccumelatedThreshold() {
+        var ths = self._dataModel.thresholds;
+        for(var i=2; i >= 0; i--) {
+            if(ths[i].updated && (self._dataModel.doseAccumulated > ths[i].thresholdAccumulated)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    function getDoseThreshold() {
+        var ths = self._dataModel.thresholds;
+        for(var i=2; i >= 0; i--) {
+            if(ths[i].updated && (self._dataModel.dosePower > ths[i].threshold)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    function getMeasuringTime() {
+        return self._dataModel.getMeasuringTime();
+    }
+
+    function getCPM() {
+        return self._dataModel.getCPM();
+    }
+
+    function isCharging() {
+        return self._dataModel.isCharging();
+    }
+
+    private function getProperties() {
+        return self._app.getPropertiesProvider();
+    }
+
+    /////////
 
     function onConnectedStateChanged(device, state) {
         if(self._device != device) {
@@ -54,12 +164,8 @@ class DeviceDataController {
         Ui.requestUpdate();
     }
 
-    function getActivityWriteState() {
-        return self._activityTrack != null;
-    }
-
     function activityUpdateState() {
-        var props = self._app.getPropertiesProvider();
+        var props = self.getProperties();
         if(props.getWriteActivity()) {
             self.startActivityWrite();
         } else {
@@ -68,7 +174,7 @@ class DeviceDataController {
     }
 
     function startActivityWrite() {
-        var props = self._app.getPropertiesProvider();
+        var props = self.getProperties();
         if(self._activityTrack == null) {
             self._activityTrack = new FitDataProvider();
             if(props.getUseActivityLocation()) {
@@ -192,6 +298,7 @@ class DeviceDataController {
             case self._app.getProfile().ATOM_FAST_CHAR:
                 self._dataModel.update(value);
                 self.updateFitData();
+                self.checkAlerts();
                 Ui.requestUpdate();
                 break;
         }

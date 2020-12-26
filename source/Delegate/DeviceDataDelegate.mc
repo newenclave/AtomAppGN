@@ -1,4 +1,5 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Attention;
 
 class DeviceDataDelegate extends Ui.BehaviorDelegate {
 
@@ -36,7 +37,7 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
     function onNextPage() {
         if(null == self._detailsView) {
             self._detailsView = new DeviceDetailsView(
-                    self._deviceDataController.getModel(),
+                    self._deviceDataController,
                     self._app.getPropertiesProvider());
             Ui.pushView(self._detailsView, self, Ui.SLIDE_UP);
         }
@@ -56,6 +57,17 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
     }
 
     function onSelect() {
+        if(Attention has :vibrate) {
+            var vibeDataS =
+            [
+                new Attention.VibeProfile(50, 300),
+                new Attention.VibeProfile(0, 300),
+                new Attention.VibeProfile(50, 300),
+                new Attention.VibeProfile(0, 300),
+                new Attention.VibeProfile(50, 300)
+            ];
+            Attention.vibrate(vibeDataS);
+        }
         return true;
     }
 }

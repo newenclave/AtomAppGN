@@ -6,49 +6,22 @@ class PropertiesProvider {
     private const PROPERTY_USE_FAHRENHEIT = "use_fahrenheit";
     private const WRITE_ACTIVITY = "write_activity";
     private const USE_ACTIVITY_LOCATION = "use_activity_location";
+    private const ALERT_VIBRO_L = [
+        "alert_vibro_L1",
+        "alert_vibro_L2",
+        "alert_vibro_L3"
+    ];
 
     function initialize() {
 
     }
 
-    // TODO: Remove it here
-    //    DataController must do it.
-    function getDoseFactor() {
-        if(self.getProperty(PROPERTY_USE_ROENTGEN, false)) {
-            return 100;
-        } else {
-            return 1;
-        }
+    function getAlertVibroL(id) {
+        return self.getProperty(ALERT_VIBRO_L[id], false);
     }
 
-    // TODO: Remove it here
-    //    DataController must do it.
-    function getTempUnitsString() {
-        if(self.getProperty(PROPERTY_USE_FAHRENHEIT, false)) {
-            return Application.loadResource(Rez.Strings.text_micro_fahrenheit);
-        } else {
-            return Application.loadResource(Rez.Strings.text_temp_celsius);
-        }
-    }
-
-    // TODO: Remove it here
-    //    DataController must do it.
-    function convertTemp(value) {
-        if(self.getProperty(PROPERTY_USE_FAHRENHEIT, false)) {
-            return (value * 1.8 + 32).toNumber();
-        } else {
-            return value;
-        }
-    }
-
-    // TODO: Remove it here
-    //    DataController must do it.
-    function getDoseUnitString() {
-        if(self.getProperty(PROPERTY_USE_ROENTGEN, false)) {
-            return Application.loadResource(Rez.Strings.text_micro_roentgen);
-        } else {
-            return Application.loadResource(Rez.Strings.text_micro_sieverts);
-        }
+    function setAlertVibroL(id, value) {
+        self.setProperty(ALERT_VIBRO_L[id], value);
     }
 
     function getWriteActivity() {
@@ -89,8 +62,6 @@ class PropertiesProvider {
 
     function getProperty(name, defaultValue) {
         try {
-//            var val = Properties.getValue(name);
-//            System.println(name + " = " + val.toString());
             return Properties.getValue(name);
         } catch(ex) {
             System.println("Bad property " + name + " Err: " + ex.getErrorMessage());

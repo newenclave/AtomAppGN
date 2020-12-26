@@ -2,12 +2,12 @@ using Toybox.WatchUi as Ui;
 
 class DeviceDetailsView extends Ui.View {
 
-    private var _deviceData;
+    private var _deviceDataController;
     private var _properties;
 
-    function initialize(deviceData, props) {
+    function initialize(deviceDataController, props) {
         View.initialize();
-        self._deviceData = deviceData;
+        self._deviceDataController = deviceDataController;
         self._properties = props;
     }
 
@@ -30,15 +30,11 @@ class DeviceDetailsView extends Ui.View {
             Ui.View.findDrawableById("DeviceDetailD3Value"),
         ];
 
-        var ths = self._deviceData.thresholds;
-        var doseFactor = self._properties.getDoseFactor();
-        var doseUnits = self._properties.getDoseUnitString();
-        Ui.View.findDrawableById("DeviceDetailDoseUnit").setText(doseUnits);
-
-        for(var i = 0; i < ths.size(); i++) {
-            if(ths[i].updated) {
-                doseValues[i].setText((ths[i].threshold * doseFactor).format("%.2f"));
-                accDoseValues[i].setText((ths[i].thresholdAccumulated * doseFactor).format("%.2f"));
+        Ui.View.findDrawableById("DeviceDetailDoseUnit").setText(self._deviceDataController.getDoseUnitString());
+        for(var i=0; i<3; i++) {
+            if(self._deviceDataController.isThresholdUpdated(i)) {
+                doseValues[i].setText(self._deviceDataController.getThreshold(i).format("%.2f"));
+                accDoseValues[i].setText(self._deviceDataController.getThresholdAccumulated(i).format("%.2f"));
             }
         }
         View.onUpdate(dc);
