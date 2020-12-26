@@ -64,7 +64,7 @@ class DeviceDataView extends Ui.View {
     }
 
     private function drawDoseRate(dc) {
-        var dosePw = self._deviceDataController.getDosePower();
+        var dosePw = self._deviceDataController.getDoseRate();
         var labelPw = Ui.View.findDrawableById("DeviceViewLabelDoseRate");
         var color = Gfx.COLOR_GREEN;
         var th = self._deviceDataController.getDoseThreshold();
@@ -72,8 +72,8 @@ class DeviceDataView extends Ui.View {
             color = THRESHOLDS_COLORS[th];
         }
         labelPw.setColor(color);
-        var dosePowerText = dosePw.format("%.2f");
-        labelPw.setText(dosePowerText);
+        var doseRateText = dosePw.format("%.2f");
+        labelPw.setText(doseRateText);
         Ui.View.findDrawableById("DeviceViewLabelDoseUnits").setText(self._deviceDataController.getDoseUnitString());
     }
 

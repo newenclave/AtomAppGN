@@ -29,8 +29,8 @@ class DeviceDataController {
         return self._dataModel.doseAccumulated * self.getDoseFactor();
     }
 
-    function getDosePower() {
-        return self._dataModel.dosePower * self.getDoseFactor();
+    function getDoseRate() {
+        return self._dataModel.doseRate * self.getDoseFactor();
     }
 
     function getImpulses() {
@@ -94,7 +94,7 @@ class DeviceDataController {
         if(self.getProperties().getUseRoentgen()) {
             return Application.loadResource(Rez.Strings.text_micro_roentgen);
         } else {
-            return Application.loadResource(Rez.Strings.text_micro_sieverts);
+            return Application.loadResource(Rez.Strings.text_micro_sieverts_hours);
         }
     }
 
@@ -103,7 +103,7 @@ class DeviceDataController {
         for(var i=2; i >= 0; i--) {
             if(ths[i].updated
                 && self.getProperties().getAlertVibroL(i)
-                && (self._dataModel.dosePower > ths[i].threshold)) {
+                && (self._dataModel.doseRate > ths[i].threshold)) {
                 self._alerts.alertVibroL(i);
                 break;
             }
@@ -123,7 +123,7 @@ class DeviceDataController {
     function getDoseThreshold() {
         var ths = self._dataModel.thresholds;
         for(var i=2; i >= 0; i--) {
-            if(ths[i].updated && (self._dataModel.dosePower > ths[i].threshold)) {
+            if(ths[i].updated && (self._dataModel.doseRate > ths[i].threshold)) {
                 return i;
             }
         }
@@ -151,7 +151,6 @@ class DeviceDataController {
     }
 
     /////////
-
     function onConnectedStateChanged(device, state) {
         if(self._device != device) {
             return;
@@ -205,7 +204,7 @@ class DeviceDataController {
         self.activityUpdateState();
         if(self._activityTrack != null) {
             self._activityTrack.update({
-                :dosePower => self._dataModel.dosePower,
+                :doseRate => self._dataModel.doseRate,
                 :temperature => self._dataModel.temperature,
             });
         }

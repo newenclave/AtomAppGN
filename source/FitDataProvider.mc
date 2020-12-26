@@ -4,7 +4,7 @@ using Toybox.FitContributor as Fit;
 class FitDataProvider {
 
     private var _session;
-    private var _dosePower;
+    private var _doseRate;
     private var _temperature;
     private var _sessionDoze;
 
@@ -19,7 +19,7 @@ class FitDataProvider {
             :subSport=>ActivityRecording.SUB_SPORT_GENERIC
         });
 
-        self._dosePower = self._session.createField("dosepower",
+        self._doseRate = self._session.createField("dose_rate",
             FIELD_DOSE_POWER,
             Fit.DATA_TYPE_FLOAT, {
                 :units => "microsieverts"
@@ -52,7 +52,7 @@ class FitDataProvider {
     }
 
     function update(dataDict) {
-        self._dosePower.setData(dataDict.get(:dosePower));
+        self._doseRate.setData(dataDict.get(:doseRate));
         self._temperature.setData(dataDict.get(:temperature));
     }
 }

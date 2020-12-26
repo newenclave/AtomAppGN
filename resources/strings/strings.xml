@@ -35,6 +35,11 @@
     <string id="text_CPM">CPM:</string>
     
     <string id="text_session_time">Time:</string>
+
+    <string id="text_micro_sieverts_hours">µSv/h</string>
+    <string id="text_milli_sieverts_hours">mSv/h</string>
+    <string id="text_micro_roentgen_hours">µR/h</string>
+
     <string id="text_micro_sieverts">µSv</string>
     <string id="text_milli_sieverts">mSv</string>
     <string id="text_micro_roentgen">µR</string>

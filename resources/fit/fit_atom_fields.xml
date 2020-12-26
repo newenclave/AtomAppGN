@@ -6,7 +6,7 @@
 			precision="4"
 			chartTitle="@Strings.field_dose_power_graph_label" 
 			dataLabel="@Strings.field_dose_power_label"
-			unitLabel="@Strings.text_micro_sieverts" 
+			unitLabel="@Strings.text_micro_sieverts_hours" 
 			fillColor="#58cf39" />
 	<fitField id="1" 
 			displayInChart="true"

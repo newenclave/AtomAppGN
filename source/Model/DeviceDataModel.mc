@@ -5,7 +5,7 @@ class DeviceDataModel {
     (:property) var flags = 0;
     (:property) var doseAccumulated = 0;
     (:property) var sessionDoseInit = 0;
-    (:property) var dosePower = 0;
+    (:property) var doseRate = 0;
     (:property) var impulses = 0;
     (:property) var charge = 0;
     (:property) var temperature = 0;
@@ -39,11 +39,11 @@ class DeviceDataModel {
             self.flags = value[0];
             self.doseAccumulated = value.decodeNumber(Lang.NUMBER_FORMAT_FLOAT,
                                 { :offset => 1, :endianness => Lang.ENDIAN_LITTLE });
-            self.dosePower = value.decodeNumber(Lang.NUMBER_FORMAT_FLOAT,
+            self.doseRate = value.decodeNumber(Lang.NUMBER_FORMAT_FLOAT,
                                 { :offset => 5, :endianness => Lang.ENDIAN_LITTLE });
             self.impulses = value.decodeNumber(Lang.NUMBER_FORMAT_UINT16,
                                 { :offset => 9, :endianness => Lang.ENDIAN_LITTLE });
-            self.dosePower;
+            self.doseRate;
             self.charge = value[11];
             self.temperature = value[12];
             self._impulsesTotal += self.impulses;
