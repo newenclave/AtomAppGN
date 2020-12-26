@@ -36,6 +36,7 @@
     
     <string id="text_session_time">Time:</string>
     <string id="text_micro_sieverts">µSv</string>
+    <string id="text_milli_sieverts">mSv</string>
     <string id="text_micro_roentgen">µR</string>
 
     <string id="text_temp_celsius">°C</string>

@@ -57,17 +57,6 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
     }
 
     function onSelect() {
-        if(Attention has :vibrate) {
-            var vibeDataS =
-            [
-                new Attention.VibeProfile(50, 300),
-                new Attention.VibeProfile(0, 300),
-                new Attention.VibeProfile(50, 300),
-                new Attention.VibeProfile(0, 300),
-                new Attention.VibeProfile(50, 300)
-            ];
-            Attention.vibrate(vibeDataS);
-        }
         return true;
     }
 }

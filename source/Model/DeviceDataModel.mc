@@ -4,6 +4,7 @@ class DeviceDataModel {
 
     (:property) var flags = 0;
     (:property) var doseAccumulated = 0;
+    (:property) var sessionDoseInit = 0;
     (:property) var dosePower = 0;
     (:property) var impulses = 0;
     (:property) var charge = 0;
@@ -42,10 +43,13 @@ class DeviceDataModel {
                                 { :offset => 5, :endianness => Lang.ENDIAN_LITTLE });
             self.impulses = value.decodeNumber(Lang.NUMBER_FORMAT_UINT16,
                                 { :offset => 9, :endianness => Lang.ENDIAN_LITTLE });
-            self.dosePower *= 10;
+            self.dosePower;
             self.charge = value[11];
             self.temperature = value[12];
             self._impulsesTotal += self.impulses;
+            if(self.sessionDoseInit == 0) {
+                self.sessionDoseInit = self.doseAccumulated;
+            }
         }
     }
 
@@ -63,6 +67,10 @@ class DeviceDataModel {
 
     public function getCPS() {
         return self.getImpusesAvarage(1000);
+    }
+
+    public function getSessionDoze() {
+        return self.doseAccumulated - self.sessionDoseInit;
     }
 
     public function getCPM() {

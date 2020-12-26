@@ -142,6 +142,10 @@ class DeviceDataController {
         return self._dataModel.isCharging();
     }
 
+    function getSessionDoze() {
+        return self._dataModel.getSessionDoze();
+    }
+
     private function getProperties() {
         return self._app.getPropertiesProvider();
     }
@@ -185,6 +189,12 @@ class DeviceDataController {
 
     function stopActivityWrite() {
         if(self._activityTrack != null) {
+            System.println("Session summary: "
+                + self._dataModel.doseAccumulated.toString()
+                + " " + self._dataModel.sessionDoseInit.toString());
+            self._activityTrack.closeSession({
+                :sessionDose => self._dataModel.getSessionDoze()
+            });
             self._activityTrack.stopAndSave();
             self._posProvider.disable();
             self._activityTrack = null;
@@ -195,8 +205,8 @@ class DeviceDataController {
         self.activityUpdateState();
         if(self._activityTrack != null) {
             self._activityTrack.update({
-                :dosePower => _dataModel.dosePower,
-                :temperature => _dataModel.temperature,
+                :dosePower => self._dataModel.dosePower,
+                :temperature => self._dataModel.temperature,
             });
         }
     }

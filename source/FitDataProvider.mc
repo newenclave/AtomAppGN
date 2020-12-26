@@ -6,9 +6,11 @@ class FitDataProvider {
     private var _session;
     private var _dosePower;
     private var _temperature;
+    private var _sessionDoze;
 
     const FIELD_DOSE_POWER = 0;
     const FIELD_TEMPERATURE = 1;
+    const FIELD_SESSION_DOSE = 2;
 
     function initialize() {
         self._session = ActivityRecording.createSession({
@@ -16,16 +18,26 @@ class FitDataProvider {
             :sport=>ActivityRecording.SPORT_GENERIC,
             :subSport=>ActivityRecording.SUB_SPORT_GENERIC
         });
+
         self._dosePower = self._session.createField("dosepower",
             FIELD_DOSE_POWER,
             Fit.DATA_TYPE_FLOAT, {
-                :units => "sieverts"
+                :units => "microsieverts"
             });
+
         self._temperature = self._session.createField("temperature",
             FIELD_TEMPERATURE,
             Fit.DATA_TYPE_SINT8, {
                 :units => "celsius"
             });
+
+        self._sessionDoze = self._session.createField("session_dose",
+            FIELD_SESSION_DOSE,
+            Fit.DATA_TYPE_FLOAT, {
+                :units => "millisieverts",
+                :mesgType => Fit.MESG_TYPE_SESSION,
+            });
+
         self._session.start();
     }
 
@@ -33,6 +45,10 @@ class FitDataProvider {
         System.println("activity.stopAndSave");
         self._session.stop();
         self._session.save();
+    }
+
+    function closeSession(dataDict) {
+        self._sessionDoze.setData(dataDict.get(:sessionDose));
     }
 
     function update(dataDict) {
