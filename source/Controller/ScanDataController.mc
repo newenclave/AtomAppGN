@@ -39,7 +39,6 @@ class ScanDataController {
         }
         if(added > 0) {
             self.callUpdate();
-            //Ui.requestUpdate();
         }
     }
 

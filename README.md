@@ -2,13 +2,6 @@
 Atom Fast dosimeter application for Garmin devices
 
 ![Fenix 5 Plus view](docs/ScreenShot.png)
-![Fenix 5 Plus view](docs/L1Threshold.png)
-![Fenix 5 Plus view](docs/L3Threshold.PNG)
-![Fenix 5 Plus view](docs/Config001.png)
-![Fenix 5 Plus view](docs/Config002.PNG)
-![Fenix 5 Plus view](docs/Thresholds.png)
-
-
 
 This application is not making a Garmin device a dosimter. 
 It uses an Atom Fast device to read and show the data.
