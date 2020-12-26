@@ -2,95 +2,101 @@
 
  	<label id="DeviceDetailDoseUnit" 
  			x="50%" y="8%" 
- 			font="Graphics.FONT_SMALL" 
+ 			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
  			color="Graphics.COLOR_GREEN"
  			text="asda" />
 
-	<!-- Level 1 --> 	
+	<!-- L --> 	
  	<label id="DeviceDetailL1Label" 
  			x="32%" y="16%" 
- 			font="Graphics.FONT_SMALL" 
+ 			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
  			color="Graphics.COLOR_YELLOW"
  			text="@Strings.detail_L1" />
  			
  	<label id="DeviceDetailL1Value" 
  			x="40%" y="16%" 
- 			font="Graphics.FONT_SMALL" 
+ 			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT" 
  			color="Graphics.COLOR_YELLOW"
  			text = "---.--"/>
 
- 	<label id="DeviceDetailD1Label" 
- 			x="32%" y="28%" 
- 			font="Graphics.FONT_SMALL" 
- 			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
- 			color="Graphics.COLOR_YELLOW"
- 			text="@Strings.detail_D1" />
- 			
- 	<label id="DeviceDetailD1Value" 
- 			x="40%" y="28%" 
- 			font="Graphics.FONT_SMALL" 
- 			justification="Graphics.TEXT_JUSTIFY_LEFT" 
- 			color="Graphics.COLOR_YELLOW"
- 			text = "---.--"/>
-
-	<!-- Level 2  --> 
  	<label id="DeviceDetailL2Label" 
- 			x="32%" y="40%" 
- 			font="Graphics.FONT_SMALL" 
+ 			x="32%" y="24%" 
+ 			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
  			color="Graphics.COLOR_ORANGE"
  			text="@Strings.detail_L2" />
  			
  	<label id="DeviceDetailL2Value" 
- 			x="40%" y="40%" 
- 			font="Graphics.FONT_SMALL" 
- 			justification="Graphics.TEXT_JUSTIFY_LEFT" 
- 			color="Graphics.COLOR_ORANGE"
- 			text = "---.--"/>
-			
-
- 	<label id="DeviceDetailD2Label" 
- 			x="32%" y="52%" 
- 			font="Graphics.FONT_SMALL" 
- 			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
- 			color="Graphics.COLOR_ORANGE"
- 			text="@Strings.detail_D2" />
- 			
- 	<label id="DeviceDetailD2Value" 
- 			x="40%" y="52%" 
- 			font="Graphics.FONT_SMALL" 
+ 			x="40%" y="24%" 
+ 			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT" 
  			color="Graphics.COLOR_ORANGE"
  			text = "---.--"/>
 
-	<!-- Level 3 --> 
  	<label id="DeviceDetailL3Label" 
- 			x="32%" y="64%" 
- 			font="Graphics.FONT_SMALL" 
+ 			x="32%" y="32%" 
+ 			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
  			color="Graphics.COLOR_RED"
  			text="@Strings.detail_L3" />
  			
  	<label id="DeviceDetailL3Value" 
- 			x="40%" y="64%" 
- 			font="Graphics.FONT_SMALL" 
+ 			x="40%" y="32%" 
+ 			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT" 
  			color="Graphics.COLOR_RED"
  			text = "---.--"/>
 
+	<!-- D  --> 			
+
+ 	<label id="DeviceDetailDoseUnitD" 
+ 			x="50%" y="48%" 
+ 			font="Graphics.FONT_XTINY" 
+ 			justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
+ 			color="Graphics.COLOR_GREEN"
+ 			text="asda" />
+
+ 	<label id="DeviceDetailD1Label" 
+ 			x="32%" y="56%" 
+ 			font="Graphics.FONT_XTINY" 
+ 			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
+ 			color="Graphics.COLOR_YELLOW"
+ 			text="@Strings.detail_D1" />
+ 			
+ 	<label id="DeviceDetailD1Value" 
+ 			x="40%" y="56%" 
+ 			font="Graphics.FONT_XTINY" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT" 
+ 			color="Graphics.COLOR_YELLOW"
+ 			text = "---.--"/>
+
+ 	<label id="DeviceDetailD2Label" 
+ 			x="32%" y="64%" 
+ 			font="Graphics.FONT_XTINY" 
+ 			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
+ 			color="Graphics.COLOR_ORANGE"
+ 			text="@Strings.detail_D2" />
+ 			
+ 	<label id="DeviceDetailD2Value" 
+ 			x="40%" y="64%" 
+ 			font="Graphics.FONT_XTINY" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT" 
+ 			color="Graphics.COLOR_ORANGE"
+ 			text = "---.--"/>
+
  	<label id="DeviceDetailD3Label" 
- 			x="32%" y="76%" 
- 			font="Graphics.FONT_SMALL" 
+ 			x="32%" y="72%" 
+ 			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
  			color="Graphics.COLOR_RED"
  			text="@Strings.detail_D3" />
  			
  	<label id="DeviceDetailD3Value" 
- 			x="40%" y="76%" 
- 			font="Graphics.FONT_SMALL" 
+ 			x="40%" y="72%" 
+ 			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT" 
  			color="Graphics.COLOR_RED"
  			text = "---.--"/>

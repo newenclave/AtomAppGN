@@ -94,6 +94,14 @@ class DeviceDataController {
         if(self.getProperties().getUseRoentgen()) {
             return Application.loadResource(Rez.Strings.text_micro_roentgen);
         } else {
+            return Application.loadResource(Rez.Strings.text_micro_sieverts);
+        }
+    }
+
+    function getDoseHoursUnitString() {
+        if(self.getProperties().getUseRoentgen()) {
+            return Application.loadResource(Rez.Strings.text_micro_roentgen_hours);
+        } else {
             return Application.loadResource(Rez.Strings.text_micro_sieverts_hours);
         }
     }

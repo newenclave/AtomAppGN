@@ -74,7 +74,8 @@ class DeviceDataView extends Ui.View {
         labelPw.setColor(color);
         var doseRateText = dosePw.format("%.2f");
         labelPw.setText(doseRateText);
-        Ui.View.findDrawableById("DeviceViewLabelDoseUnits").setText(self._deviceDataController.getDoseUnitString());
+        Ui.View.findDrawableById("DeviceViewLabelDoseUnits")
+               .setText(self._deviceDataController.getDoseHoursUnitString());
     }
 
     private function drawDoseAccumulated(dc) {

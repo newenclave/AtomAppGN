@@ -30,7 +30,11 @@ class DeviceDetailsView extends Ui.View {
             Ui.View.findDrawableById("DeviceDetailD3Value"),
         ];
 
-        Ui.View.findDrawableById("DeviceDetailDoseUnit").setText(self._deviceDataController.getDoseUnitString());
+        Ui.View.findDrawableById("DeviceDetailDoseUnit")
+               .setText(self._deviceDataController.getDoseHoursUnitString());
+        Ui.View.findDrawableById("DeviceDetailDoseUnitD")
+               .setText(self._deviceDataController.getDoseUnitString());
+
         for(var i=0; i<3; i++) {
             if(self._deviceDataController.isThresholdUpdated(i)) {
                 doseValues[i].setText(self._deviceDataController.getThreshold(i).format("%.2f"));

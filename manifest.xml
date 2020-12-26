@@ -4,6 +4,7 @@
             <iq:product id="fenix5plus"/>
             <iq:product id="fr945"/>
             <iq:product id="venusqm"/>
+            <iq:product id="vivoactive4"/>
         </iq:products>
         <iq:permissions>
             <iq:uses-permission id="BluetoothLowEnergy"/>

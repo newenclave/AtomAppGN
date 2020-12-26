@@ -1,8 +1,14 @@
  <layout id="MainLayout">
  	<label id="MainCenterText" 
- 			x="center" y="center" 
+ 			x="center" y="40%" 
  			font="Graphics.FONT_LARGE"
  			justification="Graphics.TEXT_JUSTIFY_CENTER" 
  			color="Graphics.COLOR_WHITE"
  			text="@Strings.AppName"/>
+ 	<label id="MainPressMenuText" 
+ 			x="center" y="60%" 
+ 			font="Graphics.FONT_SMALL"
+ 			justification="Graphics.TEXT_JUSTIFY_CENTER" 
+ 			color="Graphics.COLOR_LT_GRAY"
+ 			text="@Strings.text_press_menu_to_start"/>
 </layout>

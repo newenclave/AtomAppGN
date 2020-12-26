@@ -1,5 +1,6 @@
 <strings>
     <string id="AppName">AtomAppGN</string>
+    <string id="text_press_menu_to_start">Press menu to start</string>
 
     <string id="menu_name">Menu</string>
     <string id="menu_scan">Scan</string>
@@ -15,8 +16,8 @@
     
     <string id="menu_dev_config">Settings</string>
     <string id="menu_dev_config_done">Done</string>
-    <string id="menu_dose_units">Dose Units</string>
-    <string id="menu_temperature">Temperature Units</string>
+    <string id="menu_dose_units">Dose units</string>
+    <string id="menu_temperature">Temperature units</string>
     <string id="menu_save_activity">Write track</string>
 
     <string id="menu_enabled">enabled</string>
