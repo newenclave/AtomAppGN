@@ -3,7 +3,7 @@ Atom Fast dosimeter application for Garmin devices
 
 ![Fenix 5 Plus view](docs/ScreenShot.png)
 
-This application is not making a Garmin device a dosimter. 
+The application doesn't turn your watch into a dosimeter.
 It uses an Atom Fast device to read and show the data.
 
 For more information about AtomFast dosimeters plsease visit the page [kbradar.org (en)](https://kbradar.org/a190925-instructions-and-specifications.html) or [kbradar.org (ru)](https://kbradar.org/g4878767-dozimetry-datchiki-detektory)
