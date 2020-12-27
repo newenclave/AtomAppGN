@@ -98,5 +98,5 @@ Edge® Explore
 #### Outdoor Handhelds:
 
 ```
-Montana® 7 Series
+Montana® 7 Series ( compatible but looks ugly :) )
 ```
