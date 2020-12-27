@@ -7,6 +7,7 @@ class AtomFastProfile {
     public const ATOM_FAST_THRESHOSD1   = Ble.stringToUuid("3F71E820-1D98-46D4-8ED6-324C8428868C");
     public const ATOM_FAST_THRESHOSD2   = Ble.stringToUuid("2E95D467-4DB7-4D7F-9D82-4CD5C102FA05");
     public const ATOM_FAST_THRESHOSD3   = Ble.stringToUuid("F8DE242F-8D84-4C12-9A2F-9C64A31CA7CA");
+    public const ATOM_FAST_CONFIG_CHAR  = Ble.stringToUuid("EA50CFCD-AC4A-4A48-BF0E-879E548AE157");
 
     (:property) public const THRESHOLDS = [
         ATOM_FAST_THRESHOSD1,
@@ -33,6 +34,11 @@ class AtomFastProfile {
             ]
         }, {
             :uuid => ATOM_FAST_THRESHOSD3,
+            :descriptors => [
+                Ble.cccdUuid()
+            ]
+        }, {
+            :uuid => ATOM_FAST_CONFIG_CHAR,
             :descriptors => [
                 Ble.cccdUuid()
             ]

@@ -32,6 +32,8 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
             Application.Storage.clearValues();
             self._app.getViewController().switchMainManu();
             break;
+        case "ItemAbout":
+            break;
         }
     }
 }

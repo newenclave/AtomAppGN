@@ -13,6 +13,13 @@ class DeviceDataController {
     private var _ready;
     private var _posProvider;
     private var _alerts;
+    private var _searchSpeed;
+
+    enum {
+        SEARCH_FAST = 0,
+        SEARCH_MEDIUM = 1,
+        SEARCH_SLOW = 2,
+    }
 
     function initialize(app, scanResult) {
         self._app = app;
@@ -20,6 +27,7 @@ class DeviceDataController {
         self._scanResult = scanResult;
         self._posProvider = new PositionProvider();
         self._alerts = new AlertsProvider();
+        self._searchSpeed = SEARCH_MEDIUM;
         self.start();
     }
 
@@ -232,6 +240,21 @@ class DeviceDataController {
         }
     }
 
+    function readSpeed() {
+        var char = self._service.getCharacteristic(self._app.getProfile().ATOM_FAST_CONFIG_CHAR);
+        if(char) {
+            //var data = [0xE0, val, 0, 0, 0, 0, 0, 0]b;
+            char.requestRead();
+        }
+    }
+
+    function updateScanSpeed(value) {
+        if(value.size() >=4) {
+            self._searchSpeed = (value[3] >> 5) & 3;
+            System.println(self._searchSpeed.toString());
+        }
+    }
+
     function readThreashold(id) {
         var uuid = self._app.getProfile().THRESHOLDS[id];
         var char = self._service.getCharacteristic(uuid);
@@ -283,6 +306,7 @@ class DeviceDataController {
     }
 
     function onCharacteristicWrite(characteristic, status) {
+        System.println("Write " + characteristic.toString() + " " + status.toString());
     }
 
     function onCharacteristicRead(characteristic, status, value) {
@@ -302,6 +326,10 @@ class DeviceDataController {
             break;
         case th[2]:
             self._dataModel.updateThreashold(2, value);
+            self.readSpeed();
+            break;
+        case self._app.getProfile().ATOM_FAST_CONFIG_CHAR:
+            self.updateScanSpeed(value);
             break;
         }
     }
