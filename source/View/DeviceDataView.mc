@@ -39,7 +39,7 @@ class DeviceDataView extends Ui.View {
 
     function onUpdate(dc) {
         dc.clear();
-        var ready = self._deviceDataController.ready();
+        var ready = self._deviceDataController.getReady();
         self.drawWorkingTime(dc, ready);
         self.drawDoseRate(dc);
         self.drawCPM(dc);

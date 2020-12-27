@@ -11,7 +11,6 @@ class DeviceDataController {
     private var _service;
     private var _pendingNotifies;
     private var _ready;
-    private var _updateThresholds = true;
     private var _posProvider;
     private var _alerts;
 
@@ -164,13 +163,13 @@ class DeviceDataController {
             return;
         }
         if(!self._device.isConnected()) {
-            return;
-        }
-
-        self._pendingNotifies = [];
-        if(null != self._device) {
-            self.getService(self._device);
-            self.activateNextNotification();
+            self._ready = false;
+        } else {
+            self._pendingNotifies = [];
+            if(null != self._device) {
+                self.getService(self._device);
+                self.activateNextNotification();
+            }
         }
         Ui.requestUpdate();
     }
@@ -196,9 +195,6 @@ class DeviceDataController {
 
     function stopActivityWrite() {
         if(self._activityTrack != null) {
-            System.println("Session summary: "
-                + self._dataModel.doseAccumulated.toString()
-                + " " + self._dataModel.sessionDoseInit.toString());
             self._activityTrack.closeSession({
                 :sessionDose => self._dataModel.getSessionDoze()
             });
@@ -232,7 +228,6 @@ class DeviceDataController {
         if(null != self._device) {
             Ble.unpairDevice(self._device);
             self._device = null;
-            System.println("STOP!!");
             self.stopActivityWrite();
         }
     }
@@ -247,7 +242,7 @@ class DeviceDataController {
         }
     }
 
-    function ready() {
+    function getReady() {
         return self._ready;
     }
 
@@ -281,6 +276,12 @@ class DeviceDataController {
         cccd.requestWrite([0x01, 0x00]b);
     }
 
+    function onDescriptorWrite(descriptor, status) {
+        if(Ble.cccdUuid().equals(descriptor.getUuid())) {
+            self.readThreashold(0);
+        }
+    }
+
     function onCharacteristicWrite(characteristic, status) {
     }
 
@@ -301,16 +302,11 @@ class DeviceDataController {
             break;
         case th[2]:
             self._dataModel.updateThreashold(2, value);
-            self.activateNextNotification();
             break;
         }
     }
 
     function onCharacteristicChanged(char, value) {
-        if(self._updateThresholds) {
-            self.readThreashold(0);
-            self._updateThresholds = false;
-        }
         switch(char.getUuid()) {
             case self._app.getProfile().ATOM_FAST_CHAR:
                 self._dataModel.update(value);
