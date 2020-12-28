@@ -22,11 +22,13 @@ class ViewController {
                 )
             );
         }
+
         menu.addItem(
             new Ui.MenuItem(Application.loadResource(Rez.Strings.menu_use_first),
                 "", "ItemUseFirst", {}
             )
         );
+
         menu.addItem(
             new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_scan),
                 "", "ItemScan", {}
@@ -61,7 +63,7 @@ class ViewController {
                 Ui.SLIDE_IMMEDIATE);
     }
 
-    function createDeviceMenu() {
+    function createDeviceMenu(deviceController) {
 
         var menu = new Ui.Menu2({
                 :title=>Application.loadResource(Rez.Strings.menu_dev_config)
@@ -107,6 +109,23 @@ class ViewController {
                 "", "ItemAlertSettings", {}
             )
         );
+
+        if(null != deviceController) {
+            var searchSpeedValues = [
+                Application.loadResource(Rez.Strings.text_search_speed_fast),
+                Application.loadResource(Rez.Strings.text_search_speed_medium),
+                Application.loadResource(Rez.Strings.text_search_speed_slow)
+            ];
+            var currentSearchSpeed = deviceController.getSearchSpeed();
+
+            menu.addItem(
+                new Ui.MenuItem(
+                    Application.loadResource(Rez.Strings.menu_search_speed),
+                    searchSpeedValues[currentSearchSpeed],
+                    "ItemSearchSpeed", {}
+                )
+            );
+        }
 
         menu.addItem(
             new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_dev_config_done),
@@ -173,10 +192,10 @@ class ViewController {
             Ui.SLIDE_LEFT);
     }
 
-    function pushDeviceMenu() {
+    function pushDeviceMenu(deviceController) {
         Ui.pushView(
-            self.createDeviceMenu(),
-            new DeviceMenuDelegate(self._app),
+            self.createDeviceMenu(deviceController),
+            new DeviceMenuDelegate(self._app, deviceController),
             Ui.SLIDE_UP);
     }
 

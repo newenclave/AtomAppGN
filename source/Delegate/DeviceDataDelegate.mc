@@ -24,7 +24,7 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
     }
 
     function onMenu() {
-        self._app.getViewController().pushDeviceMenu();
+        self._app.getViewController().pushDeviceMenu(self._deviceDataController);
         return true;
     }
 

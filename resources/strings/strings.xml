@@ -9,6 +9,11 @@
     <string id="menu_reset">Reset settings</string>
     
     <string id="menu_dev_alerts">Alert settings</string>
+    <string id="menu_search_speed">Search speed</string>
+
+    <string id="text_search_speed_fast">fast</string>
+    <string id="text_search_speed_medium">medium</string>
+    <string id="text_search_speed_slow">slow</string>
 
     <string id="menu_alerts_vibroL1">Vibration L1</string>
     <string id="menu_alerts_vibroL2">Vibration L2</string>

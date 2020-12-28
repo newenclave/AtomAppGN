@@ -9,13 +9,15 @@ class DeviceDataController {
     private var _device;
     private var _scanResult;
     private var _service;
-    private var _pendingNotifies;
     private var _ready;
     private var _posProvider;
     private var _alerts;
     private var _searchSpeed;
+    private var _operations;
+    private var _writeSpeedRequested;
 
     enum {
+        SEARCH_UNKNOWN = -1,
         SEARCH_FAST = 0,
         SEARCH_MEDIUM = 1,
         SEARCH_SLOW = 2,
@@ -28,10 +30,28 @@ class DeviceDataController {
         self._posProvider = new PositionProvider();
         self._alerts = new AlertsProvider();
         self._searchSpeed = SEARCH_MEDIUM;
+        self._operations = new OperationsQueue();
+        self._writeSpeedRequested = SEARCH_UNKNOWN;
         self.start();
     }
 
     /// Get data values
+    function getSearchSpeed() {
+        return self._searchSpeed;
+    }
+
+    function setSearchSpeed(val) {
+        System.println("Set Speed " + val.toString());
+        var oldVar = self._writeSpeedRequested;
+        self._writeSpeedRequested = val;
+        if(oldVar == SEARCH_UNKNOWN && self._ready) {
+            System.println(self._operations.size());
+            if(0 == self._operations.push(method(:writeSpeed), [], method(:onWriteSpeed), [])) {
+                self._operations.callTop([]);
+            }
+        }
+    }
+
     function getDoseAccumulated() {
         return self._dataModel.doseAccumulated * self.getDoseFactor();
     }
@@ -166,20 +186,13 @@ class DeviceDataController {
     }
 
     /////////
-    function onConnectedStateChanged(device, state) {
-        if(self._device != device) {
-            return;
+    function getService(device) {
+        self._service = device.getService(self._app.getProfile().ATOM_FAST_SERVICE);
+        if(null == self._service) {
+            System.println("Unable to get service");
+            return false;
         }
-        if(!self._device.isConnected()) {
-            self._ready = false;
-        } else {
-            self._pendingNotifies = [];
-            if(null != self._device) {
-                self.getService(self._device);
-                self.activateNextNotification();
-            }
-        }
-        Ui.requestUpdate();
+        return true;
     }
 
     function activityUpdateState() {
@@ -222,6 +235,28 @@ class DeviceDataController {
         }
     }
 
+    function activateNextNotification() {
+        System.println("Notifications activate");
+        if(null == self._service) {
+            System.println("NULL service!");
+        }
+        var char = self._service.getCharacteristic(self._app.getProfile().ATOM_FAST_CHAR);
+        if(null != char) {
+            var cccd = char.getDescriptor(Ble.cccdUuid());
+            cccd.requestWrite([0x01, 0x00]b);
+        } else {
+            System.println("Bad character");
+        }
+    }
+
+    function notificationsReady(descriptor, status) {
+        System.println("Notifications ready");
+        self._ready = true;
+        self._dataModel.resetTimer();
+        self.storeLastDevice();
+        return true;
+    }
+
     function start() {
         try {
             self._device = Ble.pairDevice(self._scanResult);
@@ -230,6 +265,23 @@ class DeviceDataController {
             self._device = null;
         }
         self._ready = false;
+    }
+
+    private function reinit() {
+        self._operations.clear();
+        if(self.getService(self._device)) {
+            self._operations.push(method(:activateNextNotification), [], method(:notificationsReady), []);
+            self._operations.push(method(:readThreashold), [0], method(:threasholdReady), [0]);
+            self._operations.push(method(:readThreashold), [1], method(:threasholdReady), [1]);
+            self._operations.push(method(:readThreashold), [2], method(:threasholdReady), [2]);
+            if(self._writeSpeedRequested != SEARCH_UNKNOWN) {
+                self._operations.push(method(:writeSpeed), [], method(:onWriteSpeed), []);
+            } else {
+                self._operations.push(method(:readSpeed), [], method(:onReadSpeed), []);
+            }
+            self._operations.callTop([]);
+        }
+        Ui.requestUpdate();
     }
 
     function stop() {
@@ -241,18 +293,40 @@ class DeviceDataController {
     }
 
     function readSpeed() {
-        var char = self._service.getCharacteristic(self._app.getProfile().ATOM_FAST_CONFIG_CHAR);
-        if(char) {
-            //var data = [0xE0, val, 0, 0, 0, 0, 0, 0]b;
-            char.requestRead();
+        if(self._writeSpeedRequested == SEARCH_UNKNOWN) {
+            var char = self._service.getCharacteristic(self._app.getProfile().ATOM_FAST_CONFIG_CHAR);
+            if(char) {
+                char.requestRead();
+            }
+        } else {
+            System.println("Not needed. Speed is about to change");
+            self._operations.pop();
+            self._operations.callTop([]);
         }
     }
 
-    function updateScanSpeed(value) {
+    function onReadSpeed(characteristic, status, value) {
         if(value.size() >=4) {
             self._searchSpeed = (value[3] >> 5) & 3;
             System.println(self._searchSpeed.toString());
         }
+        return true;
+    }
+
+    function writeSpeed() {
+        var val = self._writeSpeedRequested;
+        var char = self._service.getCharacteristic(self._app.getProfile().ATOM_FAST_CONFIG_CHAR);
+        if(char) {
+            var data = [0xE0, val, 0, 0, 0, 0, 0, 0]b;
+            char.requestWrite(data, {:writeType => Ble.WRITE_TYPE_WITH_RESPONSE});
+        }
+    }
+
+    function onWriteSpeed(characteristic, status) {
+        self._searchSpeed = self._writeSpeedRequested;
+        self._writeSpeedRequested = SEARCH_UNKNOWN;
+        System.println("Speed saved. " + status.toString());
+        return true;
     }
 
     function readThreashold(id) {
@@ -265,21 +339,13 @@ class DeviceDataController {
         }
     }
 
-    function getReady() {
-        return self._ready;
+    function threasholdReady(characteristic, status, value, id) {
+        self._dataModel.updateThreashold(id, value);
+        return true;
     }
 
-    function getService(device) {
-        self._service = device.getService(self._app.getProfile().ATOM_FAST_SERVICE);
-        if(null != self._service) {
-            var char = self._service.getCharacteristic(self._app.getProfile().ATOM_FAST_CHAR);
-            if(char) {
-                self._pendingNotifies = self._pendingNotifies.add(char);
-                self._ready = true;
-                self._dataModel.resetTimer();
-                self.storeLastDevice();
-            }
-        }
+    function getReady() {
+        return self._ready;
     }
 
     private function storeLastDevice() {
@@ -290,47 +356,48 @@ class DeviceDataController {
         }
     }
 
-    private function activateNextNotification() {
-        if( self._pendingNotifies.size() == 0 ) {
-            return;
+    /// On Connect
+    function onConnectedStateChanged(device, state) {
+        System.println("On Connect " + state.toString());
+        if(device != self._device) {
+
+        } else if (!self._device.isConnected()) {
+            self._ready = false;
+        } else {
+            self.reinit();
         }
-        var char = _pendingNotifies[0];
-        var cccd = char.getDescriptor(Ble.cccdUuid());
-        cccd.requestWrite([0x01, 0x00]b);
     }
 
+    /// Descriptop Write request
     function onDescriptorWrite(descriptor, status) {
+        System.println("onDescriptorWrite " + self._operations.size());
         if(Ble.cccdUuid().equals(descriptor.getUuid())) {
-            self.readThreashold(0);
+            if(self._operations.callbackTop([descriptor, status])) {
+                self._operations.pop();
+                self._operations.callTop([]);
+            }
         }
     }
 
+    // Write request
     function onCharacteristicWrite(characteristic, status) {
-        System.println("Write " + characteristic.toString() + " " + status.toString());
+        System.println("onCharacteristicWrite " + self._operations.size());
+        if(self._operations.callbackTop([characteristic, status])) {
+            self._operations.pop();
+            self._operations.callTop([]);
+        }
     }
 
+    // read request
     function onCharacteristicRead(characteristic, status, value) {
+        System.println("onCharacteristicRead " + characteristic.toString());
         if(status != Ble.STATUS_SUCCESS || null == value) {
             System.println("Failed to read " + characteristic.toString());
             return;
         }
-        var th = self._app.getProfile().THRESHOLDS;
-        switch(characteristic.getUuid()) {
-        case th[0]:
-            self._dataModel.updateThreashold(0, value);
-            self.readThreashold(1);
-            break;
-        case th[1]:
-            self._dataModel.updateThreashold(1, value);
-            self.readThreashold(2);
-            break;
-        case th[2]:
-            self._dataModel.updateThreashold(2, value);
-            self.readSpeed();
-            break;
-        case self._app.getProfile().ATOM_FAST_CONFIG_CHAR:
-            self.updateScanSpeed(value);
-            break;
+        if(self._operations.callbackTop([characteristic, status, value])) {
+            self._operations.pop();
+            self._operations.callTop([]);
         }
     }
 
