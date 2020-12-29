@@ -46,7 +46,7 @@ class OperationsQueue {
             var top = self._queue[0][1];
             return self.invoke(top[POSITION_CALL], top[POSITION_PARAMS], params);
         } else {
-            System.println("callbackTop is emprty");
+            System.println("callbacks are empty");
         }
         return null;
     }

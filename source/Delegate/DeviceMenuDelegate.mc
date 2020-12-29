@@ -18,8 +18,8 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
         }
     }
 
-    function onDone() {
-        if(null != self._deviceController && self._initSearchSpeed != self._currentSearchSpeed) {
+    function onDone(store) {
+        if(store && null != self._deviceController && self._initSearchSpeed != self._currentSearchSpeed) {
             self._deviceController.setSearchSpeed(self._currentSearchSpeed);
         }
         Ui.popView(Ui.SLIDE_DOWN);
@@ -27,7 +27,7 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
     }
 
     function onBack() {
-        return onDone();
+        return onDone(false);
     }
 
     function onSelect(item) {
@@ -65,7 +65,7 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
             }
             break;
         case "ItemDone":
-            self.onDone();
+            self.onDone(true);
             break;
         }
     }
