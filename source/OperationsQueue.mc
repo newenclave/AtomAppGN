@@ -3,27 +3,38 @@
 class OperationsQueue {
 
     private var _queue;
+    enum {
+        POSITION_CALL = 0,
+        POSITION_PARAMS = 1
+    }
 
     function initialize() {
         self._queue = [];
     }
 
     function push(call, callParams, callback, callbackParams) {
-        self._queue.add([{
-            :call => call,
-            :params => callParams
-        }, {
-            :call => callback,
-            :params => callbackParams
-        }]);
+        self._queue.add([
+            [call, callParams],
+            [callback, callbackParams]
+        ]);
         return self.size() - 1;
     }
 
-    function callTop(params) {
+    function pushAndStart(call, callParams, callback, callbackParams) {
+        if(self.push(call, callParams, callback, callbackParams) == 0) {
+            System.println("Starting Queue!");
+            self.callTop();
+        }
+    }
+
+    function start() {
+        self.callTop();
+    }
+
+    function callTop() {
         if(self.size() > 0) {
             var top = self._queue[0][0];
-            params.addAll(top.get(:params));
-            return self.invoke(top.get(:call), params);
+            return self.invokeCall(top[POSITION_CALL], top[POSITION_PARAMS]);
         } else {
             System.println("callTop is emprty");
         }
@@ -33,8 +44,7 @@ class OperationsQueue {
     function callbackTop(params) {
         if(self.size() > 0) {
             var top = self._queue[0][1];
-            params.addAll(top.get(:params));
-            return self.invoke(top.get(:call), params);
+            return self.invoke(top[POSITION_CALL], top[POSITION_PARAMS], params);
         } else {
             System.println("callbackTop is emprty");
         }
@@ -50,10 +60,16 @@ class OperationsQueue {
     }
 
     function clear() {
-
+        self._queue = [];
     }
 
-    function invoke(meth, params) {
+    function invokeCall(meth, params) {
+        return meth.invoke(params);
+    }
+
+    function invoke(meth, params, passed) {
+        return meth.invoke(params, passed);
+/*
         switch(params.size()) {
         case 0:
             return meth.invoke();
@@ -78,6 +94,7 @@ class OperationsQueue {
             System.println("Invalid params count " + params.size().toString());
         }
         return null;
+*/
     }
 }
 

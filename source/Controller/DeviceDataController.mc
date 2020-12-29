@@ -12,16 +12,9 @@ class DeviceDataController {
     private var _ready;
     private var _posProvider;
     private var _alerts;
-    private var _searchSpeed;
     private var _operations;
-    private var _writeSpeedRequested;
-
-    enum {
-        SEARCH_UNKNOWN = -1,
-        SEARCH_FAST = 0,
-        SEARCH_MEDIUM = 1,
-        SEARCH_SLOW = 2,
-    }
+    private var _charSearchSpeed;
+    private var _charThreasholds;
 
     function initialize(app, scanResult) {
         self._app = app;
@@ -29,27 +22,25 @@ class DeviceDataController {
         self._scanResult = scanResult;
         self._posProvider = new PositionProvider();
         self._alerts = new AlertsProvider();
-        self._searchSpeed = SEARCH_MEDIUM;
         self._operations = new OperationsQueue();
-        self._writeSpeedRequested = SEARCH_UNKNOWN;
+        self._charSearchSpeed = new CharacteristicSearchSpeed(
+                                            self._operations, self,
+                                            self._app.getProfile().ATOM_FAST_CONFIG_CHAR);
+        self._charThreasholds = new CharacteristicThresholds(self._operations, self, [
+                                    self._app.getProfile().ATOM_FAST_THRESHOSD1,
+                                    self._app.getProfile().ATOM_FAST_THRESHOSD2,
+                                    self._app.getProfile().ATOM_FAST_THRESHOSD3
+                                ]);
         self.start();
     }
 
     /// Get data values
     function getSearchSpeed() {
-        return self._searchSpeed;
+        return self._charSearchSpeed.getValue();
     }
 
     function setSearchSpeed(val) {
-        System.println("Set Speed " + val.toString());
-        var oldVar = self._writeSpeedRequested;
-        self._writeSpeedRequested = val;
-        if(oldVar == SEARCH_UNKNOWN && self._ready) {
-            System.println(self._operations.size());
-            if(0 == self._operations.push(method(:writeSpeed), [], method(:onWriteSpeed), [])) {
-                self._operations.callTop([]);
-            }
-        }
+        self._charSearchSpeed.writeSpeed(val);
     }
 
     function getDoseAccumulated() {
@@ -73,20 +64,28 @@ class DeviceDataController {
     }
 
     function getThreshold(id) {
-        return self._dataModel.thresholds[id].threshold * self.getDoseFactor();
+        return self._charThreasholds.getValue(id).threshold * self.getDoseFactor();
     }
 
     function isThresholdUpdated(id) {
-        return self._dataModel.thresholds[id].updated;
+        return self._charThreasholds.getValue(id).updated;
     }
 
     function getThresholdAccumulated(id) {
-        return self._dataModel.thresholds[id].thresholdAccumulated * self.getDoseFactor();
+        return self._charThreasholds.getValue(id).thresholdAccumulated * self.getDoseFactor();
     }
 
     ///////////////////
     function getProperty(name, defaultValue) {
         return self.getProperties().getProperty(name, defaultValue);
+    }
+
+    function getBleService() {
+        return self._service;
+    }
+
+    function getQueue() {
+        return self._operations;
     }
 
     function setProperty(name, value) {
@@ -134,7 +133,7 @@ class DeviceDataController {
     }
 
     function checkAlerts() {
-        var ths = self._dataModel.thresholds;
+        var ths = self._charThreasholds.getValues();
         for(var i=2; i >= 0; i--) {
             if(ths[i].updated
                 && self.getProperties().getAlertVibroL(i)
@@ -146,7 +145,7 @@ class DeviceDataController {
     }
 
     function getDoseAccumelatedThreshold() {
-        var ths = self._dataModel.thresholds;
+        var ths = self._charThreasholds.getValues();
         for(var i=2; i >= 0; i--) {
             if(ths[i].updated && (self._dataModel.doseAccumulated > ths[i].thresholdAccumulated)) {
                 return i;
@@ -156,7 +155,7 @@ class DeviceDataController {
     }
 
     function getDoseThreshold() {
-        var ths = self._dataModel.thresholds;
+        var ths = self._charThreasholds.getValues();
         for(var i=2; i >= 0; i--) {
             if(ths[i].updated && (self._dataModel.doseRate > ths[i].threshold)) {
                 return i;
@@ -235,7 +234,7 @@ class DeviceDataController {
         }
     }
 
-    function activateNextNotification() {
+    function activateNextNotification(param) {
         System.println("Notifications activate");
         if(null == self._service) {
             System.println("NULL service!");
@@ -249,7 +248,7 @@ class DeviceDataController {
         }
     }
 
-    function notificationsReady(descriptor, status) {
+    function notificationsReady(passed, callbackParams) {
         System.println("Notifications ready");
         self._ready = true;
         self._dataModel.resetTimer();
@@ -271,15 +270,9 @@ class DeviceDataController {
         self._operations.clear();
         if(self.getService(self._device)) {
             self._operations.push(method(:activateNextNotification), [], method(:notificationsReady), []);
-            self._operations.push(method(:readThreashold), [0], method(:threasholdReady), [0]);
-            self._operations.push(method(:readThreashold), [1], method(:threasholdReady), [1]);
-            self._operations.push(method(:readThreashold), [2], method(:threasholdReady), [2]);
-            if(self._writeSpeedRequested != SEARCH_UNKNOWN) {
-                self._operations.push(method(:writeSpeed), [], method(:onWriteSpeed), []);
-            } else {
-                self._operations.push(method(:readSpeed), [], method(:onReadSpeed), []);
-            }
-            self._operations.callTop([]);
+            self._operations.callTop();
+            self._charThreasholds.updateAll();
+            self._charSearchSpeed.readSpeed();
         }
         Ui.requestUpdate();
     }
@@ -290,58 +283,6 @@ class DeviceDataController {
             self._device = null;
             self.stopActivityWrite();
         }
-    }
-
-    function readSpeed() {
-        if(self._writeSpeedRequested == SEARCH_UNKNOWN) {
-            var char = self._service.getCharacteristic(self._app.getProfile().ATOM_FAST_CONFIG_CHAR);
-            if(char) {
-                char.requestRead();
-            }
-        } else {
-            System.println("Not needed. Speed is about to change");
-            self._operations.pop();
-            self._operations.callTop([]);
-        }
-    }
-
-    function onReadSpeed(characteristic, status, value) {
-        if(value.size() >=4) {
-            self._searchSpeed = (value[3] >> 5) & 3;
-            System.println(self._searchSpeed.toString());
-        }
-        return true;
-    }
-
-    function writeSpeed() {
-        var val = self._writeSpeedRequested;
-        var char = self._service.getCharacteristic(self._app.getProfile().ATOM_FAST_CONFIG_CHAR);
-        if(char) {
-            var data = [0xE0, val, 0, 0, 0, 0, 0, 0]b;
-            char.requestWrite(data, {:writeType => Ble.WRITE_TYPE_WITH_RESPONSE});
-        }
-    }
-
-    function onWriteSpeed(characteristic, status) {
-        self._searchSpeed = self._writeSpeedRequested;
-        self._writeSpeedRequested = SEARCH_UNKNOWN;
-        System.println("Speed saved. " + status.toString());
-        return true;
-    }
-
-    function readThreashold(id) {
-        var uuid = self._app.getProfile().THRESHOLDS[id];
-        var char = self._service.getCharacteristic(uuid);
-        if(char) {
-            char.requestRead();
-        } else {
-            System.println("Bad chararteristic. " + uuid.toString());
-        }
-    }
-
-    function threasholdReady(characteristic, status, value, id) {
-        self._dataModel.updateThreashold(id, value);
-        return true;
     }
 
     function getReady() {
@@ -374,7 +315,7 @@ class DeviceDataController {
         if(Ble.cccdUuid().equals(descriptor.getUuid())) {
             if(self._operations.callbackTop([descriptor, status])) {
                 self._operations.pop();
-                self._operations.callTop([]);
+                self._operations.callTop();
             }
         }
     }
@@ -384,7 +325,7 @@ class DeviceDataController {
         System.println("onCharacteristicWrite " + self._operations.size());
         if(self._operations.callbackTop([characteristic, status])) {
             self._operations.pop();
-            self._operations.callTop([]);
+            self._operations.callTop();
         }
     }
 
@@ -397,7 +338,7 @@ class DeviceDataController {
         }
         if(self._operations.callbackTop([characteristic, status, value])) {
             self._operations.pop();
-            self._operations.callTop([]);
+            self._operations.callTop();
         }
     }
 

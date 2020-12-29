@@ -9,7 +9,6 @@ class DeviceDataModel {
     (:property) var impulses = 0;
     (:property) var charge = 0;
     (:property) var temperature = 0;
-    (:property) var thresholds = [];
 
     private var _startTime;
     private var _impulsesTotal;
@@ -17,21 +16,6 @@ class DeviceDataModel {
     function initialize() {
         self._startTime = System.getTimer();
         self._impulsesTotal = 0;
-        self.thresholds = [
-            new ThresholdModel(0),
-            new ThresholdModel(1),
-            new ThresholdModel(2),
-        ];
-    }
-
-    public function updateThreashold(index, value) {
-        if(index >= 0 && index < 3) {
-            self.thresholds[index].update(value);
-        } else {
-            System.println("Got invalid index value "
-                + index.toString()
-                + " while updating thresholds");
-        }
     }
 
     public function update(value) {
