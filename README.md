@@ -1,5 +1,5 @@
 # AtomAppGN
-Atom Fast dosimeter application for Garmin devices. [Garmin IQ store](https://apps.garmin.com/en-US/apps/e769b70b-b5a2-4534-8a7a-a83131b54152) (waiting for approval 27.12.2020)
+Atom Fast dosimeter application for Garmin devices. [Garmin IQ store](https://apps.garmin.com/en-US/apps/e769b70b-b5a2-4534-8a7a-a83131b54152)
 
 ![Fenix 5 Plus view](docs/ScreenShot.png)
 
