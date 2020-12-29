@@ -24,13 +24,13 @@ class DeviceDataController {
         self._alerts = new AlertsProvider();
         self._operations = new OperationsQueue();
         self._charSearchSpeed = new CharacteristicSearchSpeed(
-                                            self._operations, self,
-                                            self._app.getProfile().ATOM_FAST_CONFIG_CHAR);
+                                        self._operations, self,
+                                        self._app.getProfile().ATOM_FAST_CONFIG_CHAR);
         self._charThreasholds = new CharacteristicThresholds(self._operations, self, [
-                                    self._app.getProfile().ATOM_FAST_THRESHOSD1,
-                                    self._app.getProfile().ATOM_FAST_THRESHOSD2,
-                                    self._app.getProfile().ATOM_FAST_THRESHOSD3
-                                ]);
+                                        self._app.getProfile().ATOM_FAST_THRESHOSD1,
+                                        self._app.getProfile().ATOM_FAST_THRESHOSD2,
+                                        self._app.getProfile().ATOM_FAST_THRESHOSD3
+                                    ]);
         self.start();
     }
 
@@ -186,7 +186,9 @@ class DeviceDataController {
 
     /////////
     function getService(device) {
+        System.println("Start " + System.getTimer());
         self._service = device.getService(self._app.getProfile().ATOM_FAST_SERVICE);
+        System.println("Stop " + System.getTimer());
         if(null == self._service) {
             System.println("Unable to get service");
             return false;

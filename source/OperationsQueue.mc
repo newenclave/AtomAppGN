@@ -36,7 +36,7 @@ class OperationsQueue {
             var top = self._queue[0][0];
             return self.invokeCall(top[POSITION_CALL], top[POSITION_PARAMS]);
         } else {
-            System.println("callTop is emprty");
+            System.println("queue is emprty");
         }
         return null;
     }

@@ -40,6 +40,11 @@ class AtomAppGNApp extends Application.AppBase {
 
     function onStop(state) {
         self._position.disable();
+        self._propertiesProvider = null;
+        self._position = null;
+        self._atomFastProfile = null;
+        self._bleDelegate = null;
+        self._viewController = null;
     }
 
     function getPropertiesProvider() {

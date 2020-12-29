@@ -48,7 +48,7 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
         var detailsView = new DeviceDetailsView(
                 self._deviceDataController,
                 self._app.getPropertiesProvider());
-        Ui.pushView(detailsView, new DeviceDetailsDelegate(self._app), Ui.SLIDE_UP);
+        Ui.pushView(detailsView, new DeviceDetailsDelegate(self._app, self._deviceDataController), Ui.SLIDE_UP);
         return true;
     }
 }

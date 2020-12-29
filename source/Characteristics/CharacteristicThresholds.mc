@@ -2,14 +2,12 @@ using Toybox.BluetoothLowEnergy as Ble;
 
 class CharacteristicThresholds extends CharacteristicIface {
 
-    private var _controller;
     private var _values;
     private var _writeSpeedRequest;
     private var _uuids;
 
     function initialize(queue, controller, uuids) {
-        CharacteristicIface.initialize(queue);
-        self._controller = controller.weak();
+        CharacteristicIface.initialize(queue, controller);
         self._values = [
             new ThresholdModel(0),
             new ThresholdModel(1),
@@ -32,26 +30,9 @@ class CharacteristicThresholds extends CharacteristicIface {
         return self._values;
     }
 
-    private function getServie() {
-        if(self._controller.stillAlive()) {
-            return self._controller.get().getBleService();
-        } else {
-            return null;
-        }
-    }
-
     function readImpl(param) {
         var id = param[0];
-        var service = getServie();
-        if(null != service) {
-            var uuid = self._uuids[id];
-            var char = service.getCharacteristic(uuid);
-            if(char) {
-                char.requestRead();
-                return true;
-            }
-        }
-        return false;
+        return self.readData(self._uuids[id]);
     }
 
     function onReadImpl(param, bleParams) {

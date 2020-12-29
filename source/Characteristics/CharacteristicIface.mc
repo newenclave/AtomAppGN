@@ -1,3 +1,4 @@
+using Toybox.BluetoothLowEnergy as Ble;
 
 class CharacteristicIface {
 
@@ -9,11 +10,45 @@ class CharacteristicIface {
     }
 
     protected var _queue;
+    protected var _controller;
     protected var _state;
 
-    function initialize(queue) {
+    function initialize(queue, controller) {
         self._queue = queue;
+        self._controller = controller.weak();
         self._state = STATE_UNKNOWN;
+    }
+
+    protected function getServie() {
+        if(self._controller.stillAlive()) {
+            return self._controller.get().getBleService();
+        } else {
+            return null;
+        }
+    }
+
+    protected function readData(uuid) {
+        var service = self.getServie();
+        if(null != service) {
+            var char = service.getCharacteristic(uuid);
+            if(char) {
+                char.requestRead();
+                return true;
+            }
+        }
+        return false;
+    }
+
+    protected function writeData(uuid, data) {
+        var service = self.getServie();
+        if(null != service) {
+            var char = service.getCharacteristic(uuid);
+            if(char) {
+                char.requestWrite(data, {:writeType => Ble.WRITE_TYPE_DEFAULT});
+                return true;
+            }
+        }
+        return false;
     }
 
     function writeImpl(param) {

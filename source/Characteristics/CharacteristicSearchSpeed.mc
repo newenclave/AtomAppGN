@@ -2,14 +2,12 @@ using Toybox.BluetoothLowEnergy as Ble;
 
 class CharacteristicSearchSpeed extends CharacteristicIface {
 
-    private var _controller;
     private var _currentValue;
     private var _writeSpeedRequest;
     private var _uuid;
 
     function initialize(queue, controller, uuid) {
-        CharacteristicIface.initialize(queue);
-        self._controller = controller.weak();
+        CharacteristicIface.initialize(queue, controller);
         self._currentValue = 1;
         self._writeSpeedRequest = -1;
         self._uuid = uuid;
@@ -51,16 +49,8 @@ class CharacteristicSearchSpeed extends CharacteristicIface {
 
     function writeImpl(param) {
         var val = self._writeSpeedRequest;
-        var service = self.getServie();
-        if(null != service) {
-            var char = service.getCharacteristic(self._uuid);
-            if(char) {
-                var data = [0xE0, val, 0, 0, 0, 0, 0, 0]b;
-                char.requestWrite(data, {:writeType => Ble.WRITE_TYPE_DEFAULT});
-                return true;
-            }
-        }
-        return false;
+        var data = [0xE0, val, 0, 0, 0, 0, 0, 0]b;
+        return self.writeData(self._uuid, data);
     }
 
     function onWriteImpl(param, bleParams) {
@@ -71,15 +61,7 @@ class CharacteristicSearchSpeed extends CharacteristicIface {
     }
 
     function readImpl(param) {
-        var service = self.getServie();
-        if(null != service) {
-            var char = self.getServie().getCharacteristic(self._uuid);
-            if(char) {
-                char.requestRead();
-                return true;
-            }
-        }
-        return false;
+        return self.readData(self._uuid);
     }
 
     function onReadImpl(param, bleParams) {
