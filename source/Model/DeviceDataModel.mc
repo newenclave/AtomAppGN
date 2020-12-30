@@ -11,10 +11,12 @@ class DeviceDataModel {
     (:property) var temperature = 0;
 
     private var _startTime;
+    private var _sessionTime;
     private var _impulsesTotal;
 
     function initialize() {
         self._startTime = System.getTimer();
+        self._sessionTime = System.getTimer();
         self._impulsesTotal = 0;
     }
 
@@ -38,7 +40,7 @@ class DeviceDataModel {
     }
 
     public function getMeasuringTime() {
-        return System.getTimer() - self._startTime;
+        return System.getTimer() - self._sessionTime;
     }
 
     public function resetTimer() {

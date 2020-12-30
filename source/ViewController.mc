@@ -35,11 +35,11 @@ class ViewController {
             )
         );
 
-        menu.addItem(
-            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_reset),
-                "", "ItemReset", {}
-            )
-        );
+//        menu.addItem(
+//            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_reset),
+//                "", "ItemReset", {}
+//            )
+//        );
 
         menu.addItem(
             new Ui.MenuItem(App.loadResource(Rez.Strings.menu_about),
