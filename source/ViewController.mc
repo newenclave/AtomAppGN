@@ -35,6 +35,13 @@ class ViewController {
             )
         );
 
+        menu.addItem(
+            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_vew_settings),
+                "", "ItemViewSettings", {}
+            )
+        );
+
+
 //        menu.addItem(
 //            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_reset),
 //                "", "ItemReset", {}
@@ -98,6 +105,7 @@ class ViewController {
         var useFahrenheit = App.getApp().getPropertiesProvider().getUseFahrenheit();
         var useCPS = App.getApp().getPropertiesProvider().getUseCPS();
         var writeActivity = App.getApp().getPropertiesProvider().getWriteActivity();
+        var themeUsed = App.getApp().getThemeName();
 
         menu.addItem(new Ui.ToggleMenuItem(
             Application.loadResource(Rez.Strings.menu_dose_units),
@@ -162,6 +170,14 @@ class ViewController {
                 )
             );
         }
+
+        menu.addItem(
+            new Ui.MenuItem(
+                App.loadResource(Rez.Strings.menu_use_theme),
+                themeUsed,
+                "ItemUseTheme", {}
+            )
+        );
 
         menu.addItem(
             new Ui.MenuItem(App.loadResource(Rez.Strings.menu_dev_config_done),

@@ -9,6 +9,7 @@ class AtomAppGNApp extends Application.AppBase {
     private var _atomFastProfile;
     private var _bleDelegate;
     private var _viewController;
+    private var _theme;
 
     function initialize() {
         AppBase.initialize();
@@ -18,9 +19,30 @@ class AtomAppGNApp extends Application.AppBase {
         self._atomFastProfile = new AtomFastProfile();
         self._viewController = new ViewController();
         self._bleDelegate = new BleDelegate();
+        self._theme = new ThemeController();
 
         Ble.registerProfile(self._atomFastProfile.getProfile());
         Ble.setDelegate(self._bleDelegate);
+    }
+
+    function getTheme() {
+        return self._theme.getCurrent();
+    }
+
+    function reloadTheme() {
+        return self._theme.reload();
+    }
+
+    function getAllThemes() {
+        return self._theme.getThemes();
+    }
+
+    function getThemeName() {
+        return self._theme.getCurrentName();
+    }
+
+    function getThemeId() {
+        return self._theme.getCurrentIdName();
     }
 
     function getInitialView() {

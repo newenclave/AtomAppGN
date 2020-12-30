@@ -1,6 +1,7 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
 using Toybox.BluetoothLowEnergy as Ble;
+using Toybox.Application as App;
 
 class ScanDataView extends Ui.View {
 
@@ -23,31 +24,53 @@ class ScanDataView extends Ui.View {
     }
 
     function onUpdate(dc) {
-        self.drawCount(dc);
-        self.drawCurrent(dc);
-        View.onUpdate(dc);
+        var theme = App.getApp().getTheme();
+        self.drawBg(dc, theme);
+        self.drawCount(dc, theme);
+        self.drawCurrent(dc, theme);
+        //View.onUpdate(dc);
     }
 
-    function drawCurrent(dc) {
+    function drawCurrent(dc, theme) {
         var model = self._scanDataController.getModel();
         var size = model.getSize();
-        dc.setColor(Gfx.COLOR_WHITE, Gfx.COLOR_BLACK);
 
         if(size > 0) {
             var name = model.getCur().getDeviceName();
             var rssi = model.getCur().getRssi();
 
-            Ui.View.findDrawableById("ScanViewLabelDeviceName").setText((name ? name : "Atom Fast"));
-            Ui.View.findDrawableById("ScanViewLabelDeviceDetail1").setText("rssi: " + rssi.toString());
+            var devNameLabel = Ui.View.findDrawableById("ScanViewLabelDeviceName");
+            var devdetailLabel = Ui.View.findDrawableById("ScanViewLabelDeviceDetail1");
+
+            devNameLabel.setColor(theme.COLOR_LIGHT);
+            devdetailLabel.setColor(theme.COLOR_DARK);
+            devNameLabel.setText((name ? name : "Atom Fast"));
+            devdetailLabel.setText("rssi: " + rssi.toString());
+            devNameLabel.draw(dc);
+            devdetailLabel.draw(dc);
+
         } else {
-            Ui.View.findDrawableById("ScanViewLabelDeviceName").setText(Application.loadResource(Rez.Strings.text_scanning));
+            var label = Ui.View.findDrawableById("ScanViewLabelDeviceName");
+            label.setColor(theme.COLOR_LIGHT);
+            label.setText(Application.loadResource(Rez.Strings.text_scanning));
+            label.draw(dc);
         }
     }
 
-    function drawCount(dc) {
+    function drawCount(dc, theme) {
         var size = self._scanDataController.getModel().getSize();
         var count = (size > 0) ? (self._scanDataController.getModel().getIndex() + 1) : 0;
         var text = count.toString() + "/" + size.toString();
-        Ui.View.findDrawableById("ScanViewLabelCounter").setText(text);
+        var label = Ui.View.findDrawableById("ScanViewLabelCounter");
+        label.setText(text);
+        label.setColor(theme.COLOR_LIGHT);
+        label.draw(dc);
     }
+
+    function drawBg(dc, theme) {
+        dc.setColor(theme.COLOR_BACKGROUND, theme.COLOR_FOREGROUND);
+        dc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight());
+        dc.setColor(theme.COLOR_FOREGROUND, theme.COLOR_BACKGROUND);
+    }
+
 }

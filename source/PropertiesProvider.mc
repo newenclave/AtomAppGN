@@ -7,6 +7,7 @@ class PropertiesProvider {
     private const PROPERTY_USE_CPS = "use_CPS";
     private const WRITE_ACTIVITY = "write_activity";
     private const USE_ACTIVITY_LOCATION = "use_activity_location";
+    private const USE_THEME = "use_theme";
 
     private const ALERT_VIBRO_L = [
         "alert_vibro_L1",
@@ -16,6 +17,14 @@ class PropertiesProvider {
 
     function initialize() {
 
+    }
+
+    function getThemeUsed() {
+        return self.getProperty(USE_THEME, "dark");
+    }
+
+    function setThemeUsed(value) {
+        return self.setProperty(USE_THEME, value);
     }
 
     function getAlertVibroL(id) {

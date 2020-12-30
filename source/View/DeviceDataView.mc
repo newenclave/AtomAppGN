@@ -3,7 +3,7 @@ using Toybox.Graphics as Gfx;
 using Toybox.BluetoothLowEnergy as Ble;
 using Toybox.Timer;
 
-class DeviceDataView extends Ui.View {
+class DeviceDataView extends BaseView {
 
     const THRESHOLDS_COLORS = [
         Gfx.COLOR_YELLOW,
@@ -12,9 +12,10 @@ class DeviceDataView extends Ui.View {
     ];
 
     private var _deviceDataController;
+    private var _theme;
 
     function initialize(deviceDataController) {
-        View.initialize();
+        BaseView.initialize();
         self._deviceDataController = deviceDataController;
     }
 
@@ -38,24 +39,32 @@ class DeviceDataView extends Ui.View {
     }
 
     function onUpdate(dc) {
+        self._theme = self.getTheme();
+        THRESHOLDS_COLORS[0] = self._theme.COLOR_ABOVE_NORMAL;
+        THRESHOLDS_COLORS[1] = self._theme.COLOR_WARNING;
+        THRESHOLDS_COLORS[2] = self._theme.COLOR_DANGER;
         dc.clear();
         var ready = self._deviceDataController.getReady();
+        self.drawBg(dc);
         self.drawWorkingTime(dc, ready);
         self.drawDoseRate(dc);
         self.drawCPM(dc);
         self.drawDoseAccumulated(dc);
-        self.drawTemperature();
-        View.onUpdate(dc);
-
+        self.drawTemperature(dc);
+        //View.onUpdate(dc);
+//
         if(ready) {
             self.drawBattery(dc);
         }
     }
 
-    function drawTemperature() {
+    function drawTemperature(dc) {
         var value = self._deviceDataController.getTemperature();
         var txt = self._deviceDataController.getTemperatureUnitsString();
-        Ui.View.findDrawableById("DeviceViewLabelTemperature").setText(value + txt);
+        var label = self.findDrawable("DeviceViewLabelTemperature");
+        label.setText(value + txt);
+        label.setColor(_theme.COLOR_DARK);
+        label.draw(dc);
     }
 
     private function drawConnecting() {
@@ -65,8 +74,9 @@ class DeviceDataView extends Ui.View {
 
     private function drawDoseRate(dc) {
         var dosePw = self._deviceDataController.getDoseRate();
-        var labelPw = Ui.View.findDrawableById("DeviceViewLabelDoseRate");
-        var color = Gfx.COLOR_GREEN;
+        var labelPw = self.findDrawable("DeviceViewLabelDoseRate");
+
+        var color = _theme.COLOR_NORMAL;
         var th = self._deviceDataController.getDoseThreshold();
         if(th >= 0) {
             color = THRESHOLDS_COLORS[th];
@@ -74,33 +84,39 @@ class DeviceDataView extends Ui.View {
         labelPw.setColor(color);
         var doseRateText = dosePw.format("%.2f");
         labelPw.setText(doseRateText);
-        Ui.View.findDrawableById("DeviceViewLabelDoseUnits")
-               .setText(self._deviceDataController.getDoseHoursUnitString());
+        var du = self.findDrawable("DeviceViewLabelDoseUnits");
+        du.setText(self._deviceDataController.getDoseHoursUnitString());
+        du.setColor(_theme.COLOR_DARK);
+        du.draw(dc);
+        labelPw.draw(dc);
     }
 
     private function drawDoseAccumulated(dc) {
         var label = Ui.View.findDrawableById("DeviceViewLabelDoseAcc");
         var accDose = self._deviceDataController.getDoseAccumulated();
-        var color = Gfx.COLOR_WHITE;
+        var color = _theme.COLOR_FOREGROUND;
         var th = self._deviceDataController.getDoseAccumelatedThreshold();
         if(th >= 0) {
             color = THRESHOLDS_COLORS[th];
         }
         label.setColor(color);
         label.setText(accDose.format("%.4f"));
+        label.draw(dc);
     }
 
     private function drawCPM(dc) {
         var useCPS = Application.getApp().getPropertiesProvider().getUseCPS();
+        var label = self.findDrawable("DeviceViewLabelCPM");
+        var text = "";
         if(useCPS) {
-            var text = Application.loadResource(Rez.Strings.text_CPS)
+            text = Application.loadResource(Rez.Strings.text_CPS)
                      + " " + self._deviceDataController.getCPS().toString();
-            Ui.View.findDrawableById("DeviceViewLabelCPM").setText(text);
         } else {
-            var text = Application.loadResource(Rez.Strings.text_CPM)
+            text = Application.loadResource(Rez.Strings.text_CPM)
                      + " " + self._deviceDataController.getCPM().toString();
-            Ui.View.findDrawableById("DeviceViewLabelCPM").setText(text);
         }
+        label.setText(text);
+        label.draw(dc);
     }
 
     private function drawWorkingTime(dc, connected) {
@@ -117,10 +133,15 @@ class DeviceDataView extends Ui.View {
         var dateString = today.hour.format("%02d")
                     + ":" + today.min.format("%02d");
 
-        Ui.View.findDrawableById("DeviceViewLabelTime").setText(dateString);
+        var label = self.findDrawable("DeviceViewLabelTime");
+        var sessionLabel = self.findDrawable("DeviceViewLabelSessionTime");
+        label.setText(dateString);
+        label.draw(dc);
         if(connected) {
-            Ui.View.findDrawableById("DeviceViewLabelSessionTime").setText(text);
+            sessionLabel.setText(text);
         }
+        sessionLabel.setColor(_theme.COLOR_DARK);
+        sessionLabel.draw(dc);
     }
 
     private function drawBattery(dc) {
@@ -133,11 +154,11 @@ class DeviceDataView extends Ui.View {
         var charge = self._deviceDataController.getCharge();
 
          if(charge < 15) {
-            dc.setColor(Graphics.COLOR_RED, Graphics.COLOR_BLACK);
+            dc.setColor(_theme.COLOR_DANGER, _theme.COLOR_BACKGROUND);
         } else if (charge < 30) {
-            dc.setColor(Graphics.COLOR_YELLOW, Graphics.COLOR_BLACK);
+            dc.setColor(_theme.COLOR_ABOVE_NORMAL, _theme.COLOR_BACKGROUND);
         } else {
-            dc.setColor(Graphics.COLOR_GREEN, Graphics.COLOR_BLACK);
+            dc.setColor(Graphics.COLOR_NORMAL, _theme.COLOR_BACKGROUND);
         }
 
         dc.drawRectangle(posX, posY, width, height);
@@ -146,5 +167,4 @@ class DeviceDataView extends Ui.View {
             dc.drawText(posX + width + 5, posY, Graphics.FONT_SMALL, "⚡", Graphics.TEXT_JUSTIFY_LEFT);
         }
     }
-
 }

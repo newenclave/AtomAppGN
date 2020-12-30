@@ -37,6 +37,16 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
             Application.loadResource(Rez.Strings.text_search_speed_slow),
         ];
 
+        var themes = App.getApp().getAllThemes();
+        var themeIdName = App.getApp().getThemeId();
+        var themeId = 0;
+        for(var i = 0; i<themes.size(); i++) {
+            if(themes[i].get(:name).equals(themeIdName)) {
+                themeId = i;
+                break;
+            }
+        }
+
         switch(item.getId()) {
         case "ItemUseRoentgen":
             if(item has :isEnabled) {
@@ -61,10 +71,16 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
         case "ItemAlertSettings":
             App.getApp().getViewController().pushAlertSettingsMenu();
             break;
+        case "ItemUseTheme":
+            themeId++;
+            item.setSubLabel(themes[themeId % themes.size()].get(:description));
+            App.getApp().getPropertiesProvider().setThemeUsed(themes[themeId % themes.size()].get(:name));
+            App.getApp().reloadTheme();
+            break;
         case "ItemSearchSpeed":
             if(self._deviceController) {
                 self._currentSearchSpeed++;
-                self._currentSearchSpeed %= 3;
+                self._currentSearchSpeed %= searchSpeedValues.size();
                 item.setSubLabel(searchSpeedValues[self._currentSearchSpeed]);
             }
             break;

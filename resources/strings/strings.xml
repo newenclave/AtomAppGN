@@ -6,6 +6,7 @@
     <string id="menu_scan">Scan</string>
     <string id="menu_use_last">Use last</string>
     <string id="menu_use_first">Use available</string>
+    <string id="menu_vew_settings">View settings</string>
     <string id="menu_reset">Reset settings</string>
     
     <string id="menu_confirm_exit">Exit?</string>

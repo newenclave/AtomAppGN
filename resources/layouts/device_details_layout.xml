@@ -4,7 +4,6 @@
  			x="50%" y="8%" 
  			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
- 			color="Graphics.COLOR_GREEN"
  			text="asda" />
 
 	<!-- L --> 	
@@ -12,42 +11,36 @@
  			x="32%" y="16%" 
  			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
- 			color="Graphics.COLOR_YELLOW"
  			text="@Strings.detail_L1" />
  			
  	<label id="DeviceDetailL1Value" 
  			x="40%" y="16%" 
  			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT" 
- 			color="Graphics.COLOR_YELLOW"
  			text = "---.--"/>
 
  	<label id="DeviceDetailL2Label" 
  			x="32%" y="24%" 
  			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
- 			color="Graphics.COLOR_ORANGE"
  			text="@Strings.detail_L2" />
  			
  	<label id="DeviceDetailL2Value" 
  			x="40%" y="24%" 
  			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT" 
- 			color="Graphics.COLOR_ORANGE"
  			text = "---.--"/>
 
  	<label id="DeviceDetailL3Label" 
  			x="32%" y="32%" 
  			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT" 
- 			color="Graphics.COLOR_RED"
  			text="@Strings.detail_L3" />
  			
  	<label id="DeviceDetailL3Value" 
  			x="40%" y="32%" 
  			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT" 
- 			color="Graphics.COLOR_RED"
  			text = "---.--"/>
 
 	<!-- D  --> 			
