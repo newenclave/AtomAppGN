@@ -3,6 +3,7 @@
         <iq:products>
             <iq:product id="fenix5plus"/>
             <iq:product id="fenix6"/>
+            <iq:product id="fenix6s"/>
             <iq:product id="fr945"/>
             <iq:product id="vivoactive4"/>
             <iq:product id="vivoactive4s"/>
