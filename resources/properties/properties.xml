@@ -3,6 +3,7 @@
 	    <property id="use_roentgen" type="boolean">false</property>
 	    <property id="use_fahrenheit" type="boolean">false</property>
 	    <property id="write_activity" type="boolean">false</property>
+	    <property id="use_CPS" type="boolean">false</property>
 	    <property id="use_activity_location" type="boolean">true</property>
 
 	    <property id="alert_vibro_L1" type="boolean">true</property>

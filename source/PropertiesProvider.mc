@@ -4,8 +4,10 @@ class PropertiesProvider {
 
     private const PROPERTY_USE_ROENTGEN = "use_roentgen";
     private const PROPERTY_USE_FAHRENHEIT = "use_fahrenheit";
+    private const PROPERTY_USE_CPS = "use_CPS";
     private const WRITE_ACTIVITY = "write_activity";
     private const USE_ACTIVITY_LOCATION = "use_activity_location";
+
     private const ALERT_VIBRO_L = [
         "alert_vibro_L1",
         "alert_vibro_L2",
@@ -46,6 +48,14 @@ class PropertiesProvider {
 
     function setUseFahrenheit(value) {
         self.setProperty(PROPERTY_USE_FAHRENHEIT, value);
+    }
+
+    function getUseCPS() {
+        return self.getProperty(PROPERTY_USE_CPS, false);
+    }
+
+    function setUseCPS(value) {
+        self.setProperty(PROPERTY_USE_CPS, value);
     }
 
     function getUseRoentgen() {

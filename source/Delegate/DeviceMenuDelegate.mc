@@ -48,6 +48,11 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
                 App.getApp().getPropertiesProvider().setUseFahrenheit(item.isEnabled());
             }
             break;
+        case "ItemUseCPS":
+            if(item has :isEnabled) {
+                App.getApp().getPropertiesProvider().setUseCPS(item.isEnabled());
+            }
+            break;
         case "ItemWriteActivity":
             if(item has :isEnabled) {
                 App.getApp().getPropertiesProvider().setWriteActivity(item.isEnabled());

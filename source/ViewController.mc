@@ -96,6 +96,7 @@ class ViewController {
 
         var useRoungen = App.getApp().getPropertiesProvider().getUseRoentgen();
         var useFahrenheit = App.getApp().getPropertiesProvider().getUseFahrenheit();
+        var useCPS = App.getApp().getPropertiesProvider().getUseCPS();
         var writeActivity = App.getApp().getPropertiesProvider().getWriteActivity();
 
         menu.addItem(new Ui.ToggleMenuItem(
@@ -114,6 +115,16 @@ class ViewController {
                 :enabled => App.loadResource(Rez.Strings.menu_temp_use_fahrenheit),
                 :disabled => App.loadResource(Rez.Strings.menu_temp_use_celsius)
             }, "ItemUseFahrenheit", useFahrenheit,
+            {
+                :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+            }));
+
+        menu.addItem(new Ui.ToggleMenuItem(
+            App.loadResource(Rez.Strings.menu_impulses),
+            {
+                :enabled => App.loadResource(Rez.Strings.menu_imp_use_CPS),
+                :disabled => App.loadResource(Rez.Strings.menu_imp_use_CPM)
+            }, "ItemUseCPS", useCPS,
             {
                 :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
             }));

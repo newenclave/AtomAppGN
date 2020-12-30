@@ -91,9 +91,16 @@ class DeviceDataView extends Ui.View {
     }
 
     private function drawCPM(dc) {
-        var text = Application.loadResource(Rez.Strings.text_CPM)
-                 + " " + self._deviceDataController.getCPM().toString();
-        Ui.View.findDrawableById("DeviceViewLabelCPM").setText(text);
+        var useCPS = Application.getApp().getPropertiesProvider().getUseCPS();
+        if(useCPS) {
+            var text = Application.loadResource(Rez.Strings.text_CPS)
+                     + " " + self._deviceDataController.getCPS().toString();
+            Ui.View.findDrawableById("DeviceViewLabelCPM").setText(text);
+        } else {
+            var text = Application.loadResource(Rez.Strings.text_CPM)
+                     + " " + self._deviceDataController.getCPM().toString();
+            Ui.View.findDrawableById("DeviceViewLabelCPM").setText(text);
+        }
     }
 
     private function drawWorkingTime(dc, connected) {

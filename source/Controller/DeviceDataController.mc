@@ -176,6 +176,10 @@ class DeviceDataController {
         return self._dataModel.getCPM();
     }
 
+    function getCPS() {
+        return self._dataModel.getCPS();
+    }
+
     function isCharging() {
         return self._dataModel.isCharging();
     }
