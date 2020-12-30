@@ -63,6 +63,31 @@ class ViewController {
                 Ui.SLIDE_IMMEDIATE);
     }
 
+    function createConfirmationMenu() {
+        var menu = new Ui.Menu2({
+                :title=>Application.loadResource(Rez.Strings.menu_confirm_exit)
+            });
+
+        menu.addItem(
+            new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_confirm_no),
+                "", "ItemNo", {}
+            )
+        );
+
+        menu.addItem(
+            new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_confirm_yes),
+                "", "ItemYes", {}
+            )
+        );
+        return menu;
+    }
+
+    function pushConfirmationMenu(delegate) {
+        Ui.pushView(self.createConfirmationMenu(),
+                new ConfirmationMenuDelegate(delegate),
+                Ui.SLIDE_UP);
+    }
+
     function createDeviceMenu(deviceController) {
 
         var menu = new Ui.Menu2({

@@ -5,21 +5,20 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
 
     private var _app;
     private var _deviceDataController;
-    private var _backDoublePress;
 
     function initialize(app, deviceDataController) {
         BehaviorDelegate.initialize();
         self._app = app;
         self._deviceDataController = deviceDataController;
-        self._backDoublePress = new DoublePressCheck(1000);
+    }
+
+    function onConfirmExit(opts) {
+        self._deviceDataController.stop();
+        Ui.popView(Ui.SLIDE_DOWN);
     }
 
     function onBack() {
-        if(self._backDoublePress.press()) {
-            self.onPreviousPage();
-            self._deviceDataController.stop();
-            return false;
-        }
+        self._app.getViewController().pushConfirmationMenu(self);
         return true;
     }
 

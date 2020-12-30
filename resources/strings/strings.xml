@@ -8,6 +8,10 @@
     <string id="menu_use_first">Use available</string>
     <string id="menu_reset">Reset settings</string>
     
+    <string id="menu_confirm_exit">Exit?</string>
+    <string id="menu_confirm_yes">Yes</string>
+    <string id="menu_confirm_no">No</string>
+
     <string id="menu_dev_alerts">Alert settings</string>
     <string id="menu_search_speed">Search speed</string>
 
