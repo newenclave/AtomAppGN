@@ -16,8 +16,8 @@ class AtomAppGNApp extends Application.AppBase {
         self._position = new PositionProvider();
 
         self._atomFastProfile = new AtomFastProfile();
-        self._viewController = new ViewController(self);
-        self._bleDelegate = new BleDelegate(self);
+        self._viewController = new ViewController();
+        self._bleDelegate = new BleDelegate();
 
         Ble.registerProfile(self._atomFastProfile.getProfile());
         Ble.setDelegate(self._bleDelegate);

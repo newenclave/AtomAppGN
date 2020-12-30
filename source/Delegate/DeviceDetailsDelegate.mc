@@ -1,15 +1,18 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Attention;
+using Toybox.Application;
 
 class DeviceDetailsDelegate extends Ui.BehaviorDelegate {
 
-    private var _app;
     private var _deviceController;
 
-    function initialize(app, deviceController) {
+    function initialize(deviceController) {
         BehaviorDelegate.initialize();
-        self._app = app;
         self._deviceController = deviceController;
+    }
+
+    private function getApp() {
+        return Application.getApp();
     }
 
     function onBack() {
@@ -17,7 +20,7 @@ class DeviceDetailsDelegate extends Ui.BehaviorDelegate {
     }
 
     function onMenu() {
-        self._app.getViewController().pushDeviceMenu(self._deviceController);
+        self.getApp().getViewController().pushDeviceMenu(self._deviceController);
         return true;
     }
 

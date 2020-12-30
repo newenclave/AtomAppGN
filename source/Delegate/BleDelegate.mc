@@ -1,13 +1,12 @@
- using Toybox.BluetoothLowEnergy as Ble;
+using Toybox.BluetoothLowEnergy as Ble;
+using Toybox.Application as App;
 
 class BleDelegate extends Ble.BleDelegate {
 
-    private var _app;
     private var _eventListener;
 
-    function initialize(app) {
+    function initialize() {
         BleDelegate.initialize();
-        self._app = app;
     }
 
     function setEventListener(iface) {

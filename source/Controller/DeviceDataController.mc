@@ -1,9 +1,9 @@
 using Toybox.BluetoothLowEnergy as Ble;
 using Toybox.WatchUi as Ui;
+using Toybox.Application as App;
 
 class DeviceDataController {
 
-    private var _app;
     private var _dataModel;
     private var _activityTrack;
     private var _device;
@@ -16,22 +16,26 @@ class DeviceDataController {
     private var _charSearchSpeed;
     private var _charThreasholds;
 
-    function initialize(app, scanResult) {
-        self._app = app;
+    function initialize(scanResult) {
         self._dataModel = new DeviceDataModel();
         self._scanResult = scanResult;
         self._posProvider = new PositionProvider();
         self._alerts = new AlertsProvider();
         self._operations = new OperationsQueue();
+        var pm = App.getApp().getProfile();
         self._charSearchSpeed = new CharacteristicSearchSpeed(
                                         self._operations, self,
-                                        self._app.getProfile().ATOM_FAST_CONFIG_CHAR);
+                                        pm.ATOM_FAST_CONFIG_CHAR);
         self._charThreasholds = new CharacteristicThresholds(self._operations, self, [
-                                        self._app.getProfile().ATOM_FAST_THRESHOSD1,
-                                        self._app.getProfile().ATOM_FAST_THRESHOSD2,
-                                        self._app.getProfile().ATOM_FAST_THRESHOSD3
+                                        pm.ATOM_FAST_THRESHOSD1,
+                                        pm.ATOM_FAST_THRESHOSD2,
+                                        pm.ATOM_FAST_THRESHOSD3
                                     ]);
         self.start();
+    }
+
+    private function getApp() {
+        return App.getApp();
     }
 
     /// Get data values
@@ -181,13 +185,13 @@ class DeviceDataController {
     }
 
     private function getProperties() {
-        return self._app.getPropertiesProvider();
+        return self.getApp().getPropertiesProvider();
     }
 
     /////////
     function getService(device) {
         System.println("Start " + System.getTimer());
-        self._service = device.getService(self._app.getProfile().ATOM_FAST_SERVICE);
+        self._service = device.getService(self.getApp().getProfile().ATOM_FAST_SERVICE);
         System.println("Stop " + System.getTimer());
         if(null == self._service) {
             System.println("Unable to get service");
@@ -241,7 +245,7 @@ class DeviceDataController {
         if(null == self._service) {
             System.println("NULL service!");
         }
-        var char = self._service.getCharacteristic(self._app.getProfile().ATOM_FAST_CHAR);
+        var char = self._service.getCharacteristic(self.getApp().getProfile().ATOM_FAST_CHAR);
         if(null != char) {
             var cccd = char.getDescriptor(Ble.cccdUuid());
             cccd.requestWrite([0x01, 0x00]b);
@@ -261,7 +265,7 @@ class DeviceDataController {
     function start() {
         try {
             self._device = Ble.pairDevice(self._scanResult);
-            self._app.getBleDelegate().setEventListener(self);
+            self.getApp().getBleDelegate().setEventListener(self);
         } catch(ex) {
             self._device = null;
         }
@@ -293,7 +297,7 @@ class DeviceDataController {
 
     private function storeLastDevice() {
         try {
-            self._app.setValue("LastConnectedDevice", self._scanResult);
+            self.getApp().setValue("LastConnectedDevice", self._scanResult);
         } catch(ex) {
             System.println("Unable to save last device. " + ex.getErrorMessage());
         }
@@ -346,7 +350,7 @@ class DeviceDataController {
 
     function onCharacteristicChanged(char, value) {
         switch(char.getUuid()) {
-            case self._app.getProfile().ATOM_FAST_CHAR:
+            case self.getApp().getProfile().ATOM_FAST_CHAR:
                 self._dataModel.update(value);
                 self.updateFitData();
                 self.checkAlerts();

@@ -1,15 +1,18 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Attention;
+using Toybox.Application;
 
 class DeviceDataDelegate extends Ui.BehaviorDelegate {
 
-    private var _app;
     private var _deviceDataController;
 
-    function initialize(app, deviceDataController) {
+    function initialize(deviceDataController) {
         BehaviorDelegate.initialize();
-        self._app = app;
         self._deviceDataController = deviceDataController;
+    }
+
+    private function getApp() {
+        return Application.getApp();
     }
 
     function onConfirmExit(opts) {
@@ -18,12 +21,12 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
     }
 
     function onBack() {
-        self._app.getViewController().pushConfirmationMenu(self);
+        self.getApp().getViewController().pushConfirmationMenu(self);
         return true;
     }
 
     function onMenu() {
-        self._app.getViewController().pushDeviceMenu(self._deviceDataController);
+        self.getApp().getViewController().pushDeviceMenu(self._deviceDataController);
         return true;
     }
 
@@ -46,8 +49,8 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
     function onSelect() {
         var detailsView = new DeviceDetailsView(
                 self._deviceDataController,
-                self._app.getPropertiesProvider());
-        Ui.pushView(detailsView, new DeviceDetailsDelegate(self._app, self._deviceDataController), Ui.SLIDE_UP);
+                self.getApp().getPropertiesProvider());
+        Ui.pushView(detailsView, new DeviceDetailsDelegate(self._deviceDataController), Ui.SLIDE_UP);
         return true;
     }
 }

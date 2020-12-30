@@ -1,14 +1,13 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Application as App;
 
 class ScanDataDelegate extends Ui.BehaviorDelegate {
 
-    private var _app;
     private var _scanDataController;
     private var _useFirst = false;
 
-    function initialize(app, scanDataController, options) {
+    function initialize(scanDataController, options) {
         BehaviorDelegate.initialize();
-        self._app = app;
         self._scanDataController = scanDataController;
         self._scanDataController.setUpdateListener(self);
         if(options.hasKey(:useFirst)) {
@@ -20,7 +19,7 @@ class ScanDataDelegate extends Ui.BehaviorDelegate {
         if(self._useFirst) {
             var cur = self._scanDataController.getModel().getCur();
             if(null != cur) {
-                self._app.getViewController().switchDeviceView(cur);
+                App.getApp().getViewController().switchDeviceView(cur);
             }
         } else {
             Ui.requestUpdate();
@@ -28,7 +27,7 @@ class ScanDataDelegate extends Ui.BehaviorDelegate {
     }
 
     function onBack() {
-        self._app.scanStop();
+        App.getApp().scanStop();
         return false;
     }
 
@@ -59,8 +58,8 @@ class ScanDataDelegate extends Ui.BehaviorDelegate {
     function onSelect() {
         var cur = self._scanDataController.getModel().getCur();
         if(null != cur) {
-            self._app.scanStop();
-            self._app.getViewController().switchDeviceView(cur);
+            App.getApp().scanStop();
+            App.getApp().getViewController().switchDeviceView(cur);
         }
         return true;
     }

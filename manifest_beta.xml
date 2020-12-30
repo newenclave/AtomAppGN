@@ -2,6 +2,7 @@
     <iq:application entry="AtomAppGNApp" id="eb5578c8b75b47d8aa697f5038ce054e" launcherIcon="@Drawables.LauncherIcon" minSdkVersion="3.1.0" name="@Strings.AppName" type="watch-app" version="0.1.0">
         <iq:products>
             <iq:product id="fenix5plus"/>
+            <iq:product id="fenix6"/>
             <iq:product id="fr945"/>
             <iq:product id="vivoactive4"/>
             <iq:product id="vivoactive4s"/>

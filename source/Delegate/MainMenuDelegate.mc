@@ -1,13 +1,11 @@
 using Toybox.WatchUi;
 using Toybox.System;
+using Toybox.Application as App;
 
 class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
 
-    private var _app;
-
-    function initialize(app) {
+    function initialize() {
         Menu2InputDelegate.initialize();
-        self._app = app;
     }
 
     function onSelect(item) {
@@ -17,20 +15,20 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
         }
         switch(item.getId()) {
         case "ItemUseLast":
-            var lastDevice = self._app.getValue("LastConnectedDevice");
-            self._app.getViewController().switchDeviceView(lastDevice);
+            var lastDevice = App.getApp().getValue("LastConnectedDevice");
+            App.getApp().getViewController().switchDeviceView(lastDevice);
             break;
         case "ItemUseFirst":
-            self._app.scanStart();
-            self._app.getViewController().switchScanView(true);
+            App.getApp().scanStart();
+            App.getApp().getViewController().switchScanView(true);
             break;
         case "ItemScan":
-            self._app.scanStart();
-            self._app.getViewController().switchScanView(false);
+            App.getApp().scanStart();
+            App.getApp().getViewController().switchScanView(false);
             break;
         case "ItemReset":
             Application.Storage.clearValues();
-            self._app.getViewController().switchMainManu();
+            App.getApp().getViewController().switchMainManu();
             break;
         case "ItemAbout":
             break;

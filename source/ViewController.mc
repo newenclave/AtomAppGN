@@ -1,21 +1,21 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Application as App;
 
 class ViewController {
-    private var _app;
-    function initialize(app) {
-        self._app = app;
+
+    function initialize() {
     }
 
     private function createMainMenu() {
         var menuName = Application.loadResource(Rez.Strings.menu_name);
         var menu = new Ui.Menu2({:title=>menuName});
-        var lastDevice = self._app.getValue("LastConnectedDevice");
+        var lastDevice = App.getApp().getValue("LastConnectedDevice");
 
         if(null != lastDevice) {
             var deviceName = lastDevice.getDeviceName();
             menu.addItem(
                 new Ui.MenuItem(
-                    Application.loadResource(Rez.Strings.menu_use_last),
+                    App.loadResource(Rez.Strings.menu_use_last),
                     deviceName ? deviceName : "Atom Fast",
                     "ItemUseLast",
                     {}
@@ -24,25 +24,25 @@ class ViewController {
         }
 
         menu.addItem(
-            new Ui.MenuItem(Application.loadResource(Rez.Strings.menu_use_first),
+            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_use_first),
                 "", "ItemUseFirst", {}
             )
         );
 
         menu.addItem(
-            new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_scan),
+            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_scan),
                 "", "ItemScan", {}
             )
         );
 
         menu.addItem(
-            new Ui.MenuItem(Application.loadResource(Rez.Strings.menu_reset),
+            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_reset),
                 "", "ItemReset", {}
             )
         );
 
         menu.addItem(
-            new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_about),
+            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_about),
                 "", "ItemAbout", {}
             )
         );
@@ -52,30 +52,30 @@ class ViewController {
     function pushMainManu() {
         Ui.pushView(
                 self.createMainMenu(),
-                new MainMenuDelegate(self._app),
+                new MainMenuDelegate(),
                 Ui.SLIDE_UP);
     }
 
     function switchMainManu() {
         Ui.switchToView(
                 self.createMainMenu(),
-                new MainMenuDelegate(self._app),
+                new MainMenuDelegate(),
                 Ui.SLIDE_IMMEDIATE);
     }
 
     function createConfirmationMenu() {
         var menu = new Ui.Menu2({
-                :title=>Application.loadResource(Rez.Strings.menu_confirm_exit)
+                :title => App.loadResource(Rez.Strings.menu_confirm_exit)
             });
 
         menu.addItem(
-            new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_confirm_no),
+            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_confirm_no),
                 "", "ItemNo", {}
             )
         );
 
         menu.addItem(
-            new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_confirm_yes),
+            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_confirm_yes),
                 "", "ItemYes", {}
             )
         );
@@ -91,61 +91,61 @@ class ViewController {
     function createDeviceMenu(deviceController) {
 
         var menu = new Ui.Menu2({
-                :title=>Application.loadResource(Rez.Strings.menu_dev_config)
+                :title=>App.loadResource(Rez.Strings.menu_dev_config)
             });
 
-        var useRoungen = self._app.getPropertiesProvider().getUseRoentgen();
-        var useFahrenheit = self._app.getPropertiesProvider().getUseFahrenheit();
-        var writeActivity = self._app.getPropertiesProvider().getWriteActivity();
+        var useRoungen = App.getApp().getPropertiesProvider().getUseRoentgen();
+        var useFahrenheit = App.getApp().getPropertiesProvider().getUseFahrenheit();
+        var writeActivity = App.getApp().getPropertiesProvider().getWriteActivity();
 
         menu.addItem(new Ui.ToggleMenuItem(
             Application.loadResource(Rez.Strings.menu_dose_units),
             {
-                :enabled=>Application.loadResource(Rez.Strings.menu_dose_use_roentgen),
-                :disabled=>Application.loadResource(Rez.Strings.menu_dose_use_sieverts)
+                :enabled => App.loadResource(Rez.Strings.menu_dose_use_roentgen),
+                :disabled => App.loadResource(Rez.Strings.menu_dose_use_sieverts)
             }, "ItemUseRoentgen", useRoungen,
             {
                 :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
             }));
 
         menu.addItem(new Ui.ToggleMenuItem(
-            Application.loadResource(Rez.Strings.menu_temperature),
+            App.loadResource(Rez.Strings.menu_temperature),
             {
-                :enabled=>Application.loadResource(Rez.Strings.menu_temp_use_fahrenheit),
-                :disabled=>Application.loadResource(Rez.Strings.menu_temp_use_celsius)
+                :enabled => App.loadResource(Rez.Strings.menu_temp_use_fahrenheit),
+                :disabled => App.loadResource(Rez.Strings.menu_temp_use_celsius)
             }, "ItemUseFahrenheit", useFahrenheit,
             {
                 :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
             }));
 
         menu.addItem(new Ui.ToggleMenuItem(
-            Application.loadResource(Rez.Strings.menu_save_activity),
+            App.loadResource(Rez.Strings.menu_save_activity),
             {
-                :enabled=>Application.loadResource(Rez.Strings.menu_enabled),
-                :disabled=>Application.loadResource(Rez.Strings.menu_disabled)
+                :enabled => App.loadResource(Rez.Strings.menu_enabled),
+                :disabled => App.loadResource(Rez.Strings.menu_disabled)
             }, "ItemWriteActivity", writeActivity,
             {
-                :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+                :alignment => Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
             }));
 
         menu.addItem(
             new Ui.MenuItem(
-                Application.loadResource(Rez.Strings.menu_dev_alerts),
+                App.loadResource(Rez.Strings.menu_dev_alerts),
                 "", "ItemAlertSettings", {}
             )
         );
 
         if(null != deviceController) {
             var searchSpeedValues = [
-                Application.loadResource(Rez.Strings.text_search_speed_fast),
-                Application.loadResource(Rez.Strings.text_search_speed_medium),
-                Application.loadResource(Rez.Strings.text_search_speed_slow)
+                App.loadResource(Rez.Strings.text_search_speed_fast),
+                App.loadResource(Rez.Strings.text_search_speed_medium),
+                App.loadResource(Rez.Strings.text_search_speed_slow)
             ];
             var currentSearchSpeed = deviceController.getSearchSpeed();
 
             menu.addItem(
                 new Ui.MenuItem(
-                    Application.loadResource(Rez.Strings.menu_search_speed),
+                    App.loadResource(Rez.Strings.menu_search_speed),
                     searchSpeedValues[currentSearchSpeed],
                     "ItemSearchSpeed", {}
                 )
@@ -153,7 +153,7 @@ class ViewController {
         }
 
         menu.addItem(
-            new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_dev_config_done),
+            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_dev_config_done),
                 "", "ItemDone", {}
             )
         );
@@ -163,47 +163,47 @@ class ViewController {
 
     function createAlertSettingsMenu() {
         var menu = new Ui.Menu2({
-                :title=>Application.loadResource(Rez.Strings.menu_dev_alerts)
+                :title=>App.loadResource(Rez.Strings.menu_dev_alerts)
             });
 
         var sett = [
-            self._app.getPropertiesProvider().getAlertVibroL(0),
-            self._app.getPropertiesProvider().getAlertVibroL(1),
-            self._app.getPropertiesProvider().getAlertVibroL(2)
+            App.getApp().getPropertiesProvider().getAlertVibroL(0),
+            App.getApp().getPropertiesProvider().getAlertVibroL(1),
+            App.getApp().getPropertiesProvider().getAlertVibroL(2)
         ];
 
         menu.addItem(new Ui.ToggleMenuItem(
-            Application.loadResource(Rez.Strings.menu_alerts_vibroL1),
+            App.loadResource(Rez.Strings.menu_alerts_vibroL1),
             {
-                :enabled=>Application.loadResource(Rez.Strings.menu_enabled),
-                :disabled=>Application.loadResource(Rez.Strings.menu_disabled)
+                :enabled => App.loadResource(Rez.Strings.menu_enabled),
+                :disabled => App.loadResource(Rez.Strings.menu_disabled)
             }, "ItemDoseL1Vibro", sett[0],
             {
                 :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
             }));
 
         menu.addItem(new Ui.ToggleMenuItem(
-            Application.loadResource(Rez.Strings.menu_alerts_vibroL2),
+            App.loadResource(Rez.Strings.menu_alerts_vibroL2),
             {
-                :enabled=>Application.loadResource(Rez.Strings.menu_enabled),
-                :disabled=>Application.loadResource(Rez.Strings.menu_disabled)
+                :enabled => App.loadResource(Rez.Strings.menu_enabled),
+                :disabled => App.loadResource(Rez.Strings.menu_disabled)
             }, "ItemDoseL2Vibro", sett[1],
             {
                 :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
             }));
 
         menu.addItem(new Ui.ToggleMenuItem(
-            Application.loadResource(Rez.Strings.menu_alerts_vibroL3),
+            App.loadResource(Rez.Strings.menu_alerts_vibroL3),
             {
-                :enabled=>Application.loadResource(Rez.Strings.menu_enabled),
-                :disabled=>Application.loadResource(Rez.Strings.menu_disabled)
+                :enabled => App.loadResource(Rez.Strings.menu_enabled),
+                :disabled => App.loadResource(Rez.Strings.menu_disabled)
             }, "ItemDoseL3Vibro", sett[2],
             {
-                :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+                :alignment => Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
             }));
 
         menu.addItem(
-            new Ui.MenuItem( Application.loadResource(Rez.Strings.menu_dev_config_done),
+            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_dev_config_done),
                 "", "ItemDone", {}
             )
         );
@@ -213,44 +213,44 @@ class ViewController {
     function pushAlertSettingsMenu() {
         Ui.pushView(
             self.createAlertSettingsMenu(),
-            new AlertSettingsMenuDelegate(self._app.getPropertiesProvider()),
+            new AlertSettingsMenuDelegate(App.getApp().getPropertiesProvider()),
             Ui.SLIDE_LEFT);
     }
 
     function pushDeviceMenu(deviceController) {
         Ui.pushView(
             self.createDeviceMenu(deviceController),
-            new DeviceMenuDelegate(self._app, deviceController),
+            new DeviceMenuDelegate(deviceController),
             Ui.SLIDE_UP);
     }
 
     function getMainView() {
-         return [ new MainView(), new MainViewDelegate(self._app) ];
+         return [ new MainView(), new MainViewDelegate() ];
     }
 
     function switchScanView(useFirst) {
-        var scanDataController = new ScanDataController(self._app);
+        var scanDataController = new ScanDataController();
         var opts = { :useFirst => useFirst };
         Ui.switchToView(
             new ScanDataView(scanDataController),
-            new ScanDataDelegate(self._app, scanDataController, opts),
+            new ScanDataDelegate(scanDataController, opts),
             Ui.SLIDE_DOWN);
     }
 
     function pushScanView(useFirst) {
-        var scanDataController = new ScanDataController(self._app);
+        var scanDataController = new ScanDataController();
         var opts = { :useFirst => useFirst };
         Ui.pushView(
             new ScanDataView(scanDataController),
-            new ScanDataDelegate(self._app, scanDataController, opts),
+            new ScanDataDelegate(scanDataController, opts),
             Ui.SLIDE_DOWN);
     }
 
     function switchDeviceView(scanResult) {
-        var deviceDataController = new DeviceDataController(self._app, scanResult);
+        var deviceDataController = new DeviceDataController(scanResult);
         Ui.switchToView(
             new DeviceDataView(deviceDataController),
-            new DeviceDataDelegate(self._app, deviceDataController),
+            new DeviceDataDelegate(deviceDataController),
             Ui.SLIDE_DOWN);
     }
 }

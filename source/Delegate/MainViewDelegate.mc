@@ -1,27 +1,26 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Application as App;
 
 class MainViewDelegate extends Ui.BehaviorDelegate {
 
-    private var _app;
     private var _selectDoublePress;
 
-    function initialize(app) {
+    function initialize() {
         BehaviorDelegate.initialize();
-        self._app = app;
         self._selectDoublePress = new DoublePressCheck(500);
     }
 
     function onSelect() {
         if(self._selectDoublePress.press()) {
-            self._app.scanStart();
-            self._app.getViewController().pushScanView(true);
+            App.getApp().scanStart();
+            App.getApp().getViewController().pushScanView(true);
             return true;
         }
         return false;
     }
 
     function onMenu() {
-        self._app.getViewController().pushMainManu();
+        App.getApp().getViewController().pushMainManu();
         return true;
     }
 }

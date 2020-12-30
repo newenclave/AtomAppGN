@@ -1,16 +1,15 @@
 using Toybox.BluetoothLowEnergy as Ble;
 using Toybox.WatchUi as Ui;
+using Toybox.Application as App;
 
 class ScanDataController {
 
-    private var _app;
     private var _dataModel;
     private var _updateListener;
 
-    function initialize(app) {
-        self._app = app;
+    function initialize() {
         self._dataModel = new ScanDataModel();
-        self._app.getBleDelegate().setEventListener(self);
+        App.getApp().getBleDelegate().setEventListener(self);
     }
 
     function getModel() {
@@ -32,7 +31,7 @@ class ScanDataController {
     function onScanResults(scanResults) {
         var added = 0;
         for( var result = scanResults.next(); result != null; result = scanResults.next() ) {
-            if(self.contains(result.getServiceUuids(), self._app.getProfile().ATOM_FAST_SERVICE)) {
+            if(self.contains(result.getServiceUuids(), App.getApp().getProfile().ATOM_FAST_SERVICE)) {
                 self._dataModel.add(result);
                 added++;
             }
