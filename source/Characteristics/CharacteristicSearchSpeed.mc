@@ -22,7 +22,7 @@ class CharacteristicSearchSpeed extends CharacteristicIface {
         self.write([], []);
     }
 
-    function readSpeed() {
+    function update() {
         switch(self.getState()) {
         case STATE_UNKNOWN:
         case STATE_COLD:
@@ -56,7 +56,6 @@ class CharacteristicSearchSpeed extends CharacteristicIface {
     function onWriteImpl(param, bleParams) {
         self._currentValue = self._writeSpeedRequest;
         self._writeSpeedRequest = -1;
-        System.println("Speed saved. " + bleParams[1].toString());
         return true;
     }
 
@@ -67,7 +66,6 @@ class CharacteristicSearchSpeed extends CharacteristicIface {
     function onReadImpl(param, bleParams) {
         if(bleParams[2].size() >=4) {
             self._currentValue = (bleParams[2][3] >> 5) & 3;
-            System.println("Got speed value: " + self._currentValue.toString());
         }
         return true;
     }

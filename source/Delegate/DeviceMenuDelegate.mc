@@ -7,6 +7,7 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
     private var _deviceController;
     private var _initSearchSpeed;
     private var _currentSearchSpeed;
+    private var _currentSigma;
 
     function initialize(deviceController) {
         Menu2InputDelegate.initialize();
@@ -37,6 +38,13 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
             Application.loadResource(Rez.Strings.text_search_speed_slow),
         ];
 
+        var useSigmasValues = [
+            App.loadResource(Rez.Strings.menu_sigma_1),
+            App.loadResource(Rez.Strings.menu_sigma_2),
+            App.loadResource(Rez.Strings.menu_sigma_3)
+        ];
+
+        var sigma = self._deviceController.getUsedSigma();
         var themes = App.getApp().getAllThemes();
         var themeIdName = App.getApp().getThemeId();
         var themeId = 0;
@@ -70,6 +78,11 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
             break;
         case "ItemAlertSettings":
             App.getApp().getViewController().pushAlertSettingsMenu();
+            break;
+        case "ItemUseSigma":
+            sigma++;
+            item.setSubLabel(useSigmasValues[sigma % useSigmasValues.size()]);
+            self._deviceController.setUsedSigma(sigma % useSigmasValues.size());
             break;
         case "ItemUseTheme":
             themeId++;

@@ -15,6 +15,9 @@ class DeviceDataController {
     private var _operations;
     private var _charSearchSpeed;
     private var _charThreasholds;
+    private var _charCalibration;
+    private var _charAddition;
+    private var _useSigma;
 
     function initialize(scanResult) {
         self._dataModel = new DeviceDataModel();
@@ -22,6 +25,8 @@ class DeviceDataController {
         self._posProvider = new PositionProvider();
         self._alerts = new AlertsProvider();
         self._operations = new OperationsQueue();
+        self._useSigma = App.getApp().getPropertiesProvider().getUseSigma();
+
         var pm = App.getApp().getProfile();
         self._charSearchSpeed = new CharacteristicSearchSpeed(
                                         self._operations, self,
@@ -31,6 +36,11 @@ class DeviceDataController {
                                         pm.ATOM_FAST_THRESHOSD2,
                                         pm.ATOM_FAST_THRESHOSD3
                                     ]);
+        self._charCalibration = new CharacteristicCalibration(
+                                        self._operations, self,
+                                        pm.ATOM_FAST_CALIBRATION_CHAR);
+        self._charAddition = new CharacteristicAddition(self._operations, self,
+                                        pm.ATOM_FAST_CHAR2);
         self.start();
     }
 
@@ -39,6 +49,16 @@ class DeviceDataController {
     }
 
     /// Get data values
+
+    function getUsedSigma() {
+        return self._useSigma;
+    }
+
+    function setUsedSigma(val) {
+        self._useSigma = val;
+        App.getApp().getPropertiesProvider().setUseSigma(val);
+    }
+
     function getSearchSpeed() {
         return self._charSearchSpeed.getValue();
     }
@@ -80,6 +100,17 @@ class DeviceDataController {
     }
 
     ///////////////////
+
+    function getSearchError() {
+        var sId = self.getSearchSpeed();
+        var fsmConst = self._charAddition.getValue(sId);
+        var sError = self._charAddition.getErrorValue(sId);
+        if(self.getImpulses() > fsmConst && self.getImpulses() > 0) {
+            sError = 100.0 / Math.sqrt(self.getImpulses().toFloat());
+        }
+        return Math.round(sError * (self._useSigma + 1)); // parameter _useSigma is 0-based
+    }
+
     function getProperty(name, defaultValue) {
         return self.getProperties().getProperty(name, defaultValue);
     }
@@ -281,8 +312,10 @@ class DeviceDataController {
         if(self.getService(self._device)) {
             self._operations.push(method(:activateNextNotification), [], method(:notificationsReady), []);
             self._operations.callTop();
-            self._charThreasholds.updateAll();
-            self._charSearchSpeed.readSpeed();
+            self._charSearchSpeed.update();
+            self._charAddition.update();
+            self._charCalibration.update();
+            self._charThreasholds.update();
         }
         Ui.requestUpdate();
     }
@@ -341,7 +374,6 @@ class DeviceDataController {
 
     // read request
     function onCharacteristicRead(characteristic, status, value) {
-        System.println("onCharacteristicRead " + characteristic.toString());
         if(status != Ble.STATUS_SUCCESS || null == value) {
             System.println("Failed to read " + characteristic.toString());
             return;
@@ -356,8 +388,8 @@ class DeviceDataController {
         switch(char.getUuid()) {
             case self.getApp().getProfile().ATOM_FAST_CHAR:
                 self._dataModel.update(value);
-                self.updateFitData();
                 self.checkAlerts();
+                self.updateFitData();
                 Ui.requestUpdate();
                 break;
         }

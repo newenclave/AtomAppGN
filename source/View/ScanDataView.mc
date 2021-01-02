@@ -3,12 +3,12 @@ using Toybox.Graphics as Gfx;
 using Toybox.BluetoothLowEnergy as Ble;
 using Toybox.Application as App;
 
-class ScanDataView extends Ui.View {
+class ScanDataView extends BaseView {
 
     private var _scanDataController;
 
     function initialize(scanDataController) {
-        View.initialize();
+        BaseView.initialize();
         self._scanDataController = scanDataController;
     }
 
@@ -24,8 +24,8 @@ class ScanDataView extends Ui.View {
     }
 
     function onUpdate(dc) {
-        var theme = App.getApp().getTheme();
-        self.drawBg(dc, theme);
+        var theme = self.getTheme();
+        self.drawBg(dc);
         self.drawCount(dc, theme);
         self.drawCurrent(dc, theme);
         //View.onUpdate(dc);
@@ -65,12 +65,6 @@ class ScanDataView extends Ui.View {
         label.setText(text);
         label.setColor(theme.COLOR_LIGHT);
         label.draw(dc);
-    }
-
-    function drawBg(dc, theme) {
-        dc.setColor(theme.COLOR_BACKGROUND, theme.COLOR_FOREGROUND);
-        dc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight());
-        dc.setColor(theme.COLOR_FOREGROUND, theme.COLOR_BACKGROUND);
     }
 
 }

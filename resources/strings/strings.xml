@@ -33,6 +33,11 @@
 
     <string id="menu_enabled">enabled</string>
     <string id="menu_disabled">disabled</string>
+
+    <string id="menu_use_sigma">Show confidence interval as</string>
+    <string id="menu_sigma_1">1σ(65.3%)</string>
+    <string id="menu_sigma_2">2σ(95.5%)</string>
+    <string id="menu_sigma_3">3σ(99.7%)</string>
     
     <string id="menu_dose_use_sieverts">Use: µSv</string>
     <string id="menu_dose_use_roentgen">Use: µR</string>

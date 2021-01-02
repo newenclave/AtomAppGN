@@ -106,6 +106,13 @@ class ViewController {
         var useCPS = App.getApp().getPropertiesProvider().getUseCPS();
         var writeActivity = App.getApp().getPropertiesProvider().getWriteActivity();
         var themeUsed = App.getApp().getThemeName();
+        var sigmaUsed = App.getApp().getPropertiesProvider().getUseSigma();
+
+        var useSigmasValues = [
+            App.loadResource(Rez.Strings.menu_sigma_1),
+            App.loadResource(Rez.Strings.menu_sigma_2),
+            App.loadResource(Rez.Strings.menu_sigma_3)
+        ];
 
         menu.addItem(new Ui.ToggleMenuItem(
             Application.loadResource(Rez.Strings.menu_dose_units),
@@ -151,6 +158,14 @@ class ViewController {
             new Ui.MenuItem(
                 App.loadResource(Rez.Strings.menu_dev_alerts),
                 "", "ItemAlertSettings", {}
+            )
+        );
+
+        menu.addItem(
+            new Ui.MenuItem(
+                App.loadResource(Rez.Strings.menu_use_sigma),
+                useSigmasValues[sigmaUsed],
+                "ItemUseSigma", {}
             )
         );
 
