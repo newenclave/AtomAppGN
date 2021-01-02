@@ -14,25 +14,25 @@
 
 	<!-- Central DOSE Rate, Temterature, Dose Units -->
  	<label id="DeviceViewLabelDoseRate" 
- 			x="72%" y="52%"
+ 			x="68%" y="52%"
  			font="Graphics.FONT_NUMBER_MEDIUM" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
 
  	<label id="DeviceViewLabelTemperature" 
- 			x="76%" y="44%"
+ 			x="72%" y="44%"
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER"  
  			text="" />
 
  	<label id="DeviceViewLabelDoseUnits" 
- 			x="76%" y="56%"
+ 			x="72%" y="56%"
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
 
  	<label id="DeviceViewLabelSearchError" 
- 			x="76%" y="72%"
+ 			x="72%" y="72%"
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>

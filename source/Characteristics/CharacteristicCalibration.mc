@@ -51,7 +51,6 @@ class CharacteristicCalibration extends CharacteristicIface {
                                 { :offset => 8, :endianness => Lang.ENDIAN_LITTLE });
             self._measureTime = value.decodeNumber(Lang.NUMBER_FORMAT_UINT16,
                                 { :offset => 12, :endianness => Lang.ENDIAN_LITTLE });
-            System.println(value.toString());
         }
         return true;
     }
