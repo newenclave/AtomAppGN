@@ -51,6 +51,7 @@ class DeviceDataView extends BaseView {
         self.drawCPM(dc);
         self.drawDoseAccumulated(dc);
         self.drawTemperature(dc);
+        self.drawSearchError(dc);
         //View.onUpdate(dc);
 //
         if(ready) {
@@ -116,6 +117,12 @@ class DeviceDataView extends BaseView {
                      + " " + self._deviceDataController.getCPM().toString();
         }
         label.setText(text);
+        label.draw(dc);
+    }
+
+    private function drawSearchError(dc) {
+        var label = self.findDrawable("DeviceViewLabelSearchError");
+        label.setText(self._deviceDataController.getSearchError().toNumber().toString() + "%");
         label.draw(dc);
     }
 

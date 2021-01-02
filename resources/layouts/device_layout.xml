@@ -31,12 +31,19 @@
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
 
+ 	<label id="DeviceViewLabelSearchError" 
+ 			x="76%" y="72%"
+ 			font="Graphics.FONT_SMALL" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
+ 			/>
+
 	<!-- BOTTOM -->
  	<label id="DeviceViewLabelCPM" 
  			x="12%" y="72%"
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
+
 
  	<label id="DeviceViewLabelDoseAcc" 
  			x="center" y="88%"

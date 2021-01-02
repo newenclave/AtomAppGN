@@ -63,6 +63,10 @@ class DeviceDataModel {
         return self.getImpusesAvarage(60 * 1000);
     }
 
+    public function getImpulsesTotal() {
+        return self._impulsesTotal;
+    }
+
     private function getImpusesAvarage(millisec) {
         var period = (System.getTimer() - self._startTime).toFloat() / millisec.toFloat();
         if(period > 0) {

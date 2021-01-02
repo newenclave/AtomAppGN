@@ -16,7 +16,7 @@ class CharacteristicThresholds extends CharacteristicIface {
         self._uuids = uuids;
     }
 
-    function updateAll() {
+    function update() {
         self.read([0], [0]);
         self.pushRead([1], [1]);
         self.pushRead([2], [2]);
