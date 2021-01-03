@@ -1,5 +1,6 @@
 <strings>
-    <string id="AppName">AtomAppGN</string>
+    <string id="AppName">Atom Dosimeter</string>
+    <string id="AppNameBeta">AtomAppGNBeta</string>
     <string id="text_press_menu_to_start">Press menu to start</string>
 
     <string id="menu_name">Menu</string>
