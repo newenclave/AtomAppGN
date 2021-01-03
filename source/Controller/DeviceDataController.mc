@@ -296,7 +296,7 @@ class DeviceDataController {
     }
 
     function activateNextNotification(param) {
-        System.println("Notifications activate");
+        //System.println("Notifications activate");
         if(null == self._service) {
             System.println("NULL service!");
         }
@@ -310,7 +310,7 @@ class DeviceDataController {
     }
 
     function notificationsReady(passed, callbackParams) {
-        System.println("Notifications ready");
+        //System.println("Notifications ready");
         self._ready = true;
         self._dataModel.resetTimer();
         self.storeLastDevice();

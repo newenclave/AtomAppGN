@@ -122,7 +122,7 @@ class MeasuringView extends BaseView {
     function drawUnits(dc) {
         var label = self.findDrawable("MeasuringLabelDoseUnits");
         label.setColor(self._theme.COLOR_DARK);
-        label.setText(self._deviceDataController.getDoseUnitString());
+        label.setText(self._deviceDataController.getDoseHoursUnitString());
         label.draw(dc);
     }
 
