@@ -53,7 +53,7 @@ class DeviceDataView extends BaseView {
         self.drawTemperature(dc);
         self.drawSearchError(dc);
         //View.onUpdate(dc);
-//
+
         if(ready) {
             self.drawBattery(dc);
         }
