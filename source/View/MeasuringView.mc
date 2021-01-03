@@ -91,7 +91,7 @@ class MeasuringView extends BaseView {
                 sessionLabel.setText(Application.loadResource(Rez.Strings.text_measuring_wait_to_start));
             }
         }
-        sessionLabel.setColor(_theme.COLOR_DARK);
+        sessionLabel.setColor(self._theme.COLOR_DARK);
         sessionLabel.draw(dc);
     }
 

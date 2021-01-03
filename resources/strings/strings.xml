@@ -57,7 +57,7 @@
     <string id="text_CPS">CPS:</string>
     
     <string id="text_session_time">Time:</string>
-    <string id="text_measuring_time">Measure duration:</string>
+    <string id="text_measuring_time">Duration:</string>
     <string id="text_measuring_header">Measure</string>
     <string id="text_measuring_wait_to_start">Press Select to start</string>
     <string id="text_measuring_wait_to_tap">Tap screen to start</string>

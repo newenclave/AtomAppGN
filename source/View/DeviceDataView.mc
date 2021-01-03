@@ -64,7 +64,7 @@ class DeviceDataView extends BaseView {
         var txt = self._deviceDataController.getTemperatureUnitsString();
         var label = self.findDrawable("DeviceViewLabelTemperature");
         label.setText(value + txt);
-        label.setColor(_theme.COLOR_DARK);
+        label.setColor(self._theme.COLOR_DARK);
         label.draw(dc);
     }
 
@@ -77,7 +77,7 @@ class DeviceDataView extends BaseView {
         var dosePw = self._deviceDataController.getDoseRate();
         var labelPw = self.findDrawable("DeviceViewLabelDoseRate");
 
-        var color = _theme.COLOR_NORMAL;
+        var color = self._theme.COLOR_NORMAL;
         var th = self._deviceDataController.getDoseThreshold();
         if(th >= 0) {
             color = THRESHOLDS_COLORS[th];
@@ -87,7 +87,7 @@ class DeviceDataView extends BaseView {
         labelPw.setText(doseRateText);
         var du = self.findDrawable("DeviceViewLabelDoseUnits");
         du.setText(self._deviceDataController.getDoseHoursUnitString());
-        du.setColor(_theme.COLOR_DARK);
+        du.setColor(self._theme.COLOR_DARK);
         du.draw(dc);
         labelPw.draw(dc);
     }
@@ -95,7 +95,7 @@ class DeviceDataView extends BaseView {
     private function drawDoseAccumulated(dc) {
         var label = Ui.View.findDrawableById("DeviceViewLabelDoseAcc");
         var accDose = self._deviceDataController.getDoseAccumulated();
-        var color = _theme.COLOR_FOREGROUND;
+        var color = self._theme.COLOR_FOREGROUND;
         var th = self._deviceDataController.getDoseAccumelatedThreshold();
         if(th >= 0) {
             color = THRESHOLDS_COLORS[th];
@@ -147,7 +147,7 @@ class DeviceDataView extends BaseView {
         if(connected) {
             sessionLabel.setText(text);
         }
-        sessionLabel.setColor(_theme.COLOR_DARK);
+        sessionLabel.setColor(self._theme.COLOR_DARK);
         sessionLabel.draw(dc);
     }
 
@@ -161,11 +161,11 @@ class DeviceDataView extends BaseView {
         var charge = self._deviceDataController.getCharge();
 
          if(charge < 15) {
-            dc.setColor(_theme.COLOR_DANGER, _theme.COLOR_BACKGROUND);
+            dc.setColor(self._theme.COLOR_DANGER, self._theme.COLOR_BACKGROUND);
         } else if (charge < 30) {
-            dc.setColor(_theme.COLOR_ABOVE_NORMAL, _theme.COLOR_BACKGROUND);
+            dc.setColor(self._theme.COLOR_ABOVE_NORMAL, self._theme.COLOR_BACKGROUND);
         } else {
-            dc.setColor(Graphics.COLOR_NORMAL, _theme.COLOR_BACKGROUND);
+            dc.setColor(self._theme.COLOR_NORMAL, self._theme.COLOR_BACKGROUND);
         }
 
         dc.drawRectangle(posX, posY, width, height);
