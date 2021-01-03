@@ -56,6 +56,10 @@
     <string id="text_CPS">CPS:</string>
     
     <string id="text_session_time">Time:</string>
+    <string id="text_measuring_time">Measure duration:</string>
+    <string id="text_measuring_header">Measure</string>
+    <string id="text_measuring_wait_to_start">Press Select to start</string>
+    <string id="text_measuring_wait_to_tap">Tap screen to start</string>
 
     <string id="text_micro_sieverts_hours">µSv/h</string>
     <string id="text_milli_sieverts_hours">mSv/h</string>

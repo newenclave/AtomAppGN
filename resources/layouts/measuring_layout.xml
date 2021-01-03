@@ -1,50 +1,50 @@
-<layout id="DeviceLayout">
+<layout id="MeasuringLayout">
 
- 	<label id="DeviceViewLabelTime" 
- 			x="center" y="20%" 
- 			font="Graphics.FONT_NUMBER_MEDIUM" 
+ 	<label id="MeasuringLabelName" 
+ 			x="center" y="12%" 
+ 			font="Graphics.FONT_MEDIUM" 
  			justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
- 			
- 	<label id="DeviceViewLabelSessionTime" 
- 			x="center" y="34%" 
- 			font="Graphics.FONT_XTINY" 
+ 
+ 	<label id="MeasuringLabelSessionTime" 
+ 			x="center" y="30%" 
+ 			font="Graphics.FONT_TINY" 
  			justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
 
 	<!-- Central DOSE Rate, Temterature, Dose Units -->
- 	<label id="DeviceViewLabelDoseRate" 
+ 	<label id="MeasuringLabelDoseRate" 
  			x="68%" y="52%"
  			font="Graphics.FONT_NUMBER_MEDIUM" 
  			justification="Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
 
- 	<label id="DeviceViewLabelTemperature" 
- 			x="72%" y="44%"
- 			font="Graphics.FONT_SMALL" 
- 			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER"  
- 			text="" />
-
- 	<label id="DeviceViewLabelDoseUnits" 
+ 	<label id="MeasuringLabelDoseUnits" 
  			x="72%" y="56%"
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
 
- 	<label id="DeviceViewLabelSearchError" 
+ 	<label id="MeasuringLabelError" 
  			x="72%" y="72%"
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
 
 	<!-- BOTTOM -->
- 	<label id="DeviceViewLabelCPM" 
+ 	<label id="MeasuringLabelCPM" 
  			x="12%" y="72%"
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
-
- 	<label id="DeviceViewLabelDoseAcc" 
+		
+ 	<label id="MeasuringLabelTotalCPM" 
+ 			x="12%" y="72%"
+ 			font="Graphics.FONT_SMALL" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
+ 			/>
+ 
+  	<label id="MeasuringLabelPulses" 
  			x="center" y="88%"
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_VCENTER | Graphics.TEXT_JUSTIFY_CENTER" 

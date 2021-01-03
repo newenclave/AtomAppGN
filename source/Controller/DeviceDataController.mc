@@ -18,6 +18,7 @@ class DeviceDataController {
     private var _charCalibration;
     private var _charAddition;
     private var _useSigma;
+    private var _measuring;
 
     function initialize(scanResult) {
         self._dataModel = new DeviceDataModel();
@@ -25,7 +26,8 @@ class DeviceDataController {
         self._posProvider = new PositionProvider();
         self._alerts = new AlertsProvider();
         self._operations = new OperationsQueue();
-        self._useSigma = App.getApp().getPropertiesProvider().getUseSigma();
+        self._measuring = new MeasuringModel(self);
+        self._useSigma = App.getApp().getPropertiesProvider().getUsedSigma();
 
         var pm = App.getApp().getProfile();
         self._charSearchSpeed = new CharacteristicSearchSpeed(
@@ -50,13 +52,25 @@ class DeviceDataController {
 
     /// Get data values
 
+    function getDeviceSens() {
+        return self._charCalibration.getDevSens();
+    }
+
+    function getMeasuringDose() {
+        return self._measuring.dosePower * self.getDoseFactor();
+    }
+
+    function getMeasuringData() {
+        return self._measuring;
+    }
+
     function getUsedSigma() {
         return self._useSigma;
     }
 
     function setUsedSigma(val) {
         self._useSigma = val;
-        App.getApp().getPropertiesProvider().setUseSigma(val);
+        App.getApp().getPropertiesProvider().setUsedSigma(val);
     }
 
     function getSearchSpeed() {
@@ -199,8 +213,16 @@ class DeviceDataController {
         return -1;
     }
 
+    function getDataModel() {
+        return self._dataModel;
+    }
+
     function getMeasuringTime() {
         return self._dataModel.getMeasuringTime();
+    }
+
+    function getMeasureSessionTime() {
+        return self._measuring.getElapsedTime();
     }
 
     function getCPM() {
@@ -225,9 +247,7 @@ class DeviceDataController {
 
     /////////
     function getService(device) {
-        System.println("Start " + System.getTimer());
         self._service = device.getService(self.getApp().getProfile().ATOM_FAST_SERVICE);
-        System.println("Stop " + System.getTimer());
         if(null == self._service) {
             System.println("Unable to get service");
             return false;
@@ -390,6 +410,7 @@ class DeviceDataController {
                 self._dataModel.update(value);
                 self.checkAlerts();
                 self.updateFitData();
+                self.getMeasuringData().update(self);
                 Ui.requestUpdate();
                 break;
         }

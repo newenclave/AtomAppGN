@@ -20,11 +20,11 @@ class PropertiesProvider {
 
     }
 
-    function getUseSigma() {
+    function getUsedSigma() {
         return self.getProperty(USE_SIGMA, 1);
     }
 
-    function setUseSigma(value) {
+    function setUsedSigma(value) {
         return self.setProperty(USE_SIGMA, value);
     }
 

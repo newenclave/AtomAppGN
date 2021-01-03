@@ -44,7 +44,12 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
             App.loadResource(Rez.Strings.menu_sigma_3)
         ];
 
-        var sigma = self._deviceController.getUsedSigma();
+        var sigma = 0;
+        if(null != self._deviceController) {
+            sigma = self._deviceController.getUsedSigma();
+        } else {
+            sigma = App.getApp().getPropertiesProvider().getUsedSigma();
+        }
         var themes = App.getApp().getAllThemes();
         var themeIdName = App.getApp().getThemeId();
         var themeId = 0;
@@ -81,8 +86,13 @@ class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
             break;
         case "ItemUseSigma":
             sigma++;
-            item.setSubLabel(useSigmasValues[sigma % useSigmasValues.size()]);
-            self._deviceController.setUsedSigma(sigma % useSigmasValues.size());
+            sigma %= useSigmasValues.size();
+            item.setSubLabel(useSigmasValues[sigma]);
+            if(null != self._deviceController) {
+                self._deviceController.setUsedSigma(sigma);
+            } else {
+                App.getApp().getPropertiesProvider().setUsedSigma(sigma % useSigmasValues.size());
+            }
             break;
         case "ItemUseTheme":
             themeId++;

@@ -106,7 +106,7 @@ class ViewController {
         var useCPS = App.getApp().getPropertiesProvider().getUseCPS();
         var writeActivity = App.getApp().getPropertiesProvider().getWriteActivity();
         var themeUsed = App.getApp().getThemeName();
-        var sigmaUsed = App.getApp().getPropertiesProvider().getUseSigma();
+        var sigmaUsed = App.getApp().getPropertiesProvider().getUsedSigma();
 
         var useSigmasValues = [
             App.loadResource(Rez.Strings.menu_sigma_1),
