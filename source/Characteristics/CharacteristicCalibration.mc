@@ -1,5 +1,5 @@
 
-class CharacteristicCalibration extends CharacteristicIface {
+class CharacteristicCalibration extends CharacteristicBase {
 
     private var _uuid;
     private var _deviceSens;
@@ -8,7 +8,7 @@ class CharacteristicCalibration extends CharacteristicIface {
     private var _measureTime;
 
     function initialize(queue, controller, uuid) {
-        CharacteristicIface.initialize(queue, controller);
+        CharacteristicBase.initialize(queue, controller);
         self._uuid = uuid;
         self._deviceSens = 0.0;
         self._backgroundCount = 0.0;

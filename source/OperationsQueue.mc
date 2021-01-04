@@ -59,6 +59,11 @@ class OperationsQueue {
         self._queue = self._queue.slice(1, self._queue.size());
     }
 
+    function popAndCall() {
+        self.pop();
+        self.callTop();
+    }
+
     function clear() {
         self._queue = [];
     }

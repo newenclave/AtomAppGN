@@ -4,6 +4,7 @@ using Toybox.Application as App;
 class BleDelegate extends Ble.BleDelegate {
 
     private var _eventListener;
+    private var _scanListener;
 
     function initialize() {
         BleDelegate.initialize();
@@ -13,10 +14,22 @@ class BleDelegate extends Ble.BleDelegate {
         self._eventListener = iface.weak();
     }
 
+    function setScanListener(iface) {
+        self._scanListener = iface.weak();
+    }
+
     private function isListenerAlive(symbol) {
-        var res = (null != self._eventListener)
-            && self._eventListener.stillAlive()
-            && self._eventListener.get() has symbol;
+        return self._isListenerAlive(self._eventListener, symbol);
+    }
+
+    private function isScanListenerAlive(symbol) {
+        return self._isListenerAlive(self._scanListener, symbol);
+    }
+
+    private function _isListenerAlive(listener, symbol) {
+        var res = (null != listener)
+                && listener.stillAlive()
+                && listener.get() has symbol;
         //System.println("Result for " + symbol.toString() + " " + res.toString());
         return res;
     }
@@ -64,14 +77,14 @@ class BleDelegate extends Ble.BleDelegate {
     }
 
     function onScanResults(scanResults) {
-        if(self.isListenerAlive(:onScanResults)) {
-            self._eventListener.get().onScanResults(scanResults);
+        if(self.isScanListenerAlive(:onScanResults)) {
+            self._scanListener.get().onScanResults(scanResults);
         }
     }
 
     function onScanStateChange(scanState, status) {
-        if(self.isListenerAlive(:onScanStateChange)) {
-            self._eventListener.get().onScanStateChange(scanState, status);
+        if(self.isScanListenerAlive(:onScanStateChange)) {
+            self._scanListener.get().onScanStateChange(scanState, status);
         }
     }
 

@@ -1,11 +1,11 @@
-class CharacteristicAddition extends CharacteristicIface {
+class CharacteristicAddition extends CharacteristicBase {
     private var _uuid;
 
     private var _values;
     private var _errors;
 
     function initialize(queue, controller, uuid) {
-        CharacteristicIface.initialize(queue, controller);
+        CharacteristicBase.initialize(queue, controller);
         self._uuid = uuid;
 
         self._values = [0.0, 0.0, 0.0];

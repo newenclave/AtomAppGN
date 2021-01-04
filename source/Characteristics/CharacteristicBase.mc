@@ -1,6 +1,6 @@
 using Toybox.BluetoothLowEnergy as Ble;
 
-class CharacteristicIface {
+class CharacteristicBase {
 
     enum {
         STATE_UNKNOWN,

@@ -12,8 +12,13 @@ class MainViewDelegate extends Ui.BehaviorDelegate {
 
     function onSelect() {
         if(self._selectDoublePress.press()) {
-            App.getApp().scanStart();
-            App.getApp().getViewController().pushScanView(true);
+            var storedDev = App.getApp().getLastSavedDevice();
+            if(null != storedDev) {
+                App.getApp().getViewController().pushDeviceView(storedDev);
+            } else {
+                App.getApp().scanStart();
+                App.getApp().getViewController().pushScanView(true);
+            }
             return true;
         }
         return false;

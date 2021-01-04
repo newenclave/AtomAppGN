@@ -27,6 +27,7 @@ class DeviceDataController {
         self._alerts = new AlertsProvider();
         self._operations = new OperationsQueue();
         self._measuring = new MeasuringModel(self);
+
         self._useSigma = App.getApp().getPropertiesProvider().getUsedSigma();
 
         var pm = App.getApp().getProfile();
@@ -354,7 +355,7 @@ class DeviceDataController {
 
     private function storeLastDevice() {
         try {
-            self.getApp().setValue("LastConnectedDevice", self._scanResult);
+            self.getApp().setLastSavedDevice(self._scanResult);
         } catch(ex) {
             System.println("Unable to save last device. " + ex.getErrorMessage());
         }
@@ -377,8 +378,7 @@ class DeviceDataController {
         System.println("onDescriptorWrite " + self._operations.size());
         if(Ble.cccdUuid().equals(descriptor.getUuid())) {
             if(self._operations.callbackTop([descriptor, status])) {
-                self._operations.pop();
-                self._operations.callTop();
+                self._operations.popAndCall();
             }
         }
     }
@@ -387,8 +387,7 @@ class DeviceDataController {
     function onCharacteristicWrite(characteristic, status) {
         System.println("onCharacteristicWrite " + self._operations.size());
         if(self._operations.callbackTop([characteristic, status])) {
-            self._operations.pop();
-            self._operations.callTop();
+            self._operations.popAndCall();
         }
     }
 
@@ -399,8 +398,7 @@ class DeviceDataController {
             return;
         }
         if(self._operations.callbackTop([characteristic, status, value])) {
-            self._operations.pop();
-            self._operations.callTop();
+            self._operations.popAndCall();
         }
     }
 

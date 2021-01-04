@@ -15,7 +15,7 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
         }
         switch(item.getId()) {
         case "ItemUseLast":
-            var lastDevice = App.getApp().getValue("LastConnectedDevice");
+            var lastDevice = App.getApp().getLastSavedDevice();
             App.getApp().getViewController().switchDeviceView(lastDevice);
             break;
         case "ItemUseFirst":

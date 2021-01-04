@@ -9,7 +9,7 @@ class ScanDataController {
 
     function initialize() {
         self._dataModel = new ScanDataModel();
-        App.getApp().getBleDelegate().setEventListener(self);
+        App.getApp().getBleDelegate().setScanListener(self);
     }
 
     function getModel() {

@@ -1,13 +1,13 @@
 using Toybox.BluetoothLowEnergy as Ble;
 
-class CharacteristicSearchSpeed extends CharacteristicIface {
+class CharacteristicSearchSpeed extends CharacteristicBase {
 
     private var _currentValue;
     private var _writeSpeedRequest;
     private var _uuid;
 
     function initialize(queue, controller, uuid) {
-        CharacteristicIface.initialize(queue, controller);
+        CharacteristicBase.initialize(queue, controller);
         self._currentValue = 1;
         self._writeSpeedRequest = -1;
         self._uuid = uuid;

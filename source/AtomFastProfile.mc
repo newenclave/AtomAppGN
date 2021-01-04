@@ -2,7 +2,7 @@ using Toybox.BluetoothLowEnergy as Ble;
 
 class AtomFastProfile {
 
-    public const ATOM_FAST_SERVICE          = Ble.stringToUuid("63462a4a-c28c-4ffd-87a4-2d23a1c72581");
+    public const ATOM_FAST_SERVICE          = Ble.stringToUuid("63462A4A-C28C-4FFD-87A4-2D23A1C72581");
     public const ATOM_FAST_CHAR             = Ble.stringToUuid("70BC767E-7A1A-4304-81ED-14B9AF54F7BD");
     public const ATOM_FAST_CHAR2            = Ble.stringToUuid("8E26EDC8-A1E9-4C06-9BD0-97B97E7B3FB9");
     public const ATOM_FAST_THRESHOSD1       = Ble.stringToUuid("3F71E820-1D98-46D4-8ED6-324C8428868C");

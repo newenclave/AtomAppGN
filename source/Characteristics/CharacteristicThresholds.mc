@@ -1,13 +1,13 @@
 using Toybox.BluetoothLowEnergy as Ble;
 
-class CharacteristicThresholds extends CharacteristicIface {
+class CharacteristicThresholds extends CharacteristicBase {
 
     private var _values;
     private var _writeSpeedRequest;
     private var _uuids;
 
     function initialize(queue, controller, uuids) {
-        CharacteristicIface.initialize(queue, controller);
+        CharacteristicBase.initialize(queue, controller);
         self._values = [
             new ThresholdModel(0),
             new ThresholdModel(1),

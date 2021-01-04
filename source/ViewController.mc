@@ -9,7 +9,7 @@ class ViewController {
     private function createMainMenu() {
         var menuName = Application.loadResource(Rez.Strings.menu_name);
         var menu = new Ui.Menu2({:title=>menuName});
-        var lastDevice = App.getApp().getValue("LastConnectedDevice");
+        var lastDevice = App.getApp().getLastSavedDevice();
 
         if(null != lastDevice) {
             var deviceName = lastDevice.getDeviceName();
@@ -291,6 +291,14 @@ class ViewController {
     function switchDeviceView(scanResult) {
         var deviceDataController = new DeviceDataController(scanResult);
         Ui.switchToView(
+            new DeviceDataView(deviceDataController),
+            new DeviceDataDelegate(deviceDataController),
+            Ui.SLIDE_DOWN);
+    }
+
+    function pushDeviceView(scanResult) {
+        var deviceDataController = new DeviceDataController(scanResult);
+        Ui.pushView(
             new DeviceDataView(deviceDataController),
             new DeviceDataDelegate(deviceDataController),
             Ui.SLIDE_DOWN);

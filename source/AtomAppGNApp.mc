@@ -10,8 +10,14 @@ class AtomAppGNApp extends Application.AppBase {
     private var _bleDelegate;
     private var _viewController;
     private var _theme;
+    private var _version32plus;
 
     function initialize() {
+
+        var ver = System.getDeviceSettings().monkeyVersion;
+        self._version32plus = (ver[0] > 3) || ((ver[0] == 3) && (ver[1] >= 2));
+        System.println("System 32+: " + self._version32plus.toString());
+
         AppBase.initialize();
         self._propertiesProvider = new PropertiesProvider();
         self._position = new PositionProvider();
@@ -87,6 +93,26 @@ class AtomAppGNApp extends Application.AppBase {
 
     public function setValue(key, value) {
         Application.Storage.setValue(key, value);
+    }
+
+    public function getLastSavedDevice() {
+        if(self._version32plus) {
+            var arr = self.getValue("LastConnectedDevice");
+            if(null != arr) {
+                if(arr instanceof Lang.Array) {
+                    return arr[0].get("device");
+                } else {
+                    return arr;
+                }
+            }
+        }
+        return null;
+    }
+
+    public function setLastSavedDevice(value) {
+        if(self._version32plus) {
+            self.setValue("LastConnectedDevice", [{"device" => value}]);
+        }
     }
 
     public function getProfile() {
