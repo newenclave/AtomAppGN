@@ -30,11 +30,11 @@ class MeasuringView extends BaseView {
     }
 
     function onShow() {
-        self.getMeasuringData().onShow();
+        self._deviceDataController.getMeasuringData().onShow();
     }
 
     function onHide() {
-        self.getMeasuringData().onHide();
+        self._deviceDataController.getMeasuringData().onHide();
     }
 
     function onUpdate(dc) {

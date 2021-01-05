@@ -1,9 +1,9 @@
 using Toybox.WatchUi as Ui;
 
-class MainView extends Ui.View {
+class MainView extends BaseView {
 
     function initialize() {
-        View.initialize();
+        BaseView.initialize();
     }
 
     function onLayout(dc) {

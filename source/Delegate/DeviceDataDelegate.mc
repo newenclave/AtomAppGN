@@ -29,6 +29,8 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
         if(self._viewId != INDEX_NONE) {
             Ui.popView(Ui.SLIDE_DOWN);
         }
+        self._views = [];
+        self._deviceDataController = null;
         Ui.popView(Ui.SLIDE_DOWN);
     }
 
