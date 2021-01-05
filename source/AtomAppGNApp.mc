@@ -4,6 +4,7 @@ using Toybox.BluetoothLowEnergy as Ble;
 
 class AtomAppGNApp extends Application.AppBase {
 
+    private var _devices;
     private var _propertiesProvider;
     private var _position;
     private var _atomFastProfile;
@@ -13,12 +14,13 @@ class AtomAppGNApp extends Application.AppBase {
     private var _version32plus;
 
     function initialize() {
+        AppBase.initialize();
 
         var ver = System.getDeviceSettings().monkeyVersion;
         self._version32plus = (ver[0] > 3) || ((ver[0] == 3) && (ver[1] >= 2));
         System.println("System 32+: " + self._version32plus.toString());
 
-        AppBase.initialize();
+        self._devices = new DevicesCollector();
         self._propertiesProvider = new PropertiesProvider();
         self._position = new PositionProvider();
 
@@ -26,9 +28,14 @@ class AtomAppGNApp extends Application.AppBase {
         self._viewController = new ViewController();
         self._bleDelegate = new BleDelegate();
         self._theme = new ThemeController();
+        self._bleDelegate.setEventListener(self._devices);
 
         Ble.registerProfile(self._atomFastProfile.getProfile());
         Ble.setDelegate(self._bleDelegate);
+    }
+
+    function getDevices() {
+        return self._devices;
     }
 
     function getTheme() {
@@ -56,10 +63,12 @@ class AtomAppGNApp extends Application.AppBase {
     }
 
     function scanStart() {
+        System.println("scanStart");
         Ble.setScanState(Ble.SCAN_STATE_SCANNING);
     }
 
     function scanStop() {
+        System.println("scanStop");
         Ble.setScanState(Ble.SCAN_STATE_OFF);
     }
 

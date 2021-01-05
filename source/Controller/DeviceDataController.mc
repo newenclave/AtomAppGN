@@ -5,6 +5,9 @@ using Toybox.Application as App;
 class DeviceDataController {
 
     private var _dataModel;
+    private var _operations;
+    private var _unregister;
+
     private var _activityTrack;
     private var _device;
     private var _scanResult;
@@ -12,7 +15,6 @@ class DeviceDataController {
     private var _ready;
     private var _posProvider;
     private var _alerts;
-    private var _operations;
     private var _charSearchSpeed;
     private var _charThreasholds;
     private var _charCalibration;
@@ -20,12 +22,17 @@ class DeviceDataController {
     private var _useSigma;
     private var _measuring;
 
-    function initialize(scanResult) {
+    function initialize(params) {
+        self._device = params.get(:device);
+        self._operations = params.get(:operations);
+        self._unregister = params.get(:unregisterCallback);
+
         self._dataModel = new DeviceDataModel();
-        self._scanResult = scanResult;
         self._posProvider = new PositionProvider();
         self._alerts = new AlertsProvider();
-        self._operations = new OperationsQueue();
+
+        //self._operations = new OperationsQueue();
+
         self._measuring = new MeasuringModel(self);
 
         self._useSigma = App.getApp().getPropertiesProvider().getUsedSigma();
@@ -44,7 +51,7 @@ class DeviceDataController {
                                         pm.ATOM_FAST_CALIBRATION_CHAR);
         self._charAddition = new CharacteristicAddition(self._operations, self,
                                         pm.ATOM_FAST_CHAR2);
-        self.start();
+        self._ready = false;
     }
 
     private function getApp() {
@@ -297,13 +304,10 @@ class DeviceDataController {
     }
 
     function activateNextNotification(param) {
-        //System.println("Notifications activate");
-        if(null == self._service) {
-            System.println("NULL service!");
-        }
         var char = self._service.getCharacteristic(self.getApp().getProfile().ATOM_FAST_CHAR);
         if(null != char) {
             var cccd = char.getDescriptor(Ble.cccdUuid());
+            System.println(cccd.getUuid());
             cccd.requestWrite([0x01, 0x00]b);
         } else {
             System.println("Bad character");
@@ -316,16 +320,6 @@ class DeviceDataController {
         self._dataModel.resetTimer();
         self.storeLastDevice();
         return true;
-    }
-
-    function start() {
-        try {
-            self._device = Ble.pairDevice(self._scanResult);
-            self.getApp().getBleDelegate().setEventListener(self);
-        } catch(ex) {
-            self._device = null;
-        }
-        self._ready = false;
     }
 
     private function reinit() {
@@ -342,11 +336,7 @@ class DeviceDataController {
     }
 
     function stop() {
-        if(null != self._device) {
-            Ble.unpairDevice(self._device);
-            self._device = null;
-            self.stopActivityWrite();
-        }
+        self._unregister.invoke(self._device);
     }
 
     function getReady() {
@@ -363,10 +353,7 @@ class DeviceDataController {
 
     /// On Connect
     function onConnectedStateChanged(device, state) {
-        System.println("On Connect " + state.toString());
-        if(device != self._device) {
-
-        } else if (!self._device.isConnected()) {
+        if (!self._device.isConnected()) {
             self._ready = false;
         } else {
             self.reinit();
@@ -375,7 +362,6 @@ class DeviceDataController {
 
     /// Descriptop Write request
     function onDescriptorWrite(descriptor, status) {
-        System.println("onDescriptorWrite " + self._operations.size());
         if(Ble.cccdUuid().equals(descriptor.getUuid())) {
             if(self._operations.callbackTop([descriptor, status])) {
                 self._operations.popAndCall();
@@ -385,7 +371,6 @@ class DeviceDataController {
 
     // Write request
     function onCharacteristicWrite(characteristic, status) {
-        System.println("onCharacteristicWrite " + self._operations.size());
         if(self._operations.callbackTop([characteristic, status])) {
             self._operations.popAndCall();
         }

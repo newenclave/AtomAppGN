@@ -17,10 +17,7 @@ class ScanDataDelegate extends Ui.BehaviorDelegate {
 
     function onNewDataUpdate() {
         if(self._useFirst) {
-            var cur = self._scanDataController.getModel().getCur();
-            if(null != cur) {
-                App.getApp().getViewController().switchDeviceView(cur);
-            }
+            self.onSelect();
         } else {
             Ui.requestUpdate();
         }

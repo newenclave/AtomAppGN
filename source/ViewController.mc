@@ -289,18 +289,26 @@ class ViewController {
     }
 
     function switchDeviceView(scanResult) {
-        var deviceDataController = new DeviceDataController(scanResult);
-        Ui.switchToView(
-            new DeviceDataView(deviceDataController),
-            new DeviceDataDelegate(deviceDataController),
-            Ui.SLIDE_DOWN);
+        var deviceDataController = App.getApp().getDevices().pairNew(scanResult);
+        if(null != deviceDataController)  {
+            Ui.switchToView(
+                new DeviceDataView(deviceDataController),
+                new DeviceDataDelegate(deviceDataController),
+                Ui.SLIDE_DOWN);
+        } else {
+            // TODO:  Show error
+        }
     }
 
     function pushDeviceView(scanResult) {
-        var deviceDataController = new DeviceDataController(scanResult);
-        Ui.pushView(
-            new DeviceDataView(deviceDataController),
-            new DeviceDataDelegate(deviceDataController),
-            Ui.SLIDE_DOWN);
+        var deviceDataController = App.getApp().getDevices().pairNew(scanResult);
+        if(null != deviceDataController)  {
+            Ui.pushView(
+                new DeviceDataView(deviceDataController),
+                new DeviceDataDelegate(deviceDataController),
+                Ui.SLIDE_DOWN);
+        } else {
+            // TODO:  Show error
+        }
     }
 }

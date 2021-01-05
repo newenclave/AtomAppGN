@@ -41,6 +41,10 @@ class ScanDataController {
         }
     }
 
+    function onScanStateChange(scanState, status) {
+        System.println("ScanStateChange => " + scanState.toString());
+    }
+
     private function contains(iter, obj) {
         for(var uuid = iter.next(); uuid != null; uuid = iter.next()) {
             if(uuid.equals(obj)) {
