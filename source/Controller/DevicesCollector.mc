@@ -22,6 +22,7 @@ class DevicesCollector {
                     :unregisterCallback => method(:stopUpregister)
                 });
                 self._devices.add({:device => device, :controller => controller});
+                System.println("Added new device. Total: " + self._devices.size().toString());
                 return controller;
             }
         } catch(e) {
@@ -32,13 +33,14 @@ class DevicesCollector {
 
     function stopUpregister(device) {
         Ble.unpairDevice(device);
-        self._devices.remove(device);
+        self._devices.remove(self.getDeviceDictionary(device));
+        System.println("A device removed. Total: " + self._devices.size().toString());
     }
 
     /// On Connect
     function onConnectedStateChanged(device, state) {
         System.println("On Connect " + state.toString());
-        var controller = self.getConnectionByDevice(device);
+        var controller = self.getControllerByDevice(device);
         if(null != controller) {
             controller.onConnectedStateChanged(device, state);
         }
@@ -47,7 +49,7 @@ class DevicesCollector {
     /// Descriptop Write request
     function onDescriptorWrite(descriptor, status) {
         System.println("onDescriptorWrite ");
-        var controller = self.getConnectionByDevice(descriptor.getCharacteristic().getService().getDevice());
+        var controller = self.getControllerByDevice(descriptor.getCharacteristic().getService().getDevice());
         if(null != controller) {
             controller.onDescriptorWrite(descriptor, status);
         }
@@ -56,7 +58,7 @@ class DevicesCollector {
     // Write request
     function onCharacteristicWrite(characteristic, status) {
         System.println("onCharacteristicWrite ");
-        var controller = self.getConnectionByDevice(characteristic.getService().getDevice());
+        var controller = self.getControllerByDevice(characteristic.getService().getDevice());
         if(null != controller) {
             controller.onCharacteristicWrite(characteristic, status);
         }
@@ -64,24 +66,32 @@ class DevicesCollector {
 
     // read request
     function onCharacteristicRead(characteristic, status, value) {
-        var controller = self.getConnectionByDevice(characteristic.getService().getDevice());
+        var controller = self.getControllerByDevice(characteristic.getService().getDevice());
         if(null != controller) {
             controller.onCharacteristicRead(characteristic, status, value);
         }
     }
 
     function onCharacteristicChanged(characteristic, value) {
-        var controller = self.getConnectionByDevice(characteristic.getService().getDevice());
+        var controller = self.getControllerByDevice(characteristic.getService().getDevice());
         if(null != controller) {
             controller.onCharacteristicChanged(characteristic, value);
         }
     }
 
-    private function getConnectionByDevice(device) {
+    private function getDeviceDictionary(device) {
         for(var i=0; i<self._devices.size(); i++) {
             if(self._devices[i].get(:device) == device) {
-                return self._devices[i].get(:controller);
+                return self._devices[i];
             }
+        }
+        return null;
+    }
+
+    private function getControllerByDevice(device) {
+        var dict = self.getDeviceDictionary(device);
+        if(null != dict) {
+            return dict.get(:controller);
         }
         return null;
     }

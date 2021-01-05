@@ -25,13 +25,13 @@ class DeviceDataController {
     function initialize(params) {
         self._device = params.get(:device);
         self._operations = params.get(:operations);
-        self._unregister = params.get(:unregisterCallback);
+        //self._unregister = params.get(:unregisterCallback);
 
         self._dataModel = new DeviceDataModel();
         self._posProvider = new PositionProvider();
         self._alerts = new AlertsProvider();
 
-        //self._operations = new OperationsQueue();
+        self._operations = new OperationsQueue();
 
         self._measuring = new MeasuringModel(self);
 
@@ -307,7 +307,6 @@ class DeviceDataController {
         var char = self._service.getCharacteristic(self.getApp().getProfile().ATOM_FAST_CHAR);
         if(null != char) {
             var cccd = char.getDescriptor(Ble.cccdUuid());
-            System.println(cccd.getUuid());
             cccd.requestWrite([0x01, 0x00]b);
         } else {
             System.println("Bad character");
@@ -337,6 +336,18 @@ class DeviceDataController {
 
     function stop() {
         self._unregister.invoke(self._device);
+        self._operations.clear();
+        self._operations = null;
+        self._unregister = null;
+//        self._dataModel = null;
+//        self._posProvider = null;
+//        self._alerts = null;
+//        self._measuring = null;
+//        self._useSigma = null;
+//        self._charSearchSpeed = null;
+//        self._charThreasholds = null;
+//        self._charCalibration = null;
+//        self._charAddition = null;
     }
 
     function getReady() {
