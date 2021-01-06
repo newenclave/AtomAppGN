@@ -19,7 +19,8 @@ class DevicesCollector {
                 var controller = new DeviceDataController({
                     :device => device,
                     :operations => self._operations,
-                    :unregisterCallback => method(:stopUpregister)
+                    :unregisterCallback => method(:stopUpregister),
+                    :scanResult => scanResult
                 });
                 self._devices.add({:device => device, :controller => controller});
                 System.println("Added new device. Total: " + self._devices.size().toString());

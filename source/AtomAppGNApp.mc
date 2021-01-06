@@ -63,12 +63,10 @@ class AtomAppGNApp extends Application.AppBase {
     }
 
     function scanStart() {
-        System.println("scanStart");
         Ble.setScanState(Ble.SCAN_STATE_SCANNING);
     }
 
     function scanStop() {
-        System.println("scanStop");
         Ble.setScanState(Ble.SCAN_STATE_OFF);
     }
 

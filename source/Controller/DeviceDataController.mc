@@ -26,6 +26,7 @@ class DeviceDataController {
         self._device = params.get(:device);
         //self._operations = params.get(:operations);
         self._unregister = params.get(:unregisterCallback);
+        self._scanResult = params.get(:scanResult);
 
         self._dataModel = new DeviceDataModel();
         self._posProvider = new PositionProvider();
