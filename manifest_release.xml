@@ -2,6 +2,7 @@
 <iq:application entry="AtomAppGNApp" id="caef0d6c5f274190b2fa958ceff6efc5" launcherIcon="@Drawables.LauncherIcon" minSdkVersion="3.1.0" name="@Strings.AppName" type="watch-app" version="0.2.1">
         <iq:products>
             <iq:product id="d2air"/>
+            <iq:product id="descentmk2"/>
             <iq:product id="edge1030"/>
             <iq:product id="edge1030plus"/>
             <iq:product id="edge830"/>
