@@ -56,7 +56,7 @@ class ScanDataModel {
     }
 
     public function getSize() {
-        return _data.size();
+        return self._data.size();
     }
 
     function clear() {
@@ -65,7 +65,7 @@ class ScanDataModel {
 
     private function getElement(index) {
         if((index >= 0) && (index < self.getSize())) {
-            return _data[index];
+            return self._data[index];
         } else {
             return null;
         }

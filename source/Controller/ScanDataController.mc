@@ -17,7 +17,7 @@ class ScanDataController {
     }
 
     function setUpdateListener(iface) {
-        _updateListener = iface.weak();
+        self._updateListener = iface.weak();
     }
 
     function callUpdate() {

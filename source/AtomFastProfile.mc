@@ -62,7 +62,7 @@ class AtomFastProfile {
     };
 
     public function getProfile() {
-        return _profileDef;
+        return self._profileDef;
     }
 
     public function getDescription(uuid) {

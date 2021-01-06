@@ -83,7 +83,7 @@ class AtomAppGNApp extends Application.AppBase {
     }
 
     function getPropertiesProvider() {
-        return _propertiesProvider;
+        return self._propertiesProvider;
     }
 
     function getViewController() {
