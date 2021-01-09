@@ -5,11 +5,11 @@ using Toybox.Application as App;
 class DevicesCollector {
 
     private var _devices;
-    private var _operations;
+//    private var _operations;
 
     function initialize() {
         self._devices = [];
-        self._operations = new OperationsQueue();
+//        self._operations = new OperationsQueue();
     }
 
     function pairNew(scanResult) {
@@ -18,7 +18,7 @@ class DevicesCollector {
             if(null != device) {
                 var controller = new DeviceDataController({
                     :device => device,
-                    :operations => self._operations,
+                    //:operations => self._operations,
                     :unregisterCallback => method(:stopUpregister),
                     :scanResult => scanResult
                 });
@@ -38,7 +38,7 @@ class DevicesCollector {
         System.println("A device removed. Total: " + self._devices.size().toString());
     }
 
-    /// On Connect
+    /// ===================== Callbacks ======================
     function onConnectedStateChanged(device, state) {
         System.println("On Connect " + state.toString());
         var controller = self.getControllerByDevice(device);
@@ -79,6 +79,7 @@ class DevicesCollector {
             controller.onCharacteristicChanged(characteristic, value);
         }
     }
+    /// ===================== Callbacks ======================
 
     private function getDeviceDictionary(device) {
         for(var i=0; i<self._devices.size(); i++) {

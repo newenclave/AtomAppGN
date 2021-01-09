@@ -8,29 +8,32 @@ class BleDelegate extends Ble.BleDelegate {
 
     function initialize() {
         BleDelegate.initialize();
+        self._eventListener = null;
+        self._scanListener = null;
     }
 
     function setEventListener(iface) {
         self._eventListener = iface.weak();
+        System.println("event for " + iface.toString());
     }
 
     function setScanListener(iface) {
         self._scanListener = iface.weak();
+        System.println("scan for " + iface.toString());
     }
 
-    private function isListenerAlive(symbol) {
+    function isListenerAlive(symbol) {
         return self._isListenerAlive(self._eventListener, symbol);
     }
 
-    private function isScanListenerAlive(symbol) {
+    function isScanListenerAlive(symbol) {
         return self._isListenerAlive(self._scanListener, symbol);
     }
 
     private function _isListenerAlive(listener, symbol) {
         var res = (null != listener)
                 && listener.stillAlive()
-                && listener.get() has symbol;
-        //System.println("Result for " + symbol.toString() + " " + res.toString());
+                && (listener.get() has symbol);
         return res;
     }
 
@@ -71,6 +74,7 @@ class BleDelegate extends Ble.BleDelegate {
     }
 
     function onProfileRegister(uuid, status) {
+        System.println("Profile register: '" + status.toString() + "' " + status.toString());
         if(self.isListenerAlive(:onProfileRegister)) {
             self._eventListener.get().onProfileRegister(uuid, status);
         }

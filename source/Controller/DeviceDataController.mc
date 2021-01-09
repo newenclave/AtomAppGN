@@ -18,7 +18,7 @@ class DeviceDataController {
     private var _charSearchSpeed;
     private var _charThreasholds;
     private var _charCalibration;
-    private var _charAddition;
+//    private var _charAddition;
     private var _useSigma;
     private var _measuring;
 
@@ -50,8 +50,8 @@ class DeviceDataController {
         self._charCalibration = new CharacteristicCalibration(
                                         self._operations, self,
                                         pm.ATOM_FAST_CALIBRATION_CHAR);
-        self._charAddition = new CharacteristicAddition(self._operations, self,
-                                        pm.ATOM_FAST_CHAR2);
+//        self._charAddition = new CharacteristicAddition(self._operations, self,
+//                                        pm.ATOM_FAST_CHAR2);
         self._ready = false;
     }
 
@@ -126,8 +126,8 @@ class DeviceDataController {
 
     function getSearchError() {
         var sId = self.getSearchSpeed();
-        var fsmConst = self._charAddition.getValue(sId);
-        var sError = self._charAddition.getErrorValue(sId);
+        var fsmConst = 0; //self._charAddition.getValue(sId);
+        var sError = 0; //self._charAddition.getErrorValue(sId);
         if(self.getImpulses() > fsmConst && self.getImpulses() > 0) {
             sError = 100.0 / Math.sqrt(self.getImpulses().toFloat());
         }
@@ -328,7 +328,7 @@ class DeviceDataController {
             self._operations.push(method(:activateNextNotification), [], method(:notificationsReady), []);
             self._operations.callTop();
             self._charSearchSpeed.update();
-            self._charAddition.update();
+            //self._charAddition.update();
             self._charCalibration.update();
             self._charThreasholds.update();
         }

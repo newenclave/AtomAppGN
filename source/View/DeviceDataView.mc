@@ -52,11 +52,13 @@ class DeviceDataView extends BaseView {
         self.drawDoseAccumulated(dc);
         self.drawTemperature(dc);
         self.drawSearchError(dc);
+        //self.drawSystemBattery(dc);
         //View.onUpdate(dc);
+        self.drawBattery(dc);
 
-        if(ready) {
-            self.drawBattery(dc);
-        }
+//        if(ready) {
+//            self.drawBattery(dc, textLeft);
+//        }
     }
 
     function drawTemperature(dc) {
@@ -142,6 +144,7 @@ class DeviceDataView extends BaseView {
 
         var label = self.findDrawable("DeviceViewLabelTime");
         var sessionLabel = self.findDrawable("DeviceViewLabelSessionTime");
+
         label.setText(dateString);
         label.draw(dc);
         if(connected) {
@@ -152,15 +155,43 @@ class DeviceDataView extends BaseView {
     }
 
     private function drawBattery(dc) {
-        var width = 40;
-        var fillWidth = (width.toFloat() / 100.0 * self._deviceDataController.getCharge()).toNumber();
-        var height = 10;
-        var posX = (dc.getWidth() / 2) - (width / 2);
-        var posY = self.getHeightPercents(dc, 4);
-        var charging = self._deviceDataController.isCharging();
-        var charge = self._deviceDataController.getCharge();
+        var width = self.getWidthPercents(dc, 20);
+        var height = 12; //self.getHeightPercents(dc, 4);
 
-         if(charge < 15) {
+        var posX = self.getWidthPercents(dc, 40);
+        var posX2 = self.getWidthPercents(dc, 53);
+        var posY = self.getHeightPercents(dc, 2); // 4;
+
+//        self.drawBatteryBase(dc,
+//            System.getSystemStats().battery.toNumber(),
+//            posX, posY, width, height);
+
+        self.drawBatteryBase(dc,
+//            System.getSystemStats().battery.toNumber(),
+            self._deviceDataController.getCharge(),
+            posX, posY, width, height);
+
+//        self.drawVerticalBatteryBase(dc,
+//            System.getSystemStats().battery.toNumber(),
+////            self._deviceDataController.getCharge(),
+//            posX, posY, width, 20);
+
+//        posX = self.getWidthPercents(dc, 10);
+//        posY = self.getHeightPercents(dc, 20);
+//        self.drawVerticalBatteryBase(dc, System.getSystemStats().battery.toNumber(),
+//            posX, posY, 15, 20);
+//        self.drawVerticalBatteryBase(dc, System.getSystemStats().battery.toNumber(),
+//            posX + 20, posY, 15, 20);
+    }
+
+    static private function drawBatteryBase(dc, charge, x, y, width, height) {
+        var factor = 100.0 / (width - 4);
+        var fillWidth = ((charge / factor) + ((charge.toNumber() % factor.toNumber()) > 0 ? 1 : 0)).toNumber();
+        if(fillWidth > (width - 4)) {
+            fillWidth = (width - 4);
+        }
+
+        if(charge < 15) {
             dc.setColor(self._theme.COLOR_DANGER, self._theme.COLOR_BACKGROUND);
         } else if (charge < 30) {
             dc.setColor(self._theme.COLOR_ABOVE_NORMAL, self._theme.COLOR_BACKGROUND);
@@ -168,10 +199,30 @@ class DeviceDataView extends BaseView {
             dc.setColor(self._theme.COLOR_NORMAL, self._theme.COLOR_BACKGROUND);
         }
 
-        dc.drawRectangle(posX, posY, width, height);
-        dc.fillRectangle(posX, posY, fillWidth, height);
-        if(charging) {
-            dc.drawText(posX + width + 5, posY, Graphics.FONT_SMALL, "⚡", Graphics.TEXT_JUSTIFY_LEFT);
+        dc.fillRectangle(x + 2, y + 2, fillWidth, height - 4);
+
+        dc.setColor(self._theme.COLOR_DARK, self._theme.COLOR_BACKGROUND);
+        dc.drawRoundedRectangle(x, y, width, height, 2);
+    }
+
+    static private function drawVerticalBatteryBase(dc, charge, x, y, width, height) {
+        var factor = 100.0 / (height - 4);
+        var fillHeight = ((charge / factor) + ((charge.toNumber() % factor.toNumber()) > 0 ? 1 : 0)).toNumber();
+        if(fillHeight > (height - 4)) {
+            fillHeight = (height - 4);
         }
+
+        if(charge < 15) {
+            dc.setColor(self._theme.COLOR_DANGER, self._theme.COLOR_BACKGROUND);
+        } else if (charge < 30) {
+            dc.setColor(self._theme.COLOR_ABOVE_NORMAL, self._theme.COLOR_BACKGROUND);
+        } else {
+            dc.setColor(self._theme.COLOR_NORMAL, self._theme.COLOR_BACKGROUND);
+        }
+
+        dc.fillRectangle(x + 2, y + height - 2 - fillHeight, width - 4, fillHeight);
+
+        dc.setColor(self._theme.COLOR_DARK, self._theme.COLOR_BACKGROUND);
+        dc.drawRoundedRectangle(x, y, width, height, 2);
     }
 }

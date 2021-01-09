@@ -1,3 +1,5 @@
+/*
+
 class CharacteristicAddition extends CharacteristicBase {
     private var _uuid;
 
@@ -50,3 +52,5 @@ class CharacteristicAddition extends CharacteristicBase {
         return true;
     }
 }
+
+*/

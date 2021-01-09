@@ -18,8 +18,6 @@ class CharacteristicThresholds extends CharacteristicBase {
 
     function update() {
         self.read([0], [0]);
-        self.pushRead([1], [1]);
-        self.pushRead([2], [2]);
     }
 
     function getValue(id) {
@@ -38,6 +36,9 @@ class CharacteristicThresholds extends CharacteristicBase {
     function onReadImpl(param, bleParams) {
         var id = param[0];
         self._values[id].update(bleParams[2]);
+        if(id < 2) {
+            self.pushRead([id+1], [id+1]);
+        }
         return true;
     }
 }

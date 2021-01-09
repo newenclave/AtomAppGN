@@ -26,12 +26,24 @@ class AtomAppGNApp extends Application.AppBase {
 
         self._atomFastProfile = new AtomFastProfile();
         self._viewController = new ViewController();
-        self._bleDelegate = new BleDelegate();
         self._theme = new ThemeController();
-        self._bleDelegate.setEventListener(self._devices);
 
-        Ble.registerProfile(self._atomFastProfile.getProfile());
+        self._bleDelegate = new BleDelegate();
+        self._bleDelegate.setEventListener(self._devices);
+    }
+
+    function onStart(state) {
         Ble.setDelegate(self._bleDelegate);
+        Ble.registerProfile(self._atomFastProfile.getProfile());
+    }
+
+    function onStop(state) {
+        self._position.disable();
+        self._propertiesProvider = null;
+        self._position = null;
+        self._atomFastProfile = null;
+        self._bleDelegate = null;
+        self._viewController = null;
     }
 
     function getDevices() {
@@ -68,18 +80,6 @@ class AtomAppGNApp extends Application.AppBase {
 
     function scanStop() {
         Ble.setScanState(Ble.SCAN_STATE_OFF);
-    }
-
-    function onStart(state) {
-    }
-
-    function onStop(state) {
-        self._position.disable();
-        self._propertiesProvider = null;
-        self._position = null;
-        self._atomFastProfile = null;
-        self._bleDelegate = null;
-        self._viewController = null;
     }
 
     function getPropertiesProvider() {
