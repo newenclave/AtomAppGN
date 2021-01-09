@@ -1,7 +1,7 @@
 # AtomAppGN
 Atom Fast dosimeter application for Garmin devices. [Garmin IQ store](https://apps.garmin.com/en-US/apps/e769b70b-b5a2-4534-8a7a-a83131b54152)
 
-![Fenix 5 Plus view](docs/ScreenShot.png)
+![Fenix 5 Plus view](docs/ScreenShot2.jpg)
 
 The application doesn't turn your watch into a dosimeter.
 It uses an Atom Fast device to read and show the data.
