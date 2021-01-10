@@ -32,15 +32,15 @@ class AtomFastProfile {
             }, {
                 :uuid => ATOM_FAST_THRESHOSD3,
                 :descriptors => [ Ble.cccdUuid() ]
-//            }, {
-//                :uuid => ATOM_FAST_CHAR2,
-//                :descriptors => [ Ble.cccdUuid() ]
             }, {
                 :uuid => ATOM_FAST_CALIBRATION_CHAR,
                 :descriptors => [ Ble.cccdUuid() ]
             }, {
                 :uuid => ATOM_FAST_CONFIG_CHAR,
                 :descriptors => [ Ble.cccdUuid() ]
+//            }, {
+//                :uuid => ATOM_FAST_CHAR2,
+//                :descriptors => [ Ble.cccdUuid() ]
             }
         ]
     };

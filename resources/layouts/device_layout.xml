@@ -1,11 +1,17 @@
 <layout id="DeviceLayout">
 
+ 	<label id="DeviceViewAtomBatteryPercens" 
+ 			x="52%" y="6%" 
+ 			font="Graphics.FONT_SYSTEM_TINY" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
+ 			/>
+
  	<label id="DeviceViewLabelTime" 
  			x="center" y="20%" 
  			font="Graphics.FONT_NUMBER_MEDIUM" 
  			justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
- 			
+			
  	<label id="DeviceViewLabelSessionTime" 
  			x="center" y="34%" 
  			font="Graphics.FONT_XTINY" 
@@ -13,6 +19,7 @@
  			/>
 
 	<!-- Central DOSE Rate, Temterature, Dose Units -->
+	<!-- x - 64% for dose rate and 68 if arcs are enabled -->
  	<label id="DeviceViewLabelDoseRate" 
  			x="68%" y="52%"
  			font="Graphics.FONT_NUMBER_MEDIUM" 
@@ -39,7 +46,7 @@
 
 	<!-- BOTTOM -->
  	<label id="DeviceViewLabelCPM" 
- 			x="12%" y="72%"
+ 			x="16%" y="72%"
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>

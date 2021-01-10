@@ -111,12 +111,15 @@ class DeviceDataView extends BaseView {
         var useCPS = Application.getApp().getPropertiesProvider().getUseCPS();
         var label = self.findDrawable("DeviceViewLabelCPM");
         var text = "";
+        var value = 0;
         if(useCPS) {
+            value = (self._deviceDataController.getCPS());
             text = Application.loadResource(Rez.Strings.text_CPS)
-                     + " " + self._deviceDataController.getCPS().toString();
+                     + " " + value.toString();
         } else {
+            value = self._deviceDataController.getCPM();
             text = Application.loadResource(Rez.Strings.text_CPM)
-                     + " " + self._deviceDataController.getCPM().toString();
+                     + " " + value.toString();
         }
         label.setText(text);
         label.draw(dc);
@@ -155,74 +158,131 @@ class DeviceDataView extends BaseView {
     }
 
     private function drawBattery(dc) {
-        var width = self.getWidthPercents(dc, 20);
-        var height = 12; //self.getHeightPercents(dc, 4);
+        var percentsLabel = self.findDrawable("DeviceViewAtomBatteryPercens");
+        percentsLabel.setText(self._deviceDataController.getCharge().toString() + "%");
+        percentsLabel.setColor(self._theme.COLOR_DARK);
+        percentsLabel.draw(dc);
 
-        var posX = self.getWidthPercents(dc, 40);
-        var posX2 = self.getWidthPercents(dc, 53);
-        var posY = self.getHeightPercents(dc, 2); // 4;
+        var width = self.getWidthPercents(dc, 14);
+        var height = self.getHeightPercents(dc, 6);
 
-//        self.drawBatteryBase(dc,
-//            System.getSystemStats().battery.toNumber(),
-//            posX, posY, width, height);
+        var posX = self.getWidthPercents(dc, 35);
+        var posY = self.getHeightPercents(dc, 3); // 4;
 
         self.drawBatteryBase(dc,
 //            System.getSystemStats().battery.toNumber(),
             self._deviceDataController.getCharge(),
             posX, posY, width, height);
 
-//        self.drawVerticalBatteryBase(dc,
-//            System.getSystemStats().battery.toNumber(),
-////            self._deviceDataController.getCharge(),
-//            posX, posY, width, 20);
+//        self.drawBatteryLeftArc(dc, System.getSystemStats().battery.toNumber());
+//        self.drawBatteryRightArc(dc, self._deviceDataController.getCharge());
+    }
 
-//        posX = self.getWidthPercents(dc, 10);
-//        posY = self.getHeightPercents(dc, 20);
-//        self.drawVerticalBatteryBase(dc, System.getSystemStats().battery.toNumber(),
-//            posX, posY, 15, 20);
-//        self.drawVerticalBatteryBase(dc, System.getSystemStats().battery.toNumber(),
-//            posX + 20, posY, 15, 20);
+    private function drawBatteryLeftArc(dc, chargeVal) {
+        dc.setPenWidth(1);
+        var charge = (chargeVal * (90.0 / 100.0)).toNumber();
+        var arkRadius = self.getWidthPercents(dc, 46);
+        var center = [self.getWidthPercents(dc, 50), self.getHeightPercents(dc, 50)];
+
+        dc.setPenWidth(10);
+        dc.setColor(self._theme.COLOR_DARK, self._theme.COLOR_BACKGROUND);
+        dc.drawArc(center[0], center[1],
+            arkRadius, Graphics.ARC_COUNTER_CLOCKWISE, 90 + 45 - 1, 180 + 45 + 1);
+
+        dc.setPenWidth(8);
+        dc.setColor(self._theme.COLOR_BACKGROUND, self._theme.COLOR_BACKGROUND);
+        dc.drawArc(center[0], center[1],
+            arkRadius, Gfx.ARC_COUNTER_CLOCKWISE, 90 + 45, 180 + 45);
+
+        if(charge > 0) {
+            dc.setPenWidth(6);
+            dc.setColor(self.getBatteryColor(chargeVal), self._theme.COLOR_BACKGROUND);
+            dc.drawArc(center[0], center[1],
+                arkRadius, Gfx.ARC_CLOCKWISE, 180 + 45, 180 + 45 - charge);
+        }
+
+//        dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_BLACK);
+//        dc.drawArc(center[0], center[1],
+//            arkRadius, Gfx.ARC_COUNTER_CLOCKWISE, 270 + 45, (270 + 45 + charge) % 360);
+
+//        dc.setColor(self._theme.COLOR_NORMAL, self._theme.COLOR_BACKGROUND);
+//        dc.drawArc(self.getWidthPercents(dc, 50), self.getHeightPercents(dc, 50),
+//            self.getWidthPercents(dc, 48), Graphics.ARC_CLOCKWISE, 90, 270 + 45);
+
+        dc.setPenWidth(1);
+
+    }
+
+    private function drawBatteryRightArc(dc, chargeVal) {
+        dc.setPenWidth(1);
+        var charge = (chargeVal * (44.0 / 100.0)).toNumber();
+        var arkRadius = self.getWidthPercents(dc, 46);
+        var center = [self.getWidthPercents(dc, 50), self.getHeightPercents(dc, 50)];
+
+        dc.setPenWidth(10);
+        dc.setColor(self._theme.COLOR_DARK, self._theme.COLOR_BACKGROUND);
+        dc.drawArc(center[0], center[1],
+            arkRadius, Graphics.ARC_CLOCKWISE, 46, 0);
+
+        dc.setPenWidth(8);
+        dc.setColor(self._theme.COLOR_BACKGROUND, self._theme.COLOR_BACKGROUND);
+        dc.drawArc(center[0], center[1],
+            arkRadius, Gfx.ARC_CLOCKWISE, 45, 1);
+
+        if(charge > 0) {
+            dc.setPenWidth(6);
+            dc.setColor(self.getBatteryColor(charge), self._theme.COLOR_BACKGROUND);
+            dc.drawArc(center[0], center[1],
+                arkRadius, Gfx.ARC_COUNTER_CLOCKWISE, 1, (1 + charge) % 360);
+        }
+
+//        dc.setColor(self._theme.COLOR_NORMAL, self._theme.COLOR_BACKGROUND);
+//        dc.drawArc(self.getWidthPercents(dc, 50), self.getHeightPercents(dc, 50),
+//            self.getWidthPercents(dc, 48), Graphics.ARC_CLOCKWISE, 90, 270 + 45);
+
+        dc.setPenWidth(1);
+
     }
 
     static private function drawBatteryBase(dc, charge, x, y, width, height) {
-        var factor = 100.0 / (width - 4);
-        var fillWidth = ((charge / factor) + ((charge.toNumber() % factor.toNumber()) > 0 ? 1 : 0)).toNumber();
-        if(fillWidth > (width - 4)) {
-            fillWidth = (width - 4);
-        }
+        var fillWidth = self.getBatteryFill(charge, width - 4);
 
-        if(charge < 15) {
-            dc.setColor(self._theme.COLOR_DANGER, self._theme.COLOR_BACKGROUND);
-        } else if (charge < 30) {
-            dc.setColor(self._theme.COLOR_ABOVE_NORMAL, self._theme.COLOR_BACKGROUND);
-        } else {
-            dc.setColor(self._theme.COLOR_NORMAL, self._theme.COLOR_BACKGROUND);
-        }
-
+        dc.setColor(self.getBatteryColor(charge), self._theme.COLOR_BACKGROUND);
         dc.fillRectangle(x + 2, y + 2, fillWidth, height - 4);
 
         dc.setColor(self._theme.COLOR_DARK, self._theme.COLOR_BACKGROUND);
         dc.drawRoundedRectangle(x, y, width, height, 2);
+
+        var h30 = height / 3;
+        dc.fillRoundedRectangle(x + width - 1, y + (height / 2) - (h30 / 2), 3, h30, 2);
     }
 
     static private function drawVerticalBatteryBase(dc, charge, x, y, width, height) {
-        var factor = 100.0 / (height - 4);
-        var fillHeight = ((charge / factor) + ((charge.toNumber() % factor.toNumber()) > 0 ? 1 : 0)).toNumber();
-        if(fillHeight > (height - 4)) {
-            fillHeight = (height - 4);
-        }
-
-        if(charge < 15) {
-            dc.setColor(self._theme.COLOR_DANGER, self._theme.COLOR_BACKGROUND);
-        } else if (charge < 30) {
-            dc.setColor(self._theme.COLOR_ABOVE_NORMAL, self._theme.COLOR_BACKGROUND);
-        } else {
-            dc.setColor(self._theme.COLOR_NORMAL, self._theme.COLOR_BACKGROUND);
-        }
+        var fillHeight = self.getBatteryFill(charge, height - 4);
+        dc.setColor(self.getBatteryColor(charge), self._theme.COLOR_BACKGROUND);
 
         dc.fillRectangle(x + 2, y + height - 2 - fillHeight, width - 4, fillHeight);
 
         dc.setColor(self._theme.COLOR_DARK, self._theme.COLOR_BACKGROUND);
         dc.drawRoundedRectangle(x, y, width, height, 2);
+    }
+
+    static private function getBatteryFill(charge, value) {
+        var factor = 100.0 / value;
+        var result = ((charge / factor) + ((charge.toNumber() % factor.toNumber()) > 0 ? 1 : 0)).toNumber();
+        if(result > value) {
+            result = value;
+        }
+        return result;
+    }
+
+    static private function getBatteryColor(charge) {
+        if(charge < 15) {
+            return self._theme.COLOR_DANGER;
+        } else if (charge < 30) {
+            return self._theme.COLOR_ABOVE_NORMAL;
+        } else {
+            return self._theme.COLOR_NORMAL;
+        }
     }
 }
