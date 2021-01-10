@@ -167,7 +167,7 @@ class DeviceDataView extends BaseView {
         var height = self.getHeightPercents(dc, 6);
 
         var posX = self.getWidthPercents(dc, 35);
-        var posY = self.getHeightPercents(dc, 3); // 4;
+        var posY = self.getHeightPercents(dc, 4); // 4;
 
         self.drawBatteryBase(dc,
 //            System.getSystemStats().battery.toNumber(),

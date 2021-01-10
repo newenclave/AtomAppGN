@@ -2,7 +2,7 @@
 
  	<label id="DeviceViewAtomBatteryPercens" 
  			x="52%" y="6%" 
- 			font="Graphics.FONT_SYSTEM_TINY" 
+ 			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
 
@@ -46,7 +46,7 @@
 
 	<!-- BOTTOM -->
  	<label id="DeviceViewLabelCPM" 
- 			x="16%" y="72%"
+ 			x="12%" y="72%"
  			font="Graphics.FONT_SMALL" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
