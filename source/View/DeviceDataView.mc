@@ -176,7 +176,6 @@ class DeviceDataView extends BaseView {
 //        self.drawBatteryLeftArc(dc, System.getSystemStats().battery.toNumber());
 //        self.drawBatteryRightArc(dc, self._deviceDataController.getCharge());
     }
-
 /*
     private function drawBatteryLeftArc(dc, chargeVal) {
         dc.setPenWidth(1);

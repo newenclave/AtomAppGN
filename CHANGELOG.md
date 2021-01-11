@@ -4,6 +4,7 @@
 		The crash has been reported to Garmin.
 		Thanks Andrey.
 	- View changes.
+	- Minor fixes
 	
 0.2.2:
 	
