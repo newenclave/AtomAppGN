@@ -23,7 +23,6 @@ class MainView extends BaseView {
     }
 
     private function drawSign(dc) {
-        dc.setAntiAlias(true);
         dc.setPenWidth(getWidthPercents(dc, 30));
 
         var center = [getWidthPercents(dc, 50), getHeightPercents(dc, 50)];

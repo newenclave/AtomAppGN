@@ -86,25 +86,16 @@ class MeasuringModel {
                     }
                     var deltaDose = ((curDose - self.initDoseAcc)).toFloat();
                     self.dosePower = (deltaDose / (elapsedTime / 3600000.0));
-    //                System.println("elapsedTime " + (elapsedTime / 1000).toString());
-    //                System.println("deltaDose " + deltaDose.toString());
-    //                System.println("CurDose " + curDose.toString());
-    //                System.println("Init Dose " + self.initDoseAcc.toString());
                     if(self.dosePower > 1000000) {
                         return;
                     }
                     var N = (deltaDose * 100.0 * devController.getDeviceSens());
-    //                System.println("N: " + N.toString());
-    //                System.println("Sens " + devController.getDeviceSens().toString());
                     if(N > 0) {
                         conf = 100.0 / Math.sqrt(N.toFloat());
                         self.pulsesMeasure = N;
                     }
                     self.errorMeasure = conf;
                 }
-    //            System.println("dm: " + self.dosePower.toString());
-    //            System.println("si: " + self.sessionImpulses.toString());
-    //            System.println("err: " + self.errorMeasure.toString());
             }
         }
     }

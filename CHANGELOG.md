@@ -1,7 +1,8 @@
 0.2.3:
 	
-	- Removing the additional characteristics from BLE profile due to suspicious system crash on Vivoctive 4. 
+	- Removing the additional characteristics from BLE profile due to a suspicious system crash on Vivoctive 4. 
 		The crash has been reported to Garmin.
+		Thanks Andrey.
 	- View changes.
 	
 0.2.2:
