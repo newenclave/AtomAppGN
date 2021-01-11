@@ -1,5 +1,8 @@
 0.2.3:
 	
+	- Removing the additional characteristics from BLE profile due to suspecios system crash on Vivactive 4. The crash has been reported to Garmin.
+	- View changes.
+	
 0.2.2:
 	
 	- Fixing the scan mode. It was always ON
