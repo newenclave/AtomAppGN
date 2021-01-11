@@ -16,7 +16,8 @@ class DeviceDetailsDelegate extends Ui.BehaviorDelegate {
     }
 
     function onBack() {
-        return false;
+        Ui.popView(Ui.SLIDE_RIGHT);
+        return true;
     }
 
     function onMenu() {

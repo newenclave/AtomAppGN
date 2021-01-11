@@ -94,7 +94,7 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
                 var detailsView = new DeviceDetailsView(
                         self._deviceDataController,
                         self.getApp().getPropertiesProvider());
-                Ui.pushView(detailsView, new DeviceDetailsDelegate(self._deviceDataController), Ui.SLIDE_UP);
+                Ui.pushView(detailsView, new DeviceDetailsDelegate(self._deviceDataController), Ui.SLIDE_LEFT);
             }
             break;
         case INDEX_MEASURING:

@@ -168,7 +168,7 @@ class DeviceDataController {
 
     function convertTemp(value) {
         if(self.getProperties().getUseFahrenheit()) {
-            return (value * 1.8 + 32).toNumber();
+            return Tools.celsiusToFahrenheit(value).toNumber();
         } else {
             return value;
         }

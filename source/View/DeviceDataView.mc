@@ -48,13 +48,13 @@ class DeviceDataView extends BaseView {
         self.drawBg(dc);
         self.drawWorkingTime(dc, ready);
         self.drawDoseRate(dc);
-        self.drawCPM(dc);
         self.drawDoseAccumulated(dc);
         self.drawTemperature(dc);
         self.drawSearchError(dc);
         //self.drawSystemBattery(dc);
         //View.onUpdate(dc);
         self.drawBattery(dc);
+        self.drawCPM(dc);
 
 //        if(ready) {
 //            self.drawBattery(dc, textLeft);
@@ -163,14 +163,13 @@ class DeviceDataView extends BaseView {
         percentsLabel.setColor(self._theme.COLOR_DARK);
         percentsLabel.draw(dc);
 
-        var width = self.getWidthPercents(dc, 14);
+        var width = self.getWidthPercents(dc, 12);
         var height = self.getHeightPercents(dc, 6);
 
-        var posX = self.getWidthPercents(dc, 35);
+        var posX = self.getWidthPercents(dc, 37);
         var posY = self.getHeightPercents(dc, 4); // 4;
 
         self.drawBatteryBase(dc,
-//            System.getSystemStats().battery.toNumber(),
             self._deviceDataController.getCharge(),
             posX, posY, width, height);
 
@@ -178,10 +177,11 @@ class DeviceDataView extends BaseView {
 //        self.drawBatteryRightArc(dc, self._deviceDataController.getCharge());
     }
 
+/*
     private function drawBatteryLeftArc(dc, chargeVal) {
         dc.setPenWidth(1);
         var charge = (chargeVal * (90.0 / 100.0)).toNumber();
-        var arkRadius = self.getWidthPercents(dc, 46);
+        var arkRadius = self.getWidthPercents(dc, 50) - 3;
         var center = [self.getWidthPercents(dc, 50), self.getHeightPercents(dc, 50)];
 
         dc.setPenWidth(10);
@@ -216,7 +216,7 @@ class DeviceDataView extends BaseView {
     private function drawBatteryRightArc(dc, chargeVal) {
         dc.setPenWidth(1);
         var charge = (chargeVal * (44.0 / 100.0)).toNumber();
-        var arkRadius = self.getWidthPercents(dc, 46);
+        var arkRadius = self.getWidthPercents(dc, 50) - 3;
         var center = [self.getWidthPercents(dc, 50), self.getHeightPercents(dc, 50)];
 
         dc.setPenWidth(10);
@@ -230,8 +230,8 @@ class DeviceDataView extends BaseView {
             arkRadius, Gfx.ARC_CLOCKWISE, 45, 1);
 
         if(charge > 0) {
-            dc.setPenWidth(6);
-            dc.setColor(self.getBatteryColor(charge), self._theme.COLOR_BACKGROUND);
+            dc.setPenWidth(8);
+            dc.setColor(self.getBatteryColor(chargeVal), self._theme.COLOR_BACKGROUND);
             dc.drawArc(center[0], center[1],
                 arkRadius, Gfx.ARC_COUNTER_CLOCKWISE, 1, (1 + charge) % 360);
         }
@@ -243,7 +243,7 @@ class DeviceDataView extends BaseView {
         dc.setPenWidth(1);
 
     }
-
+*/
     static private function drawBatteryBase(dc, charge, x, y, width, height) {
         var fillWidth = self.getBatteryFill(charge, width - 4);
 
