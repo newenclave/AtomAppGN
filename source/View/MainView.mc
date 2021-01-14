@@ -27,7 +27,7 @@ class MainView extends BaseView {
 
         var center = [getWidthPercents(dc, 50), getHeightPercents(dc, 50)];
         dc.setColor(0x303000, Gfx.COLOR_BLACK);
-        dc.fillCircle(center[0], center[1], dc.getWidth() / 2 + 10);
+        dc.fillCircle(center[0], center[1], dc.getWidth() / 2 + 2);
         dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_BLACK);
 
         dc.setColor(0x000000, Gfx.COLOR_BLUE);

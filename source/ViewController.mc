@@ -7,33 +7,47 @@ class ViewController {
     }
 
     private function createMainMenu() {
+
+        var lastDevice = App.getApp().getLastSavedDevice();
+        var useExtendedMode = App.getApp().getPropertiesProvider().getUseExtendedMode();
+
         var menuName = Application.loadResource(Rez.Strings.menu_name);
         var menu = new Ui.Menu2({:title=>menuName});
-        var lastDevice = App.getApp().getLastSavedDevice();
 
-        if(null != lastDevice) {
-            var deviceName = lastDevice.getDeviceName();
+        menu.addItem(new Ui.ToggleMenuItem(
+            App.loadResource(Rez.Strings.menu_use_extended),
+            {
+                :enabled => App.loadResource(Rez.Strings.menu_enabled),
+                :disabled => App.loadResource(Rez.Strings.menu_disabled)
+            }, "ItemUseExtendedMode", useExtendedMode,
+            {
+                :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+            }));
+
+        if(!useExtendedMode) {
+            if(null != lastDevice) {
+                var deviceName = lastDevice.getDeviceName();
+                menu.addItem(
+                    new Ui.MenuItem(
+                        App.loadResource(Rez.Strings.menu_use_last),
+                        deviceName ? deviceName : "Atom Fast",
+                        "ItemUseLast",
+                        {}
+                    )
+                );
+            }
             menu.addItem(
-                new Ui.MenuItem(
-                    App.loadResource(Rez.Strings.menu_use_last),
-                    deviceName ? deviceName : "Atom Fast",
-                    "ItemUseLast",
-                    {}
+                new Ui.MenuItem(App.loadResource(Rez.Strings.menu_use_first),
+                    "", "ItemUseFirst", {}
+                )
+            );
+
+            menu.addItem(
+                new Ui.MenuItem(App.loadResource(Rez.Strings.menu_scan),
+                    "", "ItemScan", {}
                 )
             );
         }
-
-        menu.addItem(
-            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_use_first),
-                "", "ItemUseFirst", {}
-            )
-        );
-
-        menu.addItem(
-            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_scan),
-                "", "ItemScan", {}
-            )
-        );
 
         menu.addItem(
             new Ui.MenuItem(App.loadResource(Rez.Strings.menu_vew_settings),

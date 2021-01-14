@@ -117,8 +117,19 @@ class AtomAppGNApp extends Application.AppBase {
     }
 
     public function setLastSavedDevice(value) {
+        self.storeLastSagedDevice([{"device" => value}]);
+    }
+
+    public function loadLastSavedDevice() {
         if(self._version32plus) {
-            self.setValue("LastConnectedDevice", [{"device" => value}]);
+            return self.getValue("LastConnectedDevice");
+        }
+        return null;
+    }
+
+    public function storeLastSagedDevice(value) {
+        if(self._version32plus) {
+            self.setValue("LastConnectedDevice", value);
         }
     }
 

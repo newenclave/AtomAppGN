@@ -79,7 +79,7 @@ class DevicesCollector {
             controller.onCharacteristicChanged(characteristic, value);
         }
     }
-    /// ===================== Callbacks ======================
+    /// ===================== End Callbacks ======================
 
     private function getDeviceDictionary(device) {
         for(var i=0; i<self._devices.size(); i++) {

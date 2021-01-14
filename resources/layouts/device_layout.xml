@@ -6,6 +6,13 @@
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>
 
+ 	<label id="DeviceViewSystemBatteryPercens" 
+ 			x="10%" y="22%" 
+ 			font="Graphics.FONT_XTINY" 
+ 			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
+ 			text=""
+ 			/>
+
  	<label id="DeviceViewLabelTime" 
  			x="center" y="20%" 
  			font="Graphics.FONT_NUMBER_MEDIUM" 

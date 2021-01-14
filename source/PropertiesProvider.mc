@@ -9,6 +9,7 @@ class PropertiesProvider {
     private const USE_ACTIVITY_LOCATION = "use_activity_location";
     private const USE_SIGMA = "use_sigma";
     private const USE_THEME = "use_theme";
+    private const USE_EXTENDED_MODE = "use_extended_mode";
 
     private const ALERT_VIBRO_L = [
         "alert_vibro_L1",
@@ -18,6 +19,14 @@ class PropertiesProvider {
 
     function initialize() {
 
+    }
+
+    function getUseExtendedMode() {
+        return self.getProperty(USE_EXTENDED_MODE, false);
+    }
+
+    function setUseExtendedMode(value) {
+        return self.setProperty(USE_EXTENDED_MODE, value);
     }
 
     function getUsedSigma() {

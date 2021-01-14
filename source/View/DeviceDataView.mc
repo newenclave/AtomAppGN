@@ -173,43 +173,49 @@ class DeviceDataView extends BaseView {
             self._deviceDataController.getCharge(),
             posX, posY, width, height);
 
-//        self.drawBatteryLeftArc(dc, System.getSystemStats().battery.toNumber());
-//        self.drawBatteryRightArc(dc, self._deviceDataController.getCharge());
+        //self.drawBatteryLeftArc(dc, System.getSystemStats().battery.toNumber());
+        //self.drawBatteryRightArc(dc, self._deviceDataController.getCharge());
     }
 /*
     private function drawBatteryLeftArc(dc, chargeVal) {
         dc.setPenWidth(1);
-        var charge = (chargeVal * (90.0 / 100.0)).toNumber();
+
+        var start = 270;
+        var stop = start + 30;
+        var lengthDeg = stop - start - 2;
+        var charge = (chargeVal * (lengthDeg / 100.0)).toNumber();
+
         var arkRadius = self.getWidthPercents(dc, 50) - 3;
         var center = [self.getWidthPercents(dc, 50), self.getHeightPercents(dc, 50)];
 
         dc.setPenWidth(10);
         dc.setColor(self._theme.COLOR_DARK, self._theme.COLOR_BACKGROUND);
         dc.drawArc(center[0], center[1],
-            arkRadius, Graphics.ARC_COUNTER_CLOCKWISE, 90 + 45 - 1, 180 + 45 + 1);
+            arkRadius, Graphics.ARC_COUNTER_CLOCKWISE,
+            Tools.convertDegreeValue(stop), Tools.convertDegreeValue(start));
 
         dc.setPenWidth(8);
         dc.setColor(self._theme.COLOR_BACKGROUND, self._theme.COLOR_BACKGROUND);
         dc.drawArc(center[0], center[1],
-            arkRadius, Gfx.ARC_COUNTER_CLOCKWISE, 90 + 45, 180 + 45);
+            arkRadius, Gfx.ARC_COUNTER_CLOCKWISE,
+            Tools.convertDegreeValue(stop - 1), Tools.convertDegreeValue(start + 1));
 
+        if(charge == 0) {
+            charge = (chargeVal != 0) ? 1 : 0;
+        }
         if(charge > 0) {
             dc.setPenWidth(6);
             dc.setColor(self.getBatteryColor(chargeVal), self._theme.COLOR_BACKGROUND);
             dc.drawArc(center[0], center[1],
-                arkRadius, Gfx.ARC_CLOCKWISE, 180 + 45, 180 + 45 - charge);
+                arkRadius, Gfx.ARC_CLOCKWISE,
+                Tools.convertDegreeValue(start + 1), Tools.convertDegreeValue(start + charge + 1));
         }
 
-//        dc.setColor(Gfx.COLOR_GREEN, Gfx.COLOR_BLACK);
-//        dc.drawArc(center[0], center[1],
-//            arkRadius, Gfx.ARC_COUNTER_CLOCKWISE, 270 + 45, (270 + 45 + charge) % 360);
-
-//        dc.setColor(self._theme.COLOR_NORMAL, self._theme.COLOR_BACKGROUND);
-//        dc.drawArc(self.getWidthPercents(dc, 50), self.getHeightPercents(dc, 50),
-//            self.getWidthPercents(dc, 48), Graphics.ARC_CLOCKWISE, 90, 270 + 45);
-
         dc.setPenWidth(1);
-
+        var percents = self.findDrawable("DeviceViewSystemBatteryPercens");
+        percents.setColor(self._theme.COLOR_DARK);
+        percents.setText(Math.round(chargeVal).format("%d") + "%");
+        percents.draw(dc);
     }
 
     private function drawBatteryRightArc(dc, chargeVal) {

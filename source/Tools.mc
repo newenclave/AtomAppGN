@@ -1,6 +1,6 @@
 module Tools {
     function convertDegreeValue(value) {
-        return ((360 - (value % 360)) + 90) % 360;
+        return ((360 - (value.toNumber() % 360)) + 90) % 360;
     }
 
     function celsiusToFahrenheit(value) {
