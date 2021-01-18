@@ -45,8 +45,8 @@ class AtomFastProfile {
         ]
     };
 
-    public function getProfile() {
-        return self._profileDef;
+    public function register() {
+        Ble.registerProfile(self._profileDef);
     }
 
 //    private const UuidNameLookup = {

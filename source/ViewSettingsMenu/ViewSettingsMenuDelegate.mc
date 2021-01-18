@@ -2,7 +2,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.System;
 using Toybox.Application as App;
 
-class DeviceMenuDelegate extends Ui.Menu2InputDelegate {
+class ViewSettingsMenuDelegate extends Ui.Menu2InputDelegate {
 
     private var _deviceController;
     private var _initSearchSpeed;

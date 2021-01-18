@@ -15,10 +15,12 @@ class DeviceDataController {
     private var _ready;
     private var _posProvider;
     private var _alerts;
+
     private var _charSearchSpeed;
     private var _charThreasholds;
     private var _charCalibration;
 //    private var _charAddition;
+
     private var _useSigma;
     private var _measuring;
 
@@ -123,7 +125,6 @@ class DeviceDataController {
     }
 
     ///////////////////
-
     function getSearchError() {
         var sId = self.getSearchSpeed();
         var fsmConst = 0; //self._charAddition.getValue(sId);
@@ -357,7 +358,7 @@ class DeviceDataController {
 
     private function storeLastDevice() {
         try {
-            self.getApp().setLastSavedDevice(self._scanResult);
+            self.getApp().getDeviceStorage().add(self._scanResult);
         } catch(ex) {
             System.println("Unable to save last device. " + ex.getErrorMessage());
         }

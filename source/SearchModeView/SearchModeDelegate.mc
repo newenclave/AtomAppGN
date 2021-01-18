@@ -2,7 +2,7 @@ using Toybox.WatchUi as Ui;
 using Toybox.Attention;
 using Toybox.Application;
 
-class DeviceDataDelegate extends Ui.BehaviorDelegate {
+class SearchModeDelegate extends Ui.BehaviorDelegate {
 
     const INDEX_NONE = -1;
     const INDEX_MEASURING = 0;

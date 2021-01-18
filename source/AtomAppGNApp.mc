@@ -5,6 +5,7 @@ using Toybox.BluetoothLowEnergy as Ble;
 class AtomAppGNApp extends Application.AppBase {
 
     private var _devices;
+    private var _deviceStorage;
     private var _propertiesProvider;
     private var _position;
     private var _atomFastProfile;
@@ -16,11 +17,14 @@ class AtomAppGNApp extends Application.AppBase {
     function initialize() {
         AppBase.initialize();
 
+        System.println("++++++++++++++++");
         var ver = System.getDeviceSettings().monkeyVersion;
         self._version32plus = (ver[0] > 3) || ((ver[0] == 3) && (ver[1] >= 2));
         System.println("System 32+: " + self._version32plus.toString());
 
         self._devices = new DevicesCollector();
+        self._deviceStorage = new DeviceStorage();
+
         self._propertiesProvider = new PropertiesProvider();
         self._position = new PositionProvider();
 
@@ -34,7 +38,7 @@ class AtomAppGNApp extends Application.AppBase {
 
     function onStart(state) {
         Ble.setDelegate(self._bleDelegate);
-        Ble.registerProfile(self._atomFastProfile.getProfile());
+        self._atomFastProfile.register();
     }
 
     function onStop(state) {
@@ -44,9 +48,15 @@ class AtomAppGNApp extends Application.AppBase {
         self._atomFastProfile = null;
         self._bleDelegate = null;
         self._viewController = null;
+
+        System.println("----------------");
     }
 
-    function getDevices() {
+    function getDeviceStorage() {
+        return self._deviceStorage;
+    }
+
+    function getDeviceController() {
         return self._devices;
     }
 
@@ -106,8 +116,8 @@ class AtomAppGNApp extends Application.AppBase {
         if(self._version32plus) {
             var arr = self.getValue("LastConnectedDevice");
             if(null != arr) {
-                if(arr instanceof Lang.Array) {
-                    return arr[0].get("device");
+                if(arr instanceof Lang.Array && arr.size() > 0) {
+                    return arr[arr.size() - 1].get("device");
                 } else {
                     return arr;
                 }
@@ -116,21 +126,17 @@ class AtomAppGNApp extends Application.AppBase {
         return null;
     }
 
-    public function setLastSavedDevice(value) {
-        self.storeLastSagedDevice([{"device" => value}]);
-    }
-
-    public function loadLastSavedDevice() {
-        if(self._version32plus) {
-            return self.getValue("LastConnectedDevice");
-        }
-        return null;
-    }
-
-    public function storeLastSagedDevice(value) {
+    public function storeDeviceList(value) {
         if(self._version32plus) {
             self.setValue("LastConnectedDevice", value);
         }
+    }
+
+    public function loadDeviceList() {
+        if(self._version32plus) {
+            return self.getValue("LastConnectedDevice");
+        }
+        return [];
     }
 
     public function getProfile() {

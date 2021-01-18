@@ -1,13 +1,12 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Graphics as Gfx;
 
 class DeviceListView extends BaseView {
-
     function initialize() {
         BaseView.initialize();
     }
-
     function onLayout(dc) {
-        setLayout(Rez.Layouts.DeviceListLayout(dc));
+        setLayout(Rez.Layouts.MainLayout(dc));
     }
 
     function onShow() {
@@ -17,6 +16,6 @@ class DeviceListView extends BaseView {
     }
 
     function onUpdate(dc) {
-        BaseView.onUpdate(dc);
     }
+
 }

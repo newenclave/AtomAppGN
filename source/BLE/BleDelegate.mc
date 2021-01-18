@@ -74,7 +74,7 @@ class BleDelegate extends Ble.BleDelegate {
     }
 
     function onProfileRegister(uuid, status) {
-        System.println("Profile register: '" + status.toString() + "' " + status.toString());
+        System.println("Profile register: '" + uuid.toString() + "' " + status.toString());
         if(self.isListenerAlive(:onProfileRegister)) {
             self._eventListener.get().onProfileRegister(uuid, status);
         }

@@ -64,4 +64,7 @@ class MainView extends BaseView {
     function onHide() {
     }
 
+    public static function getView() {
+        return [new MainView(), new MainViewDelegate()];
+    }
 }

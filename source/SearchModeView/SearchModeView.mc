@@ -3,7 +3,7 @@ using Toybox.Graphics as Gfx;
 using Toybox.BluetoothLowEnergy as Ble;
 using Toybox.Timer;
 
-class DeviceDataView extends BaseView {
+class SearchModeView extends BaseView {
 
     const THRESHOLDS_COLORS = [
         Gfx.COLOR_YELLOW,
