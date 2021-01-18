@@ -305,6 +305,7 @@ class DeviceDataController {
     }
 
     function activateNextNotification(param) {
+        System.println("Activaling notification for " + self._device.toString());
         var char = self._service.getCharacteristic(self.getApp().getProfile().ATOM_FAST_CHAR);
         if(null != char) {
             var cccd = char.getDescriptor(Ble.cccdUuid());
@@ -315,7 +316,7 @@ class DeviceDataController {
     }
 
     function notificationsReady(passed, callbackParams) {
-        //System.println("Notifications ready");
+        System.println("Notifications ready");
         self._ready = true;
         self._dataModel.resetTimer();
         self.storeLastDevice();
@@ -327,10 +328,10 @@ class DeviceDataController {
         if(self.getService(self._device)) {
             self._operations.push(method(:activateNextNotification), [], method(:notificationsReady), []);
             self._operations.callTop();
-            self._charSearchSpeed.update();
+            //self._charSearchSpeed.update();
             //self._charAddition.update();
-            self._charCalibration.update();
-            self._charThreasholds.update();
+            //self._charCalibration.update();
+            //self._charThreasholds.update();
         }
         Ui.requestUpdate();
     }

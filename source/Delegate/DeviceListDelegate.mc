@@ -3,6 +3,7 @@ using Toybox.System;
 using Toybox.Application as App;
 
 class DeviceListDelegate extends Ui.BehaviorDelegate {
+
     function initialize() {
         BehaviorDelegate.initialize();
     }
@@ -11,26 +12,35 @@ class DeviceListDelegate extends Ui.BehaviorDelegate {
     }
 
     function onSelect() {
+        var cur = App.getApp().getDeviceStorage().getCurrent();
+        if(null != cur) {
+            App.getApp().getViewController().pushDeviceView(cur.get("device"));
+        }
     }
 
     function onMenu() {
+        App.getApp().getViewController().pushDeviceListMenu();
         return true;
     }
 
     function onNextMode() {
-        return true;
+        return false;
     }
 
     function onNextPage() {
-        return true;
+        App.getApp().getDeviceStorage().next();
+        Ui.requestUpdate();
+        return false;
     }
 
     function onPreviousMode() {
-        return true;
+        return false;
     }
 
     function onPreviousPage() {
-        return true;
+        App.getApp().getDeviceStorage().prev();
+        Ui.requestUpdate();
+        return false;
     }
 }
 

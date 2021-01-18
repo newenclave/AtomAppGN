@@ -1,6 +1,6 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Attention;
-using Toybox.Application;
+using Toybox.Application as App;
 
 class DeviceDataDelegate extends Ui.BehaviorDelegate {
 
@@ -21,7 +21,7 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
     }
 
     private function getApp() {
-        return Application.getApp();
+        return App.getApp();
     }
 
     function onConfirmExit(opts) {
@@ -35,7 +35,11 @@ class DeviceDataDelegate extends Ui.BehaviorDelegate {
     }
 
     function onBack() {
-        self.getApp().getViewController().pushConfirmationMenu(self);
+        if(App.getApp().getPropertiesProvider().getUseExtendedMode()) {
+            Ui.popView(Ui.SLIDE_UP);
+        } else {
+            self.getApp().getViewController().pushConfirmationMenu(self);
+        }
         return true;
     }
 

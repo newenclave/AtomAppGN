@@ -12,13 +12,17 @@ class AtomAppGNApp extends Application.AppBase {
     private var _viewController;
     private var _theme;
     private var _version32plus;
+    private var _deviceStorage;
 
     function initialize() {
         AppBase.initialize();
 
+        System.println("+++++++++++++++++++++++++++++++++");
         var ver = System.getDeviceSettings().monkeyVersion;
         self._version32plus = (ver[0] > 3) || ((ver[0] == 3) && (ver[1] >= 2));
         System.println("System 32+: " + self._version32plus.toString());
+
+        self._deviceStorage = new DeviceStorage();
 
         self._devices = new DevicesCollector();
         self._propertiesProvider = new PropertiesProvider();
@@ -30,6 +34,7 @@ class AtomAppGNApp extends Application.AppBase {
 
         self._bleDelegate = new BleDelegate();
         self._bleDelegate.setEventListener(self._devices);
+
     }
 
     function onStart(state) {
@@ -44,6 +49,12 @@ class AtomAppGNApp extends Application.AppBase {
         self._atomFastProfile = null;
         self._bleDelegate = null;
         self._viewController = null;
+        self._deviceStorage = null;
+        System.println("--------------------------------");
+    }
+
+    function getDeviceStorage() {
+        return self._deviceStorage;
     }
 
     function getDevices() {
@@ -104,8 +115,8 @@ class AtomAppGNApp extends Application.AppBase {
 
     public function getLastSavedDevice() {
         if(self._version32plus) {
-            var arr = self.getValue("LastConnectedDevice");
-            if(null != arr) {
+            var arr = self.loadLastSavedDevice();
+            if(null != arr && arr.size() > 0) {
                 if(arr instanceof Lang.Array) {
                     return arr[0].get("device");
                 } else {
@@ -117,7 +128,7 @@ class AtomAppGNApp extends Application.AppBase {
     }
 
     public function setLastSavedDevice(value) {
-        self.storeLastSagedDevice([{"device" => value}]);
+        self._deviceStorage.add(value);
     }
 
     public function loadLastSavedDevice() {
@@ -127,7 +138,7 @@ class AtomAppGNApp extends Application.AppBase {
         return null;
     }
 
-    public function storeLastSagedDevice(value) {
+    public function storeLastSavedDevice(value) {
         if(self._version32plus) {
             self.setValue("LastConnectedDevice", value);
         }

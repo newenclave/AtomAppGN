@@ -32,6 +32,21 @@ class ScanDataController {
         var added = 0;
         for( var result = scanResults.next(); result != null; result = scanResults.next() ) {
             if(self.contains(result.getServiceUuids(), App.getApp().getProfile().ATOM_FAST_SERVICE)) {
+
+                var data = result.getServiceData(Ble.stringToUuid("00001801-0000-1000-8000-00805f9b34fb"));
+                var data2 = result.getServiceData(App.getApp().getProfile().ATOM_FAST_CHAR2);
+                var data3 = result.getServiceData(Ble.cccdUuid());
+
+                if(null != data) {
+                    System.println("data: " + data.toString());
+                }
+                if(null != data2) {
+                    System.println("data2: " + data2.toString());
+                }
+                if(null != data3) {
+                    System.println("data3: " + data3.toString());
+                }
+
                 self._dataModel.add(result);
                 added++;
             }

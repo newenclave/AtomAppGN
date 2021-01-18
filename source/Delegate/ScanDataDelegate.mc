@@ -5,6 +5,7 @@ class ScanDataDelegate extends Ui.BehaviorDelegate {
 
     private var _scanDataController;
     private var _useFirst = false;
+    private var _extended = false;
 
     function initialize(scanDataController, options) {
         BehaviorDelegate.initialize();
@@ -12,6 +13,7 @@ class ScanDataDelegate extends Ui.BehaviorDelegate {
         self._scanDataController.setUpdateListener(self);
         if(options.hasKey(:useFirst)) {
             self._useFirst = options.get(:useFirst);
+            self._extended = options.get(:extended);
         }
     }
 
@@ -56,7 +58,12 @@ class ScanDataDelegate extends Ui.BehaviorDelegate {
         var cur = self._scanDataController.getModel().getCur();
         if(null != cur) {
             App.getApp().scanStop();
-            App.getApp().getViewController().switchDeviceView(cur);
+            if(self._extended) {
+                App.getApp().getDeviceStorage().add(cur);
+                Ui.popView(Ui.SLIDE_DOWN);
+            } else {
+                App.getApp().getViewController().switchDeviceView(cur);
+            }
         }
         return true;
     }

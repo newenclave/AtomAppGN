@@ -1,4 +1,28 @@
 <layout id="DeviceListLayout">
- 
+
+  	<label id="DeviceListCounter" 
+ 			x="50%" y="5%" 
+ 			font="Graphics.FONT_SMALL" 
+ 			justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
+ 			/>
+
+  	<label id="DeviceListCenter" 
+ 			x="50%" y="50%" 
+ 			font="Graphics.FONT_MEDIUM" 
+ 			justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
+ 			/>
+
+  	<label id="DeviceListTop" 
+ 			x="50%" y="25%" 
+ 			font="Graphics.FONT_SMALL" 
+ 			justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
+ 			/>
+
+  	<label id="DeviceListBottom" 
+ 			x="50%" y="75%" 
+ 			font="Graphics.FONT_SMALL" 
+ 			justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
+ 			/>
+
 </layout>
 

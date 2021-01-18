@@ -11,13 +11,17 @@ class MainViewDelegate extends Ui.BehaviorDelegate {
     }
 
     function onSelect() {
+        if(App.getApp().getPropertiesProvider().getUseExtendedMode()) {
+            App.getApp().getViewController().pushDeviceListView();
+            return true;
+        }
         if(self._selectDoublePress.press()) {
             var storedDev = App.getApp().getLastSavedDevice();
             if(null != storedDev) {
                 App.getApp().getViewController().pushDeviceView(storedDev);
             } else {
                 App.getApp().scanStart();
-                App.getApp().getViewController().pushScanView(true);
+                App.getApp().getViewController().pushScanView(true, false);
             }
             return true;
         }

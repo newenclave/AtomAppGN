@@ -13,6 +13,10 @@ class DevicesCollector {
     }
 
     function pairNew(scanResult) {
+        var dict = self.getByScanResult(scanResult);
+        if(null != dict) {
+            return dict.get(:controller);
+        }
         try {
             var device = Ble.pairDevice(scanResult);
             if(null != device) {
@@ -22,9 +26,16 @@ class DevicesCollector {
                     :unregisterCallback => method(:stopUpregister),
                     :scanResult => scanResult
                 });
-                self._devices.add({:device => device, :controller => controller});
-                System.println("Added new device. Total: " + self._devices.size().toString());
+                self._devices.add({
+                    :device => device,
+                    :controller => controller,
+                    :scanResult => scanResult
+                });
+                System.println("Added new device. " + device.toString());
+                System.println("Total: " + self._devices.size().toString());
                 return controller;
+            } else {
+                System.println("pairDevice returned null");
             }
         } catch(e) {
             System.println("Pair device error: " + e.getErrorMessage());
@@ -40,7 +51,7 @@ class DevicesCollector {
 
     /// ===================== Callbacks ======================
     function onConnectedStateChanged(device, state) {
-        System.println("On Connect " + state.toString());
+        System.println("On Connect " + device.toString() + " " + state.toString());
         var controller = self.getControllerByDevice(device);
         if(null != controller) {
             controller.onConnectedStateChanged(device, state);
@@ -49,8 +60,9 @@ class DevicesCollector {
 
     /// Descriptop Write request
     function onDescriptorWrite(descriptor, status) {
-        System.println("onDescriptorWrite ");
-        var controller = self.getControllerByDevice(descriptor.getCharacteristic().getService().getDevice());
+        var dev = descriptor.getCharacteristic().getService().getDevice();
+        System.println("onDescriptorWrite " + dev.toString());
+        var controller = self.getControllerByDevice(dev);
         if(null != controller) {
             controller.onDescriptorWrite(descriptor, status);
         }
@@ -58,8 +70,9 @@ class DevicesCollector {
 
     // Write request
     function onCharacteristicWrite(characteristic, status) {
-        System.println("onCharacteristicWrite ");
-        var controller = self.getControllerByDevice(characteristic.getService().getDevice());
+        var dev = characteristic.getService().getDevice();
+        System.println("onCharacteristicWrite " + dev.toString());
+        var controller = self.getControllerByDevice(dev);
         if(null != controller) {
             controller.onCharacteristicWrite(characteristic, status);
         }
@@ -67,19 +80,37 @@ class DevicesCollector {
 
     // read request
     function onCharacteristicRead(characteristic, status, value) {
-        var controller = self.getControllerByDevice(characteristic.getService().getDevice());
+        var dev = characteristic.getService().getDevice();
+        System.println("onCharacteristicRead " + dev.toString());
+        var controller = self.getControllerByDevice(dev);
         if(null != controller) {
             controller.onCharacteristicRead(characteristic, status, value);
         }
     }
 
     function onCharacteristicChanged(characteristic, value) {
-        var controller = self.getControllerByDevice(characteristic.getService().getDevice());
+        var dev = characteristic.getService().getDevice();
+        //System.println("onCharacteristicChanged " + dev.toString());
+        var controller = self.getControllerByDevice(dev);
         if(null != controller) {
             controller.onCharacteristicChanged(characteristic, value);
         }
     }
     /// ===================== End Callbacks ======================
+
+    private function getByScanResult(scanResult) {
+        for(var i=0; i<self._devices.size(); i++) {
+            if(self._devices[i].get(:scanResult) == scanResult) {
+                return self._devices[i];
+            }
+        }
+        return null;
+    }
+
+    function getControllerByScanResult(scanResult) {
+        var dict = self.getByScanResult(scanResult);
+        return (dict == null) ? null : dict.get(:controller);
+    }
 
     private function getDeviceDictionary(device) {
         for(var i=0; i<self._devices.size(); i++) {

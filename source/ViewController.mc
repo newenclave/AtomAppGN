@@ -6,6 +6,10 @@ class ViewController {
     function initialize() {
     }
 
+    function getMainView() {
+         return [ new MainView(), new MainViewDelegate() ];
+    }
+
     private function createMainMenu() {
 
         var lastDevice = App.getApp().getLastSavedDevice();
@@ -280,22 +284,24 @@ class ViewController {
             Ui.SLIDE_UP);
     }
 
-    function getMainView() {
-         return [ new MainView(), new MainViewDelegate() ];
-    }
-
-    function switchScanView(useFirst) {
+    function switchScanView(useFirst, extended) {
         var scanDataController = new ScanDataController();
-        var opts = { :useFirst => useFirst };
+        var opts = {
+            :useFirst => useFirst,
+            :extended => extended
+        };
         Ui.switchToView(
             new ScanDataView(scanDataController),
             new ScanDataDelegate(scanDataController, opts),
             Ui.SLIDE_DOWN);
     }
 
-    function pushScanView(useFirst) {
+    function pushScanView(useFirst, extended) {
         var scanDataController = new ScanDataController();
-        var opts = { :useFirst => useFirst };
+        var opts = {
+            :useFirst => useFirst,
+            :extended => extended
+        };
         Ui.pushView(
             new ScanDataView(scanDataController),
             new ScanDataDelegate(scanDataController, opts),
@@ -324,5 +330,43 @@ class ViewController {
         } else {
             // TODO:  Show error
         }
+    }
+
+    function createDeviceListMenu() {
+        var menu = new Ui.Menu2({
+                :title=>""
+            });
+
+        menu.addItem(
+            new Ui.MenuItem("Add",
+                "", "ItemAdd", {}
+            )
+        );
+
+        menu.addItem(
+            new Ui.MenuItem("Remove",
+                "", "ItemRemove", {}
+            )
+        );
+
+        menu.addItem(
+            new Ui.MenuItem("Connect",
+                "", "ItemConnect", {}
+            )
+        );
+
+        return menu;
+    }
+
+    function pushDeviceListMenu() {
+        Ui.pushView(self.createDeviceListMenu(),
+            new DeviceListMenuDelegate(),
+            Ui.SLIDE_DOWN);
+    }
+
+    function pushDeviceListView() {
+        Ui.pushView(new DeviceListView(),
+            new DeviceListDelegate(),
+            Ui.SLIDE_DOWN);
     }
 }

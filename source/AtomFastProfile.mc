@@ -12,6 +12,9 @@ class AtomFastProfile {
     public const ATOM_FAST_CONFIG_CHAR      = Ble.stringToUuid("EA50CFCD-AC4A-4A48-BF0E-879E548AE157");
     public const ATOM_FAST_CALIBRATION_CHAR = Ble.stringToUuid("57F7031F-03C1-4016-8749-BAABAA58612D");
 
+// 02 01 06 11 06
+// 81 25 c7 a1 23 2d a4 87 fd 4f 8c c2 4a 2a 46 63
+
     (:property) public const THRESHOLDS = [
         ATOM_FAST_THRESHOSD1,
         ATOM_FAST_THRESHOSD2,
