@@ -1,4 +1,16 @@
 <layout id="DeviceListLayout">
- 
+
+ 	<label id="DeviceListLastUsage" 
+		x="50%" y="40%"
+		font="Graphics.FONT_TINY"
+		justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
+		/>
+
+ 	<label id="DeviceListDeviceName" 
+		x="50%" y="50%" 
+		font="Graphics.FONT_LARGE"
+		justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER"
+		/>
+
 </layout>
 

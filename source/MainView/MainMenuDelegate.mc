@@ -24,11 +24,14 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
             break;
         case "ItemUseFirst":
             App.getApp().scanStart();
-            App.getApp().getViewController().switchScanView(true);
+            App.getApp().getViewController().switchScanView(true, false);
             break;
         case "ItemScan":
             App.getApp().scanStart();
-            App.getApp().getViewController().switchScanView(false);
+            App.getApp().getViewController().switchScanView(false, false);
+            break;
+        case "ItemDeviceList":
+            App.getApp().getViewController().switchDeviceList();
             break;
         case "ItemViewSettings":
             App.getApp().getViewController().pushDeviceMenu(null);

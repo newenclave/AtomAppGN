@@ -26,7 +26,12 @@ class MainView extends BaseView {
         dc.setPenWidth(getWidthPercents(dc, 30));
 
         var center = [getWidthPercents(dc, 50), getHeightPercents(dc, 50)];
+
+//        var color = Tools.getRandomColor(0x60, 0xA0);
+//        System.println("Color: " + color.format("%02x"));
+//        dc.setColor(color, Gfx.COLOR_BLACK);
         dc.setColor(0x303000, Gfx.COLOR_BLACK);
+
         dc.fillCircle(center[0], center[1], dc.getWidth() / 2 + 2);
         dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_BLACK);
 

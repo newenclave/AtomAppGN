@@ -46,22 +46,27 @@ class DeviceStorage {
         return (self._devices == null) ? 0 : self._devices.size();
     }
 
-    function add(scanResult) {
-        var found = false;
+    function add(deviceWrapper) {
+        self.getDeviceDictionaryByScanResult(deviceWrapper);
+        self.store();
+    }
+
+    function addUpdate(deviceWrapper) {
+        var dev = self.getDeviceDictionaryByScanResult(deviceWrapper);
+        dev.updateUsage();
+        self.store();
+    }
+
+    private function getDeviceDictionaryByScanResult(deviceWrapper) {
         for(var i=0; i < self._devices.size(); i++) {
-            if(self._devices[i].get("device").isSameDevice(scanResult)) {
-                found = true;
-                self._devices[i].put("device", scanResult);
-                break;
+            var devNext = new DeviceWrapper(self._devices[i]);
+            if(devNext.isSameDevice(deviceWrapper.getScanResult())) {
+                devNext.setScanResult(deviceWrapper.getScanResult());
+                return devNext;
             }
         }
-        if(!found) {
-            self._devices.add({
-                "device" => scanResult,
-                "name" => "Atom",
-                "state" => 0 });
-        }
-        self.store();
+        self._devices.add(deviceWrapper.get());
+        return deviceWrapper;
     }
 
     function removeCurrent() {
@@ -104,8 +109,9 @@ class DeviceStorage {
 
     private function getByIndex(index) {
         if((index >= 0) && (index < self._devices.size())) {
-            return self._devices[index];
+            return new DeviceWrapper(self._devices[index]);
         }
         return null;
     }
 }
+

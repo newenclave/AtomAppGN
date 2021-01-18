@@ -358,7 +358,7 @@ class DeviceDataController {
 
     private function storeLastDevice() {
         try {
-            self.getApp().getDeviceStorage().add(self._scanResult);
+            self.getApp().getDeviceStorage().addUpdate(new DeviceWrapper(self._scanResult));
         } catch(ex) {
             System.println("Unable to save last device. " + ex.getErrorMessage());
         }

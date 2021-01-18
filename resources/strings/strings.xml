@@ -8,7 +8,8 @@
     <string id="menu_use_extended">Use extended mode</string>
     <string id="menu_use_last">Use last</string>
     <string id="menu_use_first">Use available</string>
-    <string id="menu_vew_settings">View settings</string>
+    <string id="menu_view_settings">View settings</string>
+    <string id="menu_device_list">Known devices</string>
     <string id="menu_reset">Reset settings</string>
     
     <string id="menu_confirm_exit">Exit?</string>
@@ -73,6 +74,9 @@
 
     <string id="text_temp_celsius">°C</string>
     <string id="text_micro_fahrenheit">°F</string>
+
+    <string id="text_last_use">Last use:</string>
+    <string id="text_never">Never</string>
     
     <string id="detail_L1">L1:</string>
     <string id="detail_D1">D1:</string>

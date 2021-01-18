@@ -37,8 +37,14 @@ class MainViewMenu extends Ui.Menu2 {
         );
 
         self.addItem(
-            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_vew_settings),
+            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_view_settings),
                 "", "ItemViewSettings", {}
+            )
+        );
+
+        self.addItem(
+            new Ui.MenuItem(App.loadResource(Rez.Strings.menu_device_list),
+                "", "ItemDeviceList", {}
             )
         );
 

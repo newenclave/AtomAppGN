@@ -23,6 +23,7 @@ class DeviceListDelegate extends Ui.BehaviorDelegate {
     }
 
     function onNextPage() {
+        self.getDeviceStorage().next();
         return false;
     }
 
@@ -31,13 +32,14 @@ class DeviceListDelegate extends Ui.BehaviorDelegate {
     }
 
     function onPreviousPage() {
+        self.getDeviceStorage().prev();
         return false;
     }
 
     function onSelect() {
-        var device = self.getDeviceStorage();
+        var device = self.getDeviceStorage().getCurrent();
         if(null != device) {
-            App.getApp().getViewController().pushDeviceView(device.get("device"));
+            App.getApp().getViewController().pushDeviceView(device.getScanResult());
             return true;
         }
         return false;

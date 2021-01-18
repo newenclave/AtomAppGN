@@ -21,6 +21,7 @@ class MainViewDelegate extends Ui.BehaviorDelegate {
             }
             return true;
         }
+        Ui.requestUpdate();
         return false;
     }
 

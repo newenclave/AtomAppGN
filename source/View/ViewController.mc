@@ -60,18 +60,24 @@ class ViewController {
          return MainView.getView();
     }
 
-    function switchScanView(useFirst) {
+    function switchScanView(useFirst, addDevice) {
         var scanDataController = new ScanDataController();
-        var opts = { :useFirst => useFirst };
+        var opts = {
+            :useFirst => useFirst,
+            :addDevice => addDevice
+        };
         Ui.switchToView(
             new ScanDataView(scanDataController),
             new ScanDataDelegate(scanDataController, opts),
             Ui.SLIDE_DOWN);
     }
 
-    function pushScanView(useFirst) {
+    function pushScanView(useFirst, addDevice) {
         var scanDataController = new ScanDataController();
-        var opts = { :useFirst => useFirst };
+        var opts = {
+            :useFirst => useFirst,
+            :addDevice => addDevice
+        };
         Ui.pushView(
             new ScanDataView(scanDataController),
             new ScanDataDelegate(scanDataController, opts),
@@ -100,5 +106,12 @@ class ViewController {
         } else {
             // TODO:  Show error
         }
+    }
+
+    function switchDeviceList() {
+        Ui.switchToView(
+            new DeviceListView(),
+            new DeviceListDelegate(),
+            Ui.SLIDE_DOWN);
     }
 }
