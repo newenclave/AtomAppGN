@@ -11,14 +11,13 @@ class MainViewDelegate extends Ui.BehaviorDelegate {
     }
 
     function onSelect() {
-        return true;
         if(self._selectDoublePress.press()) {
             var storedDev = App.getApp().getLastSavedDevice();
             if(null != storedDev) {
                 App.getApp().getViewController().pushDeviceView(storedDev);
             } else {
                 App.getApp().scanStart();
-                App.getApp().getViewController().pushScanView(true, true);
+                App.getApp().getViewController().pushScanView(true, false);
             }
             return true;
         }
