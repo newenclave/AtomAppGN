@@ -70,7 +70,7 @@ class DeviceStorage {
     }
 
     function removeCurrent() {
-        if(!self.empty()) {
+        if(!self.isEmpty()) {
             switch(self._current) {
             case 0:
                 self._devices = self._devices.slice(1, null);
@@ -89,7 +89,7 @@ class DeviceStorage {
     }
 
     function store() {
-        if(!self.empty()) {
+        if(!self.isEmpty()) {
             App.getApp().storeDeviceList(self._devices);
         } else {
             App.getApp().storeDeviceList([]);
@@ -103,7 +103,7 @@ class DeviceStorage {
         }
     }
 
-    function empty() {
+    function isEmpty() {
         return self._devices.size() == 0;
     }
 

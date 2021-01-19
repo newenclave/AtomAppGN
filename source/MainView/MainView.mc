@@ -14,18 +14,14 @@ class MainView extends BaseView {
     function onShow() {
     }
 
-    private function getWidthPercents(dc, value) {
-        return (dc.getWidth().toFloat() * (value.toFloat() / 100.0)).toNumber();
-    }
-
-    private function getHeightPercents(dc, value) {
-        return (dc.getHeight().toFloat() * (value.toFloat() / 100.0)).toNumber();
-    }
-
     private function drawSign(dc) {
-        dc.setPenWidth(getWidthPercents(dc, 30));
 
-        var center = [getWidthPercents(dc, 50), getHeightPercents(dc, 50)];
+        dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_BLACK);
+        dc.fillRectangle(0, 0, dc.getWidth(), dc.getHeight());
+
+        dc.setPenWidth(self.getWidthPercents(dc, 30));
+
+        var center = [self.getWidthPercents(dc, 50), self.getHeightPercents(dc, 50)];
 
 //        var color = Tools.getRandomColor(0x60, 0xA0);
 //        System.println("Color: " + color.format("%02x"));
@@ -37,7 +33,7 @@ class MainView extends BaseView {
 
         dc.setColor(0x000000, Gfx.COLOR_BLUE);
 
-        var max = getWidthPercents(dc, 30);
+        var max = self.getWidthPercents(dc, 30);
         dc.drawArc(center[0], center[1],
             max, Gfx.ARC_CLOCKWISE,
             Tools.convertDegreeValue(30), Tools.convertDegreeValue(90));
@@ -50,7 +46,7 @@ class MainView extends BaseView {
             max, Gfx.ARC_CLOCKWISE,
             Tools.convertDegreeValue(150), Tools.convertDegreeValue(210));
 
-        dc.fillCircle(center[0], center[1], getWidthPercents(dc, 10));
+        dc.fillCircle(center[0], center[1], self.getWidthPercents(dc, 10));
         dc.setPenWidth(1);
     }
 

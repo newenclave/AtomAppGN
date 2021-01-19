@@ -1,15 +1,48 @@
 <layout id="DeviceListLayout">
 
+ 	<label id="DeviceListDeviceCounter" 
+		x="50%" y="10%" 
+		font="Graphics.FONT_SMALL"
+		justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER"
+		/>
+
+	<!-- Prev -->
+ 	<label id="DeviceListDeviceNamePrev" 
+		x="50%" y="20%" 
+		font="Graphics.FONT_SMALL"
+		justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER"
+		/>
+
+ 	<label id="DeviceListLastUsagePrev" 
+		x="50%" y="28%"
+		font="Graphics.FONT_XTINY"
+		justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
+		/>
+
+	<!-- Current -->
+ 	<label id="DeviceListDeviceName" 
+		x="50%" y="44%" 
+		font="Graphics.FONT_LARGE"
+		justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER"
+		/>
+
  	<label id="DeviceListLastUsage" 
-		x="50%" y="40%"
+		x="50%" y="54%"
 		font="Graphics.FONT_TINY"
 		justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
 		/>
 
- 	<label id="DeviceListDeviceName" 
-		x="50%" y="50%" 
-		font="Graphics.FONT_LARGE"
+	<!-- Next -->
+ 	<label id="DeviceListDeviceNameNext" 
+		x="50%" y="72%" 
+		font="Graphics.FONT_SMALL"
 		justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER"
+		/>
+
+ 	<label id="DeviceListLastUsageNext" 
+		x="50%" y="80%"
+		font="Graphics.FONT_XTINY"
+		justification="Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER" 
 		/>
 
 </layout>

@@ -10,6 +10,14 @@ class BaseView extends Ui.View {
         return App.getApp().getTheme();
     }
 
+    static function getWidthPercents(dc, value) {
+        return (dc.getWidth().toFloat() * (value.toFloat() / 100.0)).toNumber();
+    }
+
+    static function getHeightPercents(dc, value) {
+        return (dc.getHeight().toFloat() * (value.toFloat() / 100.0)).toNumber();
+    }
+
     function drawBg(dc) {
         var theme = self.getTheme();
         dc.setColor(theme.COLOR_BACKGROUND, theme.COLOR_FOREGROUND);

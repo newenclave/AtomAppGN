@@ -30,14 +30,6 @@ class SearchModeView extends BaseView {
     function onHide() {
     }
 
-    private function getWidthPercents(dc, value) {
-        return (dc.getWidth().toFloat() * (value.toFloat() / 100.0)).toNumber();
-    }
-
-    private function getHeightPercents(dc, value) {
-        return (dc.getHeight().toFloat() * (value.toFloat() / 100.0)).toNumber();
-    }
-
     function onUpdate(dc) {
         self._theme = self.getTheme();
         THRESHOLDS_COLORS[0] = self._theme.COLOR_ABOVE_NORMAL;

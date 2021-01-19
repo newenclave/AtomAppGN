@@ -1,3 +1,8 @@
+0.2.5:
+	
+	- Writing activities with the current settings. Fahrenheit, Roentgen
+	- Known devices list. Add/Remove/Connect operations 
+	
 0.2.3:
 	
 	- Removing the additional characteristics from BLE profile due to a suspicious system crash on Vivoctive 4. 

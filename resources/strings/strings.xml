@@ -5,6 +5,14 @@
 
     <string id="menu_name">Menu</string>
     <string id="menu_scan">Scan</string>
+    <string id="device_list_menu">Devices</string>
+    
+    <string id="menu_text_add">Add</string>
+    <string id="menu_text_remove">Remove</string>
+    <string id="menu_text_connect">Connect</string>
+    <string id="menu_text_no_devices">No devices</string>
+    <string id="text_press_menu_to_add">Press menu to add</string>
+    
     <string id="menu_use_extended">Use extended mode</string>
     <string id="menu_use_last">Use last</string>
     <string id="menu_use_first">Use available</string>
@@ -71,9 +79,10 @@
     <string id="text_micro_sieverts">µSv</string>
     <string id="text_milli_sieverts">mSv</string>
     <string id="text_micro_roentgen">µR</string>
+    <string id="text_milli_roentgen">mR</string>
 
     <string id="text_temp_celsius">°C</string>
-    <string id="text_micro_fahrenheit">°F</string>
+    <string id="text_temp_fahrenheit">°F</string>
 
     <string id="text_last_use">Last use:</string>
     <string id="text_never">Never</string>

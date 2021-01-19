@@ -12,12 +12,12 @@ class MainViewMenu extends Ui.Menu2 {
 
     private function fillMenu() {
         var lastDevice = App.getApp().getLastSavedDevice();
-            if(null != lastDevice) {
+        if(null != lastDevice) {
             var deviceName = lastDevice.getDeviceName();
             self.addItem(
                 new Ui.MenuItem(
                     App.loadResource(Rez.Strings.menu_use_last),
-                    deviceName ? deviceName : "Atom Fast",
+                    null != deviceName ? deviceName : "Atom device",
                     "ItemUseLast",
                     {}
                 )

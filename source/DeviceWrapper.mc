@@ -7,7 +7,7 @@ class DeviceWrapper {
         if(deviceDictionary instanceof Ble.ScanResult) {
             self._deviceDictionary = {};
             self.setScanResult(deviceDictionary);
-            self.setColor(Tools.getRandomColor(0x60, 0xA0));
+            self.setColor(Tools.getRandomColor(0x80, 0xA0));
             self.setName("Atom device");
         } else if(deviceDictionary instanceof Lang.Dictionary) {
             self._deviceDictionary = deviceDictionary;

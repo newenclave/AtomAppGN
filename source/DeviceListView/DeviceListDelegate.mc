@@ -15,15 +15,11 @@ class DeviceListDelegate extends Ui.BehaviorDelegate {
     }
 
     function onMenu() {
-        return false;
+        Ui.pushView(new DeviceListMenu(), new DeviceListMenuDelegate(), Ui.SLIDE_RIGHT);
+        return true;
     }
 
     function onNextMode() {
-        return false;
-    }
-
-    function onNextPage() {
-        self.getDeviceStorage().next();
         return false;
     }
 
@@ -31,9 +27,16 @@ class DeviceListDelegate extends Ui.BehaviorDelegate {
         return false;
     }
 
+    function onNextPage() {
+        self.getDeviceStorage().next();
+        Ui.requestUpdate();
+        return true;
+    }
+
     function onPreviousPage() {
         self.getDeviceStorage().prev();
-        return false;
+        Ui.requestUpdate();
+        return true;
     }
 
     function onSelect() {

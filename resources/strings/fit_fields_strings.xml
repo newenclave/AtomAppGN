@@ -2,12 +2,15 @@
 
     <string id="fit_activity_name">Atom Fast dosimetry</string>
 
-    <string id="field_dose_power_graph_label">Dose rate</string>
-    <string id="field_dose_power_label">Microseiverts</string>
+    <string id="field_dose_rate_graph_label">Dose rate</string>
+    <string id="field_dose_rate_label">Microseiverts</string>
+    <string id="field_dose_rate_label_r">Microroentgen</string>
 
     <string id="field_temp_graph_label">Atom Fast temperature</string>
     <string id="field_temp_label">Degrees Celsius</string>
+    <string id="field_temp_label_f">Degrees Fahrenheit</string>
 
     <string id="field_session_dose_label">Session dose</string>
+    <string id="field_session_dose_label_f">Session dose</string>
  
 </strings>

@@ -161,7 +161,7 @@ class DeviceDataController {
 
     function getTemperatureUnitsString() {
         if(self.getProperties().getUseFahrenheit()) {
-            return Application.loadResource(Rez.Strings.text_micro_fahrenheit);
+            return Application.loadResource(Rez.Strings.text_temp_fahrenheit);
         } else {
             return Application.loadResource(Rez.Strings.text_temp_celsius);
         }

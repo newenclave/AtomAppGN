@@ -115,12 +115,8 @@ class AtomAppGNApp extends Application.AppBase {
     public function getLastSavedDevice() {
         if(self._version32plus) {
             var arr = self.getValue("LastConnectedDevice");
-            if(null != arr) {
-                if(arr instanceof Lang.Array && arr.size() > 0) {
-                    return arr[arr.size() - 1].get("device");
-                } else {
-                    return arr;
-                }
+            if(null != arr && arr.size() > 0) {
+                return arr[arr.size() - 1].get("device");
             }
         }
         return null;
