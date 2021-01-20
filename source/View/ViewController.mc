@@ -3,55 +3,37 @@ using Toybox.Application as App;
 
 class ViewController {
 
-    function initialize() {
-    }
-
-    private function createMainMenu() {
-        return MainViewMenu.create();
-    }
-
     function pushMainManu() {
         Ui.pushView(
-                self.createMainMenu(),
+                new MainViewMenu(),
                 new MainMenuDelegate(),
                 Ui.SLIDE_UP);
     }
 
     function switchMainManu() {
         Ui.switchToView(
-                self.createMainMenu(),
+                new MainViewMenu(),
                 new MainMenuDelegate(),
                 Ui.SLIDE_IMMEDIATE);
     }
 
-    function createConfirmationMenu() {
-        return ConfirmationMenu.create();
-    }
-
     function pushConfirmationMenu(delegate) {
-        Ui.pushView(self.createConfirmationMenu(),
+        Ui.pushView(
+                new ConfirmationMenu(),
                 new ConfirmationMenuDelegate(delegate),
                 Ui.SLIDE_UP);
     }
 
-    function createViewSettingsMenu(deviceController) {
-        return ViewSettingsMenu.create(deviceController);
-    }
-
-    function createAlertSettingsMenu() {
-        return AlertSettingsMenu.create();
-    }
-
     function pushAlertSettingsMenu() {
         Ui.pushView(
-            self.createAlertSettingsMenu(),
+            new AlertSettingsMenu(),
             new AlertSettingsMenuDelegate(App.getApp().getPropertiesProvider()),
             Ui.SLIDE_LEFT);
     }
 
     function pushDeviceMenu(deviceController) {
         Ui.pushView(
-            self.createViewSettingsMenu(deviceController),
+            new ViewSettingsMenu(deviceController),
             new ViewSettingsMenuDelegate(deviceController),
             Ui.SLIDE_UP);
     }

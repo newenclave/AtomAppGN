@@ -11,9 +11,6 @@ class MainView extends BaseView {
         setLayout(Rez.Layouts.MainLayout(dc));
     }
 
-    function onShow() {
-    }
-
     private function drawSign(dc) {
 
         dc.setColor(Gfx.COLOR_BLACK, Gfx.COLOR_BLACK);
@@ -60,9 +57,6 @@ class MainView extends BaseView {
         pressLable.setColor(Gfx.COLOR_LT_GRAY);
         mainLabel.draw(dc);
         pressLable.draw(dc);
-    }
-
-    function onHide() {
     }
 
     public static function getView() {

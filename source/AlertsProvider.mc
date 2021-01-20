@@ -2,10 +2,6 @@ using Toybox.Attention;
 
 class AlertsProvider {
 
-    function initialize() {
-
-    }
-
     function alertVibroL(id) {
         self._alertVibroL(id + 1);
     }

@@ -20,28 +20,13 @@ class DeviceDetailsDelegate extends Ui.BehaviorDelegate {
         return true;
     }
 
+    function onSelect() {
+        Ui.popView(Ui.SLIDE_RIGHT);
+        return true;
+    }
+
     function onMenu() {
         self.getApp().getViewController().pushDeviceMenu(self._deviceController);
-        return true;
-    }
-
-    function onNextMode() {
-        return true;
-    }
-
-    function onNextPage() {
-        return true;
-    }
-
-    function onPreviousMode() {
-        return true;
-    }
-
-    function onPreviousPage() {
-        return true;
-    }
-
-    function onSelect() {
         return true;
     }
 }

@@ -32,21 +32,9 @@ class ScanDataDelegate extends Ui.BehaviorDelegate {
         return false;
     }
 
-    function onMenu() {
-        return true;
-    }
-
-    function onNextMode() {
-        return true;
-    }
-
     function onNextPage() {
         self._scanDataController.getModel().next();
         Ui.requestUpdate();
-        return true;
-    }
-
-    function onPreviousMode() {
         return true;
     }
 

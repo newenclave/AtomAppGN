@@ -110,8 +110,4 @@ class ViewSettingsMenu extends Ui.Menu2 {
             )
         );
     }
-
-    public static function create(deviceController) {
-        return new ViewSettingsMenu(deviceController);
-    }
 }

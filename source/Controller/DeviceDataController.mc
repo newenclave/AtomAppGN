@@ -337,6 +337,9 @@ class DeviceDataController {
     }
 
     function stop() {
+        if(self._ready) {
+            self.storeLastDevice();
+        }
         self._unregister.invoke(self._device);
         self._operations.clear();
         self._operations = null;

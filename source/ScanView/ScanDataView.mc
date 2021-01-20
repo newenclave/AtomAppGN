@@ -17,12 +17,6 @@ class ScanDataView extends BaseView {
         return true;
     }
 
-    function onShow() {
-    }
-
-    function onHide() {
-    }
-
     function onUpdate(dc) {
         var theme = self.getTheme();
         self.drawBg(dc);

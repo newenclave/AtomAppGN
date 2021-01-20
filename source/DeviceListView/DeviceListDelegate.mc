@@ -10,21 +10,9 @@ class DeviceListDelegate extends Ui.BehaviorDelegate {
         return App.getApp().getDeviceStorage();
     }
 
-    function onBack() {
-        return false;
-    }
-
     function onMenu() {
         Ui.pushView(new DeviceListMenu(), new DeviceListMenuDelegate(), Ui.SLIDE_RIGHT);
         return true;
-    }
-
-    function onNextMode() {
-        return false;
-    }
-
-    function onPreviousMode() {
-        return false;
     }
 
     function onNextPage() {

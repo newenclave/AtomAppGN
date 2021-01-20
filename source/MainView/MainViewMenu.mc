@@ -60,8 +60,4 @@ class MainViewMenu extends Ui.Menu2 {
             )
         );
     }
-
-    public static function create() {
-        return new MainViewMenu();
-    }
 }

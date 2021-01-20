@@ -7,7 +7,6 @@ class AtomAppGNApp extends Application.AppBase {
     private var _devices;
     private var _deviceStorage;
     private var _propertiesProvider;
-    private var _position;
     private var _atomFastProfile;
     private var _bleDelegate;
     private var _viewController;
@@ -26,7 +25,6 @@ class AtomAppGNApp extends Application.AppBase {
         self._deviceStorage = new DeviceStorage();
 
         self._propertiesProvider = new PropertiesProvider();
-        self._position = new PositionProvider();
 
         self._atomFastProfile = new AtomFastProfile();
         self._viewController = new ViewController();
@@ -42,9 +40,7 @@ class AtomAppGNApp extends Application.AppBase {
     }
 
     function onStop(state) {
-        self._position.disable();
         self._propertiesProvider = null;
-        self._position = null;
         self._atomFastProfile = null;
         self._bleDelegate = null;
         self._viewController = null;
@@ -98,10 +94,6 @@ class AtomAppGNApp extends Application.AppBase {
 
     function getViewController() {
         return self._viewController;
-    }
-
-    function getPositionProvider() {
-        return self._position;
     }
 
     public function getValue(key) {

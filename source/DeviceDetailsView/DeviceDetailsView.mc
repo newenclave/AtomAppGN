@@ -16,9 +16,6 @@ class DeviceDetailsView extends BaseView {
         setLayout(Rez.Layouts.DeviceDetailsLayout(dc));
     }
 
-    function onShow() {
-    }
-
     function onUpdate(dc) {
         var theme = self.getTheme();
         var colors = [
@@ -76,9 +73,6 @@ class DeviceDetailsView extends BaseView {
             doseValues[i].draw(dc);
             accDoseValues[i].draw(dc);
         }
-    }
-
-    function onHide() {
     }
 
 }

@@ -32,8 +32,4 @@ class DeviceListMenu extends Ui.Menu2 {
             );
         }
     }
-
-    public static function create() {
-        return new DeviceListMenu();
-    }
 }

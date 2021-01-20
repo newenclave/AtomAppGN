@@ -53,8 +53,4 @@ class AlertSettingsMenu extends Ui.Menu2 {
             )
         );
     }
-
-    public static function create() {
-        return new AlertSettingsMenu();
-    }
 }

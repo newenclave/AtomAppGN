@@ -24,12 +24,6 @@ class SearchModeView extends BaseView {
         self.drawConnecting();
     }
 
-    function onShow() {
-    }
-
-    function onHide() {
-    }
-
     function onUpdate(dc) {
         self._theme = self.getTheme();
         THRESHOLDS_COLORS[0] = self._theme.COLOR_ABOVE_NORMAL;
@@ -240,6 +234,17 @@ class SearchModeView extends BaseView {
         dc.setPenWidth(1);
 
     }
+
+    static private function drawVerticalBatteryBase(dc, charge, x, y, width, height) {
+        var fillHeight = self.getBatteryFill(charge, height - 4);
+        dc.setColor(self.getBatteryColor(charge), self._theme.COLOR_BACKGROUND);
+
+        dc.fillRectangle(x + 2, y + height - 2 - fillHeight, width - 4, fillHeight);
+
+        dc.setColor(self._theme.COLOR_DARK, self._theme.COLOR_BACKGROUND);
+        dc.drawRoundedRectangle(x, y, width, height, 2);
+    }
+
 */
     static private function drawBatteryBase(dc, charge, x, y, width, height) {
         var fillWidth = self.getBatteryFill(charge, width - 4);
@@ -254,15 +259,6 @@ class SearchModeView extends BaseView {
         dc.fillRoundedRectangle(x + width - 1, y + (height / 2) - (h30 / 2), 3, h30, 2);
     }
 
-    static private function drawVerticalBatteryBase(dc, charge, x, y, width, height) {
-        var fillHeight = self.getBatteryFill(charge, height - 4);
-        dc.setColor(self.getBatteryColor(charge), self._theme.COLOR_BACKGROUND);
-
-        dc.fillRectangle(x + 2, y + height - 2 - fillHeight, width - 4, fillHeight);
-
-        dc.setColor(self._theme.COLOR_DARK, self._theme.COLOR_BACKGROUND);
-        dc.drawRoundedRectangle(x, y, width, height, 2);
-    }
 
     static private function getBatteryFill(charge, value) {
         var factor = 100.0 / value;

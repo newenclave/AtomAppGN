@@ -17,9 +17,8 @@ class PropertiesProvider {
         "alert_vibro_L3"
     ];
 
-    function initialize() {
-
-    }
+//    function initialize() {
+//    }
 
     function getUseExtendedMode() {
         return self.getProperty(USE_EXTENDED_MODE, false);

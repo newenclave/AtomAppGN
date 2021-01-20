@@ -13,12 +13,6 @@ class DeviceListView extends BaseView {
         setLayout(Rez.Layouts.DeviceListLayout(dc));
     }
 
-    function onShow() {
-    }
-
-    function onHide() {
-    }
-
     function drawTopArc(dc, color) {
         var center = [dc.getWidth() / 2, dc.getHeight() / 2];
         var radius = dc.getWidth() / 2;

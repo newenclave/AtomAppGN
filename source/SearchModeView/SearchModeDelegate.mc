@@ -44,10 +44,6 @@ class SearchModeDelegate extends Ui.BehaviorDelegate {
         return true;
     }
 
-    function onNextMode() {
-        return true;
-    }
-
     function onNextPage() {
         var lastPage = (self._views.size() - 1);
         if(self._viewId == INDEX_NONE) {
@@ -65,10 +61,6 @@ class SearchModeDelegate extends Ui.BehaviorDelegate {
                 Ui.SLIDE_UP
             );
         }
-        return true;
-    }
-
-    function onPreviousMode() {
         return true;
     }
 
