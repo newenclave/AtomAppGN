@@ -26,7 +26,7 @@ class DeviceWrapper {
     }
 
     function getColor() {
-        return self._deviceDictionary.get("color");
+        return self.getValue("color", 0x55AA55);
     }
 
     function setColor(color) {
@@ -34,7 +34,7 @@ class DeviceWrapper {
     }
 
     function getName() {
-        return self._deviceDictionary.get("name");
+        return self.getValue("name", "Atom device");
     }
 
     function setName(color) {
@@ -50,6 +50,11 @@ class DeviceWrapper {
             return self._deviceDictionary.get("last_use");
         }
         return 0;
+    }
+
+    private function getValue(name, def) {
+        var val = self._deviceDictionary.get(name);
+        return (null == val) ? def : val;
     }
 
     function updateUsage() {

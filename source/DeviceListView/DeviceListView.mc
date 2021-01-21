@@ -50,6 +50,21 @@ class DeviceListView extends BaseView {
         dc.drawArc(center[0], center[1], radius - 6, Gfx.ARC_CLOCKWISE, 0, 0);
     }
 
+    function drawscrollBar(dc) {
+        if(null != self._colorSelector) {
+            Tools.drawScrollBarArc(dc, {
+                :from => 180 + 45,
+                :to => 180 + 90 + 45,
+                :max => self._colorSelector.getSize(),
+                :current => self._colorSelector.getCurrentId(),
+                :color => self.getTheme().COLOR_DARK,
+                :width => 10,
+                :bgColor => self.getTheme().COLOR_BACKGROUND,
+                :fgColor => self.getTheme().COLOR_DARK
+            });
+        }
+    }
+
     function drawArc(dc, color) {
 
         if(null != self._colorSelector) {
@@ -80,19 +95,6 @@ class DeviceListView extends BaseView {
         dc.drawArc(center[0], center[1], radius, Gfx.ARC_CLOCKWISE,
             Tools.convertDegreeValue(90 - 20), Tools.convertDegreeValue(90 + 15));
 
-        if(null != self._colorSelector) {
-            Tools.drawScrollBarArc(dc, {
-                :from => 180 + 45,
-                :to => 180 + 90 + 45,
-                :max => self._colorSelector.getSize(),
-                :current => self._colorSelector.getCurrentId(),
-                :color => self.getTheme().COLOR_DARK,
-                :width => 10,
-                :bgColor => self.getTheme().COLOR_BACKGROUND,
-                :fgColor => self.getTheme().COLOR_DARK
-            });
-        }
-
 //        dc.setPenWidth(2);
 //        dc.setColor(self.getTheme().COLOR_DARK, Gfx.COLOR_BLACK);
 
@@ -122,8 +124,9 @@ class DeviceListView extends BaseView {
 
             self.drawPrev(dc);
             self.drawNext(dc);
-
             self.drawArc(dc, curDev.getColor());
+
+            self.drawscrollBar(dc);
         } else {
             var usageLabel = self.findDrawable("DeviceListLastUsage");
             label.setText(App.loadResource(Rez.Strings.menu_text_no_devices));

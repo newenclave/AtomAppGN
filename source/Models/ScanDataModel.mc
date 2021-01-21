@@ -1,4 +1,5 @@
 using Toybox.WatchUi as Ui;
+using Toybox.Application as App;
 
 class ScanDataModel {
 

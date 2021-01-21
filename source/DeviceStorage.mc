@@ -38,6 +38,15 @@ class DeviceStorage {
         }
     }
 
+    function exists(scanResult) {
+        for(var i=0; i<self._devices.size(); i++) {
+            if(self._devices[i].get("device").isSameDevice(scanResult)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     function getCurrentId() {
         return self._current;
     }
@@ -58,13 +67,13 @@ class DeviceStorage {
     }
 
     private function getDeviceDictionaryByScanResult(deviceWrapper) {
-//        for(var i=0; i < self._devices.size(); i++) {
-//            var devNext = new DeviceWrapper(self._devices[i]);
-//            if(devNext.isSameDevice(deviceWrapper.getScanResult())) {
-//                devNext.setScanResult(deviceWrapper.getScanResult());
-//                return devNext;
-//            }
-//        }
+        for(var i=0; i < self._devices.size(); i++) {
+            var devNext = new DeviceWrapper(self._devices[i]);
+            if(devNext.isSameDevice(deviceWrapper.getScanResult())) {
+                devNext.setScanResult(deviceWrapper.getScanResult());
+                return devNext;
+            }
+        }
         self._devices.add(deviceWrapper.get());
         return deviceWrapper;
     }
