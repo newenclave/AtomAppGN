@@ -1,5 +1,7 @@
 using Toybox.Cryptography as Crypt;
 using Toybox.Lang;
+using Toybox.Graphics as Gfx;
+using Toybox.System;
 
 module Tools {
     function convertDegreeValue(value) {
@@ -38,5 +40,50 @@ module Tools {
 
         return (R << 16) | (G << 8) | B;
     }
+
+    function drawScrollBarArc(dc, options) {
+        var max = options.get(:max);
+        var current = options.get(:current);
+        var from = options.get(:from);
+        var to = options.get(:to);
+        var bgColor = options.get(:bgColor);
+        var fgColor = options.get(:fgColor);
+        var color = options.get(:color);
+        var width = options.get(:width);
+
+        if(null == fgColor) {
+            fgColor = color;
+        }
+        var radius = (dc.getWidth() / 2) - (width / 2) - 2;
+        var center = [dc.getWidth() / 2, dc.getHeight() / 2];
+
+        var partLenght = (to - from - 2).abs();
+        var posLen = (partLenght.toFloat() / max.toFloat()).toNumber();
+        if(posLen == 0) {
+            posLen += 1;
+        }
+
+        dc.setColor(fgColor, bgColor);
+        dc.setPenWidth(width);
+        dc.drawArc(center[0], center[1],
+            radius, Gfx.ARC_CLOCKWISE,
+            convertDegreeValue(from), convertDegreeValue(to));
+
+        dc.setColor(bgColor, bgColor);
+        dc.setPenWidth(width - 2);
+        dc.drawArc(center[0], center[1],
+            radius, Gfx.ARC_CLOCKWISE,
+            convertDegreeValue(from + 1), convertDegreeValue(to - 1));
+
+        dc.setColor(color, bgColor);
+        dc.setPenWidth(width - 4);
+        dc.drawArc(center[0], center[1],
+            radius, Gfx.ARC_CLOCKWISE,
+            convertDegreeValue(from + 2 + (posLen * current)),
+            (current == max - 1) ?
+            convertDegreeValue(to - 2) :
+            convertDegreeValue(from + 2 + (posLen * current + posLen)));
+    }
 }
+
 

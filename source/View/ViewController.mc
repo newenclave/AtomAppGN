@@ -90,10 +90,17 @@ class ViewController {
         }
     }
 
-    function switchDeviceList() {
+    function switchDeviceList(selector) {
         Ui.switchToView(
-            new DeviceListView(),
-            new DeviceListDelegate(),
+            new DeviceListView(selector),
+            new DeviceListDelegate(selector),
             Ui.SLIDE_DOWN);
+    }
+
+    function switchDeviceList2(selector) {
+        Ui.switchToView(
+            new DeviceListView(selector),
+            new DeviceListDelegate(selector),
+            Ui.SLIDE_IMMEDIATE);
     }
 }

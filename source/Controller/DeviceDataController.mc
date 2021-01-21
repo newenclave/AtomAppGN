@@ -127,8 +127,8 @@ class DeviceDataController {
     ///////////////////
     function getSearchError() {
         var sId = self.getSearchSpeed();
-        var fsmConst = 0; //self._charAddition.getValue(sId);
-        var sError = 0; //self._charAddition.getErrorValue(sId);
+        var fsmConst = 0;   //self._charAddition.getValue(sId);
+        var sError = 0;     //self._charAddition.getErrorValue(sId);
         if(self.getImpulses() > fsmConst && self.getImpulses() > 0) {
             sError = 100.0 / Math.sqrt(self.getImpulses().toFloat());
         }
@@ -141,14 +141,6 @@ class DeviceDataController {
 
     function getBleService() {
         return self._service;
-    }
-
-    function getQueue() {
-        return self._operations;
-    }
-
-    function setProperty(name, value) {
-        self.getProperties().setProperty(name, value);
     }
 
     private function getDoseFactor() {

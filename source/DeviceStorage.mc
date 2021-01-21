@@ -58,13 +58,13 @@ class DeviceStorage {
     }
 
     private function getDeviceDictionaryByScanResult(deviceWrapper) {
-        for(var i=0; i < self._devices.size(); i++) {
-            var devNext = new DeviceWrapper(self._devices[i]);
-            if(devNext.isSameDevice(deviceWrapper.getScanResult())) {
-                devNext.setScanResult(deviceWrapper.getScanResult());
-                return devNext;
-            }
-        }
+//        for(var i=0; i < self._devices.size(); i++) {
+//            var devNext = new DeviceWrapper(self._devices[i]);
+//            if(devNext.isSameDevice(deviceWrapper.getScanResult())) {
+//                devNext.setScanResult(deviceWrapper.getScanResult());
+//                return devNext;
+//            }
+//        }
         self._devices.add(deviceWrapper.get());
         return deviceWrapper;
     }

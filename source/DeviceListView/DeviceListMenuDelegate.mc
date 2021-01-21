@@ -20,6 +20,10 @@ class DeviceListMenuDelegate extends Ui.Menu2InputDelegate {
             App.getApp().scanStart();
             App.getApp().getViewController().switchScanView(false, true);
             break;
+        case "ItemChangeColor":
+            App.getApp().scanStart();
+            App.getApp().getViewController().switchDeviceList2(new ColorSelector());
+            break;
         case "ItemRemove":
             App.getApp().getDeviceStorage().removeCurrent();
             Ui.popView(Ui.SLIDE_LEFT);

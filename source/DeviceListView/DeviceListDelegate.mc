@@ -2,8 +2,12 @@ using Toybox.WatchUi as Ui;
 using Toybox.Application as App;
 
 class DeviceListDelegate extends Ui.BehaviorDelegate {
-    function initialize() {
+
+    private var _colorSelector;
+
+    function initialize(selector) {
         BehaviorDelegate.initialize();
+        self._colorSelector = selector;
     }
 
     private function getDeviceStorage() {
@@ -11,18 +15,36 @@ class DeviceListDelegate extends Ui.BehaviorDelegate {
     }
 
     function onMenu() {
-        Ui.pushView(new DeviceListMenu(), new DeviceListMenuDelegate(), Ui.SLIDE_RIGHT);
+        if(null == self._colorSelector) {
+            Ui.pushView(new DeviceListMenu(), new DeviceListMenuDelegate(), Ui.SLIDE_RIGHT);
+        }
         return true;
     }
 
+    function onBack() {
+        if(null != self._colorSelector) {
+            Ui.popView(Ui.SLIDE_IMMEDIATE);
+            return true;
+        }
+        return false;
+    }
+
     function onNextPage() {
-        self.getDeviceStorage().next();
+        if(null != self._colorSelector) {
+            self._colorSelector.prev();
+        } else {
+            self.getDeviceStorage().next();
+        }
         Ui.requestUpdate();
         return true;
     }
 
     function onPreviousPage() {
-        self.getDeviceStorage().prev();
+        if(null != self._colorSelector) {
+            self._colorSelector.next();
+        } else {
+            self.getDeviceStorage().prev();
+        }
         Ui.requestUpdate();
         return true;
     }
@@ -30,7 +52,13 @@ class DeviceListDelegate extends Ui.BehaviorDelegate {
     function onSelect() {
         var device = self.getDeviceStorage().getCurrent();
         if(null != device) {
-            App.getApp().getViewController().pushDeviceView(device.getScanResult());
+            if(self._colorSelector) {
+                device.setColor(self._colorSelector.getCurrentColor());
+                App.getApp().getDeviceStorage().store();
+                Ui.popView(Ui.SLIDE_IMMEDIATE);
+            } else {
+                App.getApp().getViewController().pushDeviceView(device.getScanResult());
+            }
             return true;
         }
         return false;

@@ -8,6 +8,7 @@
     <string id="device_list_menu">Devices</string>
     
     <string id="menu_text_add">Add</string>
+    <string id="menu_text_change_color">Change color</string>
     <string id="menu_text_remove">Remove</string>
     <string id="menu_text_connect">Connect</string>
     <string id="menu_text_no_devices">No devices</string>

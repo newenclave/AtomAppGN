@@ -5,8 +5,11 @@ using Toybox.Time;
 
 class DeviceListView extends BaseView {
 
-    function initialize() {
+    private var _colorSelector;
+
+    function initialize(selector) {
         BaseView.initialize();
+        self._colorSelector = selector;
     }
 
     function onLayout(dc) {
@@ -45,15 +48,20 @@ class DeviceListView extends BaseView {
         dc.setPenWidth(2);
         dc.setColor(self.getTheme().COLOR_DARK, Gfx.COLOR_BLACK);
         dc.drawArc(center[0], center[1], radius - 6, Gfx.ARC_CLOCKWISE, 0, 0);
-
     }
 
     function drawArc(dc, color) {
+
+        if(null != self._colorSelector) {
+            color = self._colorSelector.getCurrentColor();
+        }
+
         var center = [dc.getWidth() / 2, dc.getHeight() / 2];
         var radius = dc.getWidth() / 2;
 
-        dc.setPenWidth(2);
-        dc.setColor(self.getTheme().COLOR_DARK, Gfx.COLOR_BLACK);
+        dc.setPenWidth(4);
+        dc.setColor(color, //self.getTheme().COLOR_DARK,
+                    Gfx.COLOR_BLACK);
         dc.drawLine(self.getWidthPercents(dc, 5),
                     self.getHeightPercents(dc, 34.5),
                     self.getWidthPercents(dc, 95),
@@ -64,7 +72,7 @@ class DeviceListView extends BaseView {
                     self.getWidthPercents(dc, 95),
                     self.getHeightPercents(dc, 62.5));
 
-        dc.setPenWidth(10);
+        dc.setPenWidth(20);
         dc.setColor(color, Gfx.COLOR_BLACK);
         dc.drawArc(center[0], center[1], radius, Gfx.ARC_CLOCKWISE,
             Tools.convertDegreeValue(270 - 15), Tools.convertDegreeValue(270 + 20));
@@ -72,14 +80,27 @@ class DeviceListView extends BaseView {
         dc.drawArc(center[0], center[1], radius, Gfx.ARC_CLOCKWISE,
             Tools.convertDegreeValue(90 - 20), Tools.convertDegreeValue(90 + 15));
 
-        dc.setPenWidth(2);
-        dc.setColor(self.getTheme().COLOR_DARK, Gfx.COLOR_BLACK);
+        if(null != self._colorSelector) {
+            Tools.drawScrollBarArc(dc, {
+                :from => 180 + 45,
+                :to => 180 + 90 + 45,
+                :max => self._colorSelector.getSize(),
+                :current => self._colorSelector.getCurrentId(),
+                :color => self.getTheme().COLOR_DARK,
+                :width => 10,
+                :bgColor => self.getTheme().COLOR_BACKGROUND,
+                :fgColor => self.getTheme().COLOR_DARK
+            });
+        }
 
-        dc.drawArc(center[0], center[1], radius - 6, Gfx.ARC_CLOCKWISE,
-            Tools.convertDegreeValue(270 - 15), Tools.convertDegreeValue(270 + 20));
+//        dc.setPenWidth(2);
+//        dc.setColor(self.getTheme().COLOR_DARK, Gfx.COLOR_BLACK);
 
-        dc.drawArc(center[0], center[1], radius - 6, Gfx.ARC_CLOCKWISE,
-            Tools.convertDegreeValue(90 - 20), Tools.convertDegreeValue(90 + 15));
+//        dc.drawArc(center[0], center[1], radius - 6, Gfx.ARC_CLOCKWISE,
+//            Tools.convertDegreeValue(270 - 15), Tools.convertDegreeValue(270 + 20));
+//
+//        dc.drawArc(center[0], center[1], radius - 6, Gfx.ARC_CLOCKWISE,
+//            Tools.convertDegreeValue(90 - 20), Tools.convertDegreeValue(90 + 15));
         dc.setPenWidth(1);
     }
 
@@ -99,9 +120,10 @@ class DeviceListView extends BaseView {
 //                            "/" + devStor.getSize().toString());
 //            counter.draw(dc);
 
-            self.drawArc(dc, curDev.getColor());
             self.drawPrev(dc);
             self.drawNext(dc);
+
+            self.drawArc(dc, curDev.getColor());
         } else {
             var usageLabel = self.findDrawable("DeviceListLastUsage");
             label.setText(App.loadResource(Rez.Strings.menu_text_no_devices));

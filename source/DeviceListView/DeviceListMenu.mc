@@ -23,8 +23,12 @@ class DeviceListMenu extends Ui.Menu2 {
                 "", "ItemAdd", {}
             )
         );
-
         if(!empty) {
+            self.addItem(
+                new Ui.MenuItem(App.loadResource(Rez.Strings.menu_text_change_color),
+                    "", "ItemChangeColor", {}
+                )
+            );
             self.addItem(
                 new Ui.MenuItem(App.loadResource(Rez.Strings.menu_text_remove),
                     "", "ItemRemove", {}
