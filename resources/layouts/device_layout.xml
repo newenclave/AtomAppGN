@@ -1,7 +1,7 @@
 <layout id="DeviceLayout">
 
  	<label id="DeviceViewAtomBatteryPercens" 
- 			x="52%" y="6%" 
+ 			x="52%" y="7%" 
  			font="Graphics.FONT_XTINY" 
  			justification="Graphics.TEXT_JUSTIFY_LEFT | Graphics.TEXT_JUSTIFY_VCENTER" 
  			/>

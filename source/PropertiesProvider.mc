@@ -9,7 +9,7 @@ class PropertiesProvider {
     private const USE_ACTIVITY_LOCATION = "use_activity_location";
     private const USE_SIGMA = "use_sigma";
     private const USE_THEME = "use_theme";
-    private const USE_EXTENDED_MODE = "use_extended_mode";
+    private const SHOW_SYSTEM_BATTERY_ARC = "show_system_battery";
 
     private const ALERT_VIBRO_L = [
         "alert_vibro_L1",
@@ -17,15 +17,12 @@ class PropertiesProvider {
         "alert_vibro_L3"
     ];
 
-//    function initialize() {
-//    }
-
-    function getUseExtendedMode() {
-        return self.getProperty(USE_EXTENDED_MODE, false);
+    function getShowSystemBattery() {
+        return self.getProperty(SHOW_SYSTEM_BATTERY_ARC, false);
     }
 
-    function setUseExtendedMode(value) {
-        return self.setProperty(USE_EXTENDED_MODE, value);
+    function setShowSystemBattery(value) {
+        return self.setProperty(SHOW_SYSTEM_BATTERY_ARC, value);
     }
 
     function getUsedSigma() {

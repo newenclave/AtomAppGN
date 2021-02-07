@@ -7,9 +7,8 @@
 	    <property id="use_activity_location" type="boolean">true</property>
 	    <property id="use_sigma" type="number">0</property>
 	    <property id="use_theme" type="string">dark</property>
-
-	    <property id="use_extended_mode" type="boolean">false</property>
-
+	    <property id="show_system_battery" type="boolean">false</property>
+		
 	    <property id="alert_vibro_L1" type="boolean">true</property>
 	    <property id="alert_vibro_L2" type="boolean">true</property>
 	    <property id="alert_vibro_L3" type="boolean">true</property>

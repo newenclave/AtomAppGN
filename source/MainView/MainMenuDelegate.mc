@@ -14,10 +14,6 @@ class MainMenuDelegate extends WatchUi.Menu2InputDelegate {
             System.println("Enabled: " + item.isEnabled().toString());
         }
         switch(item.getId()) {
-        case "ItemUseExtendedMode":
-            App.getApp().getPropertiesProvider().setUseExtendedMode(item.isEnabled());
-            App.getApp().getViewController().switchMainManu();
-            break;
         case "ItemUseLast":
             var lastDevice = App.getApp().getLastSavedDevice();
             App.getApp().getViewController().switchDeviceView(lastDevice);

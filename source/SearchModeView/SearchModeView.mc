@@ -37,14 +37,8 @@ class SearchModeView extends BaseView {
         self.drawDoseAccumulated(dc);
         self.drawTemperature(dc);
         self.drawSearchError(dc);
-        //self.drawSystemBattery(dc);
-        //View.onUpdate(dc);
         self.drawBattery(dc);
         self.drawCPM(dc);
-
-//        if(ready) {
-//            self.drawBattery(dc, textLeft);
-//        }
     }
 
     function drawTemperature(dc) {
@@ -149,18 +143,32 @@ class SearchModeView extends BaseView {
         percentsLabel.setColor(self._theme.COLOR_DARK);
         percentsLabel.draw(dc);
 
-        var width = self.getWidthPercents(dc, 12);
+        var width = self.getWidthPercents(dc, 10);
         var height = self.getHeightPercents(dc, 6);
 
-        var posX = self.getWidthPercents(dc, 37);
-        var posY = self.getHeightPercents(dc, 4); // 4;
+        var posX = self.getWidthPercents(dc, 39);
+        var posY = self.getHeightPercents(dc, 5); // 4;
 
         self.drawBatteryBase(dc,
             self._deviceDataController.getCharge(),
             posX, posY, width, height);
 
-        //self.drawBatteryLeftArc(dc, System.getSystemStats().battery.toNumber());
-        //self.drawBatteryRightArc(dc, self._deviceDataController.getCharge());
+        var sysBattery = Application.getApp().getPropertiesProvider().getShowSystemBattery();
+        if(sysBattery) {
+            self.drawSysBattery(dc);
+        }
+    }
+    private function drawSysBattery(dc) {
+        var level = System.getSystemStats().battery.toNumber();
+        var center = [self.getWidthPercents(dc, 50), self.getHeightPercents(dc, 50)];
+        var arkRadius = self.getWidthPercents(dc, 50) - 2;
+        dc.setPenWidth(3);
+        dc.setColor(self.getBatteryColor(level), self.getTheme().COLOR_BACKGROUND);
+        dc.drawArc(center[0], center[1], arkRadius, Graphics.ARC_COUNTER_CLOCKWISE,
+            Tools.convertDegreeValue(0),
+            Tools.convertDegreeValue(360 - (level * 3.6)));
+
+        dc.setPenWidth(1);
     }
 /*
     private function drawBatteryLeftArc(dc, chargeVal) {

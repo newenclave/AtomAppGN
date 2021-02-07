@@ -17,6 +17,7 @@ class ViewSettingsMenu extends Ui.Menu2 {
         var writeActivity = App.getApp().getPropertiesProvider().getWriteActivity();
         var themeUsed = App.getApp().getThemeName();
         var sigmaUsed = App.getApp().getPropertiesProvider().getUsedSigma();
+        var sysBattery = App.getApp().getPropertiesProvider().getShowSystemBattery();
 
         var useSigmasValues = [
             App.loadResource(Rez.Strings.menu_sigma_1),
@@ -40,6 +41,16 @@ class ViewSettingsMenu extends Ui.Menu2 {
                 :enabled => App.loadResource(Rez.Strings.menu_temp_use_fahrenheit),
                 :disabled => App.loadResource(Rez.Strings.menu_temp_use_celsius)
             }, "ItemUseFahrenheit", useFahrenheit,
+            {
+                :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+            }));
+
+        self.addItem(new Ui.ToggleMenuItem(
+            App.loadResource(Rez.Strings.menu_show_sys_battery),
+            {
+                :enabled => App.loadResource(Rez.Strings.menu_enabled),
+                :disabled => App.loadResource(Rez.Strings.menu_disabled)
+            }, "ItemShowSystemBatteryArc", sysBattery,
             {
                 :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
             }));
