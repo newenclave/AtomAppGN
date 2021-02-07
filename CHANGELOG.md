@@ -1,3 +1,8 @@
+0.3.0:
+
+	- Adding "Known devices" view and the device manager. It's possible to add devices, remove devices and connect to saved devices.
+	- Adding system battery value arc onto the Search mode view
+
 0.2.5:
 	
 	- Writing activities with the current settings. Fahrenheit, Roentgen
