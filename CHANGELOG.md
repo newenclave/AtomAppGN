@@ -1,3 +1,7 @@
+0.3.1
+
+	- Change colours for the light theme
+
 0.3.0:
 
 	- Adding "Known devices" view and the device manager. It's possible to add devices, remove devices and connect to saved devices.
