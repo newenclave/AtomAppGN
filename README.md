@@ -13,11 +13,11 @@ For more information about AtomFast dosimeters plsease visit the page [kbradar.o
 
 The list of the devices supported by Connection IQ can be found here: https://developer.garmin.com/connect-iq/compatible-devices/
 
-The device should support at least version 3.0. 
+The device should support at least version 3.1. 
 
 ## Important! 
 
-The device MUST have "Generic Bluetooth Low Energy Channel" feature supported. To check if your device supports it, find the device in the list above, press the blue (i) symbol. If there is "Generic Bluetooth Low Energy Channel" feature in the list shown, the device, higly probably, can run the appplication. 
+The device MUST have "Generic Bluetooth Low Energy Channel" feature supported and API level >3.1. To check if your device supports it, find the device in the list above, press the blue (i) symbol. If there is "Generic Bluetooth Low Energy Channel" feature in the list shown, the device, higly probably, can run the appplication. 
 
 ### Devices supporting BLE (according to the list above)
 
