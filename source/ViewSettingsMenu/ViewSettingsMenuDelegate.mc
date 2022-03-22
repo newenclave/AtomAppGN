@@ -86,6 +86,11 @@ class ViewSettingsMenuDelegate extends Ui.Menu2InputDelegate {
                 App.getApp().getPropertiesProvider().setShowSystemBattery(item.isEnabled());
             }
             break;
+        case "ItemShowSplash":
+            if(item has :isEnabled) {
+                App.getApp().getPropertiesProvider().setShowSplash(item.isEnabled());
+            }
+            break;
         case "ItemAlertSettings":
             App.getApp().getViewController().pushAlertSettingsMenu();
             break;

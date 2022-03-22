@@ -10,12 +10,21 @@ class PropertiesProvider {
     private const USE_SIGMA = "use_sigma";
     private const USE_THEME = "use_theme";
     private const SHOW_SYSTEM_BATTERY_ARC = "show_system_battery";
+    private const SHOW_SPLASH_SCREEN = "show_splash_screen";
 
     private const ALERT_VIBRO_L = [
         "alert_vibro_L1",
         "alert_vibro_L2",
         "alert_vibro_L3"
     ];
+
+    function getShowSplash() {
+        return self.getProperty(SHOW_SPLASH_SCREEN, true);
+    }
+
+    function setShowSplash(value) {
+        return self.setProperty(SHOW_SPLASH_SCREEN, value);
+    }
 
     function getShowSystemBattery() {
         return self.getProperty(SHOW_SYSTEM_BATTERY_ARC, false);

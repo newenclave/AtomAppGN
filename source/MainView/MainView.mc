@@ -1,14 +1,34 @@
 using Toybox.WatchUi as Ui;
 using Toybox.Graphics as Gfx;
+using Toybox.Application as App;
 
 class MainView extends BaseView {
+
+    private var _first as Bool = true;
 
     function initialize() {
         BaseView.initialize();
     }
 
+    function startActivity() {
+        var storedDev = App.getApp().getLastSavedDevice();
+        if(null != storedDev) {
+            App.getApp().getViewController().pushDeviceView(storedDev);
+        } else {
+            App.getApp().scanStart();
+            App.getApp().getViewController().pushScanView(true, false);
+        }
+    }
+
     function onLayout(dc) {
         setLayout(Rez.Layouts.MainLayout(dc));
+        if(self._first) {
+            if(!App.getApp().getPropertiesProvider().getShowSplash()) {
+                self.startActivity();
+            }
+            Ui.requestUpdate();
+            self._first = false;
+        }
     }
 
     private function drawSign(dc) {

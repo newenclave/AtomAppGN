@@ -12,17 +12,21 @@ class MainViewDelegate extends Ui.BehaviorDelegate {
 
     function onSelect() {
         if(self._selectDoublePress.press()) {
-            var storedDev = App.getApp().getLastSavedDevice();
-            if(null != storedDev) {
-                App.getApp().getViewController().pushDeviceView(storedDev);
-            } else {
-                App.getApp().scanStart();
-                App.getApp().getViewController().pushScanView(true, false);
-            }
+            self.startActivity();
             return true;
         }
         Ui.requestUpdate();
         return false;
+    }
+
+    function startActivity() {
+        var storedDev = App.getApp().getLastSavedDevice();
+        if(null != storedDev) {
+            App.getApp().getViewController().pushDeviceView(storedDev);
+        } else {
+            App.getApp().scanStart();
+            App.getApp().getViewController().pushScanView(true, false);
+        }
     }
 
     function onMenu() {

@@ -41,6 +41,7 @@
     <string id="menu_dose_units">Dose units</string>
     <string id="menu_temperature">Temperature units</string>
     <string id="menu_show_sys_battery">Show system battery</string>
+    <string id="menu_show_splash_screen">Show splash screen</string>
     <string id="menu_impulses">Impulses</string>
     <string id="menu_save_activity">Write track</string>
 

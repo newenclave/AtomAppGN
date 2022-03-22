@@ -8,6 +8,7 @@
 	    <property id="use_sigma" type="number">0</property>
 	    <property id="use_theme" type="string">dark</property>
 	    <property id="show_system_battery" type="boolean">false</property>
+	    <property id="show_splash_screen" type="boolean">true</property>
 		
 	    <property id="alert_vibro_L1" type="boolean">true</property>
 	    <property id="alert_vibro_L2" type="boolean">true</property>

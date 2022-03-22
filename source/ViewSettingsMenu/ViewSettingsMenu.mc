@@ -18,6 +18,7 @@ class ViewSettingsMenu extends Ui.Menu2 {
         var themeUsed = App.getApp().getThemeName();
         var sigmaUsed = App.getApp().getPropertiesProvider().getUsedSigma();
         var sysBattery = App.getApp().getPropertiesProvider().getShowSystemBattery();
+        var showSplash = App.getApp().getPropertiesProvider().getShowSplash();
 
         var useSigmasValues = [
             App.loadResource(Rez.Strings.menu_sigma_1),
@@ -51,6 +52,16 @@ class ViewSettingsMenu extends Ui.Menu2 {
                 :enabled => App.loadResource(Rez.Strings.menu_enabled),
                 :disabled => App.loadResource(Rez.Strings.menu_disabled)
             }, "ItemShowSystemBatteryArc", sysBattery,
+            {
+                :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
+            }));
+
+        self.addItem(new Ui.ToggleMenuItem(
+            App.loadResource(Rez.Strings.menu_show_splash_screen),
+            {
+                :enabled => App.loadResource(Rez.Strings.menu_enabled),
+                :disabled => App.loadResource(Rez.Strings.menu_disabled)
+            }, "ItemShowSplash", showSplash,
             {
                 :alignment=>Ui.MenuItem.MENU_ITEM_LABEL_ALIGN_RIGHT
             }));
